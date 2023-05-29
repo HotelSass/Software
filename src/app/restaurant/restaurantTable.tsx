@@ -1,179 +1,141 @@
 import Modal from "@/components/modal";
-import { RoomInfo, RoomLabel } from "@/data/RoomTableInfo";
+import {
+  RoomInfo,
+  RoomLabel,
+  TableInfo,
+  TableLabel,
+} from "@/data/RoomTableInfo";
 import React, { useState } from "react";
 import { BiFilterAlt, BiPencil, BiPlus, BiTrashAlt } from "react-icons/bi";
 
-const RoomTable = () => {
+const RestaurantTable = () => {
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
-  const [openEdit,setOpenEdit]=useState(false)
+  const [openEdit, setOpenEdit] = useState(false);
 
   return (
     <div className=" flex flex-col">
       <Modal width={450} open={openEdit} setOpen={setOpenEdit}>
         <div className="p-2 flex flex-col space-y-4 pb-8">
           <div className="pl-2 text-[26px] font-bold text-gray-600">
-            Edit Room
+            Edit Table
           </div>
 
           <div className="flex flex-col">
             <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
-              Room Number
+              Table Number
             </label>
             <input
-            readOnly
-              placeholder="Room Number"
+              placeholder="Table Number"
               type="text"
-              id="roomNumber"
+              id="tableNumber"
               className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
             />
           </div>
+
           <div className="flex flex-col">
-            <label className="font-medium text-ssm ml-2" htmlFor="roomRate">
-              Room Rate
+            <label className="font-medium text-ssm ml-2" htmlFor="tableNumber">
+              Table Description
             </label>
             <input
-              placeholder="Room Rate"
-              type="number"
-              id="roomRate"
-              className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
-              Room Description
-            </label>
-            <input
-              placeholder="Room Description"
+              placeholder="Table Description"
               type="text"
-              id="roomNumber"
+              id="tableNumber"
               className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
             />
           </div>
           <div className="flex flex-col">
-            <label className="font-medium text-ssm ml-2" htmlFor="roomCapacity">
-              Room Capacity
-            </label>
-            <input
-              placeholder="Capacity"
-              type="number"
-              id="roomCapacity"
-              className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="font-medium text-ssm ml-2" htmlFor="roomCapacity">
-              Room Type
-            </label>
-            <select
-              placeholder="Capacity"
-              id="roomCapacity"
-              className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-ssm text-gray-700 w-full"
+            <label
+              className="font-medium text-ssm ml-2"
+              htmlFor="tableCapacity"
             >
-              <option value="">Select...</option>
-              <option value="premium">Premium</option>
-              <option value="normal">Normal</option>
-              <option value="couple">Couple</option>
-            </select>
+              Table Capacity
+            </label>
+            <input
+              placeholder="Capacity"
+              type="number"
+              id="tableCapacity"
+              className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+            />
           </div>
+
           <div className="border-red-500 border bg-red-50 text-center p-3 text-ssm rounded-lg text-red-700">
-            Room Already Exists
+            Table Already Exists
           </div>
           <button
             type="button"
             className="w-full mt-4 p-4 font-bold text-white bg-blue-800 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2  dark:border-gray-900"
           >
-            Update Room
+            Update Table
           </button>
         </div>
       </Modal>
       <Modal width={450} open={open} setOpen={setOpen}>
         <div className="p-2 flex flex-col space-y-4 pb-8">
           <div className="pl-2 text-[26px] font-bold text-gray-600">
-            Add Room
+            Add Table
           </div>
 
           <div className="flex flex-col">
             <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
-              Room Number
+              Table Number
             </label>
             <input
-              placeholder="Room Number"
+              placeholder="Table Number"
               type="text"
-              id="roomNumber"
+              id="tableNumber"
               className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
             />
           </div>
+
           <div className="flex flex-col">
-            <label className="font-medium text-ssm ml-2" htmlFor="roomRate">
-              Room Rate
+            <label className="font-medium text-ssm ml-2" htmlFor="tableNumber">
+              Table Description
             </label>
             <input
-              placeholder="Room Rate"
-              type="number"
-              id="roomRate"
-              className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
-              Room Description
-            </label>
-            <input
-              placeholder="Room Description"
+              placeholder="Table Description"
               type="text"
-              id="roomNumber"
+              id="tableNumber"
               className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
             />
           </div>
           <div className="flex flex-col">
-            <label className="font-medium text-ssm ml-2" htmlFor="roomCapacity">
-              Room Capacity
-            </label>
-            <input
-              placeholder="Capacity"
-              type="number"
-              id="roomCapacity"
-              className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="font-medium text-ssm ml-2" htmlFor="roomCapacity">
-              Room Type
-            </label>
-            <select
-              placeholder="Capacity"
-              id="roomCapacity"
-              className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-ssm text-gray-700 w-full"
+            <label
+              className="font-medium text-ssm ml-2"
+              htmlFor="tableCapacity"
             >
-              <option value="">Select...</option>
-              <option value="premium">Premium</option>
-              <option value="normal">Normal</option>
-              <option value="couple">Couple</option>
-            </select>
+              Table Capacity
+            </label>
+            <input
+              placeholder="Capacity"
+              type="number"
+              id="tableCapacity"
+              className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+            />
           </div>
+
           <div className="border-red-500 border bg-red-50 text-center p-3 text-ssm rounded-lg text-red-700">
-            Room Already Exists
+            Table Already Exists
           </div>
           <button
             type="button"
             className="w-full mt-4 p-4 font-bold text-white bg-blue-800 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2  dark:border-gray-900"
           >
-            Add New Room
+            Add New Table
           </button>
         </div>
       </Modal>
       <Modal width={350} open={openDelete} setOpen={setOpenDelete}>
         <div className="p-2 flex flex-col space-y-16 pb-8">
           <div className="pl-2 text-[20px] font-bold text-gray-900">
-            Confirm Delete Room?
+            Confirm Delete Table?
           </div>
 
           <button
             type="button"
             className="w-full mt-4 p-4 font-bold text-white bg-red-600 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2  dark:border-gray-900"
           >
-            Delete Room
+            Delete Table
           </button>
         </div>
       </Modal>
@@ -198,7 +160,7 @@ const RoomTable = () => {
           className=" bg-green-600 p-3 h-12 my-auto rounded-md flex flex-row text-ssm text-white space-x-2"
         >
           <BiPlus color="white" size={24} className="my-auto" />
-          <div className="my-auto">Add New Room</div>
+          <div className="my-auto">Add New Table</div>
         </button>
       </div>
       <table className="w-full">
@@ -212,7 +174,7 @@ const RoomTable = () => {
                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
               />
             </th>
-            {Object.entries(RoomLabel).map(([key, item]) => (
+            {Object.entries(TableLabel).map(([key, item]) => (
               <th className="py-3 px-3 font-light text-ssm text-left">
                 {item}
               </th>
@@ -221,7 +183,7 @@ const RoomTable = () => {
           </tr>
         </thead>
         <tbody>
-          {Object.entries(RoomInfo).map(([key, item]) => (
+          {Object.entries(TableInfo).map(([key, item]) => (
             <tr className="bg-gray-100 border-b h-12">
               <td className="py-3 px-3 font-light text-ssm text-left">
                 <input
@@ -231,16 +193,17 @@ const RoomTable = () => {
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
               </td>
-              <td className="p-2 text-ssm pl-3">{item.roomNumber}</td>
-              <td className="p-2 text-ssm pl-3">{item.roomRate}</td>
+              <td className="p-2 text-ssm pl-3">{item.tableNumber}</td>
               <td className="p-2 text-ssm pl-3">{item.capacity}</td>
               <td className="p-2 pl-3 w-40 text-[10px] text-ellipsis">
                 {item.description}
               </td>
-              <td className="p-2 text-ssm pl-3">{item.type.toUpperCase()}</td>
               <td className="p-2 text-ssm pl-3">{item.date}2023/10/05</td>
               <td>
-                <button onClick={()=>setOpenEdit(true)} className=" p-2 rounded-lg">
+                <button
+                  onClick={() => setOpenEdit(true)}
+                  className=" p-2 rounded-lg"
+                >
                   <BiPencil color="#8f8f8f" />
                 </button>
               </td>
@@ -252,4 +215,4 @@ const RoomTable = () => {
   );
 };
 
-export default RoomTable;
+export default RestaurantTable;

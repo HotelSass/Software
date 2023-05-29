@@ -34,14 +34,14 @@ const Sidebar = () => {
             key={key}
             className={
               routeUrl == item.location
-                ? "flex flex-row bg-[#F1F6FE] w-10/12 mx-auto p-4 rounded-lg space-x-5 border border-blue-100 ring-blue-600"
-                : "flex flex-row w-11/12 mx-auto p-4 rounded-lg space-x-5"
+                ? "flex flex-row bg-[#F1F6FE] w-11/12 mx-auto p-4 rounded-lg space-x-5 border border-blue-100 ring-blue-600 my-1"
+                : "flex flex-row w-11/12 mx-auto p-4 rounded-lg space-x-5 my-1"
             }
           >
             <div className="mx-auto">
             {React.cloneElement(item.icon, {
               size: item.size,
-              color: routeUrl == item.location ? item.color : "#5f5f5f",
+              color: routeUrl == item.location ? item.color : "#cfcfcf",
             })}
             </div>
             <div className={"text-[13px] my-auto font-medium hidden"}>
