@@ -1,4 +1,4 @@
-import { BiBed, BiBowlHot, BiBuildingHouse, BiChart, BiFork } from "react-icons/bi";
+import { BiBed, BiBowlHot, BiBuildingHouse, BiCabinet, BiChart, BiFork } from "react-icons/bi";
 
 export const  SidebarInfo={
   
@@ -22,5 +22,12 @@ export const  SidebarInfo={
     size:24,
     color:'#2442F8',
     location:'/menu'
+   }
+   ,3:{
+    icon:<BiCabinet/>,
+    title:'Inventory',
+    size:24,
+    color:'#2442F8',
+    location:'/inventory'
    }
 };

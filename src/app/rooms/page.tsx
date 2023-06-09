@@ -6,7 +6,6 @@ import RoomTable from "./roomTable";
 const page = () => {
   return (
     <Layout>
-      
       <div className="flex flex-col">
         <div className=" pt-8 pl-12 text-[30px] font-bold text-gray-600">Rooms</div>
         <div className="flex flex-row p-8 flex-wrap">

@@ -70,6 +70,20 @@ export const MenuInfo = {
     date: "",
   }
 };
+export const InventoryInfo = {
+  0: {
+    itemName: "Blanket",
+    location: "Store Room",
+    quantity: 8,
+    date: "",
+  },
+  1: {
+    itemName: "Pillow",
+    location: "Store Room",
+    quantity: 8,
+    date: "",
+  },
+};
 export const RoomLabel = {
   roomNumber: "Room No.",
   rate: "Rate",
@@ -90,5 +104,11 @@ export const MenuLabel = {
   itemName: "Item Name",
   category: "Category",
   description: "Description",
+  date: "Created",
+};
+export const InventoryLabel = {
+  itemName: "Item Name",
+  location: "Location",
+  quantity: "Quantity",
   date: "Created",
 };
