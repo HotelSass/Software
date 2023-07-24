@@ -1,14 +1,43 @@
+import serverUrl from "@/config/config";
+import { useRouter } from "next/navigation";
 import { BiPencil, BiTrash } from "react-icons/bi";
 
 type CardProps = {
   number: number;
   title: string;
   color: string;
+  setOpen: any;
+  setData: any
+  description: string
 };
-const CardSmall = ({ number, title, color }: CardProps) => {
+
+const CardSmall = ({ number, title, color, setOpen, setData, description }: CardProps) => {
+  const router = useRouter()
+  async function deleteCategory(title: string) {
+    try {
+      const response = await fetch(serverUrl + "/menu/deleteCategory/"+title.toLowerCase(), {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        
+      });
+      if (response.ok) {
+        setOpen(false)
+
+      } else {
+      }
+
+    } catch (err) {
+      console.log(err)
+    }
+    router.refresh()
+
+
+  }
   return (
     <div className=" w-32 h-32 border border-blue-200 rounded-2xl flex flex-col overflow-hidden m-2 hover:border-[#2442F8] cursor-pointer">
-      <button className=" ml-auto mr-2 mt-2  rounded-lg">
+      <button onClick={() => { setOpen(true); setData({ title, description }) }} className=" ml-auto mr-2 mt-2  rounded-lg">
         <BiPencil color="#8f8f8f" />
       </button>
       <div
@@ -22,7 +51,7 @@ const CardSmall = ({ number, title, color }: CardProps) => {
           {title}
         </div>
 
-        <button className=" rounded-lg mr-2">
+        <button onClick={() => deleteCategory(title)} className=" rounded-lg mr-2">
           <BiTrash color="#8f8f8f" />
         </button>
       </div>
