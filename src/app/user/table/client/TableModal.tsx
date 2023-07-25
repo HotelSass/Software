@@ -83,7 +83,7 @@ const TableModal = ({ open, setOpen, data, bookingList }: any) => {
                         <TransferModal reload={() => { setOpen(false); router.refresh() }} bookingList={bookingList} data={data} />
                     </div>
                     <div className="flex-1 px-4">
-                        <TableCheckOut data={data} />
+                        <TableCheckOut reload={() => { setOpen(false); router.refresh() }} data={data} />
                     </div>
                 </div>
 

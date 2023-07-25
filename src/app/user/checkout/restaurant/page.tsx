@@ -1,9 +1,10 @@
 import Modal from '@/components/modal'
+import serverUrl from '@/config/config';
 import React, { useState } from 'react'
 const screenWidth = window.innerWidth;
 const screenHeight = window.innerHeight;
 
-const TableCheckOut = ({ data }: any) => {
+const TableCheckOut = ({ data, reload }: any) => {
   const [open, setOpen] = useState(false)
   const [discount, setDiscount] = useState(0)
   function getTotal() {
@@ -26,11 +27,36 @@ const TableCheckOut = ({ data }: any) => {
     return fullTotal
   }
 
+  async function submitData() {
+    try {
+      const response = await fetch(serverUrl + "/user/checkout/checkoutTable", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          data,
+          discount,
+          total: getFullTotal()
+        })
+
+      });
+      if (response.ok) {
+        setOpen(false)
+        reload()
+      } else {
+      }
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   return (
     <>
       <button type='button' onClick={() => { if (data.order.length > 0) { setOpen(true) } }} className='bg-red-700 w-full text-center text-white p-4 rounded-xl'>Check Out</button>
-      <Modal open={open} setOpen={setOpen} width={800} height={screenHeight/1.8}>
-        <form className=' h-full'>
+      <Modal open={open} setOpen={setOpen} width={800} height={screenHeight / 1.8}>
+        <form onSubmit={(e) => submitData(e)} className=' h-full'>
           <div className="flex flex-row h-full">
             <div className="flex-1 px-10 h-full">
 
@@ -72,7 +98,7 @@ const TableCheckOut = ({ data }: any) => {
                       </td>
                       <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
                         Rs.
-                        <input type="number" className='bg-gray-300 w-14' defaultValue={discount} onChange={(e) => { setDiscount(e.target.value) }} />
+                        <input type="number" className='bg-gray-300 w-14' defaultValue={discount} onChange={(e) => { if ((getTotal().total - e.target.value) >= 0 && e.target.value >= 0) setDiscount(e.target.value) }} />
                       </td>
                     </tr>
 
@@ -82,11 +108,11 @@ const TableCheckOut = ({ data }: any) => {
                       <th scope="row" className="px-6 py-3 text-base text-[14px]">Grand Total:</th>
                       <td className="px-6 py-3 text-[14px]"></td>
 
-                      <td className="px-6 py-3 text-[14px]">Rs.{getFullTotal()} </td>
+                      <td className="px-6 py-3 text-[14px]">Rs.{getFullTotal() || getTotal().total} </td>
                     </tr>
                   </tfoot>
                 </table>
-                <button className='bg-red-700 text-white rounded p-3 px-6 flex-1 mt-7'>Checkout</button>
+                <button type='button' onClick={() => submitData()} className='bg-red-700 text-white rounded p-3 px-6 flex-1 mt-7'>Checkout</button>
               </form>
             </div>
 

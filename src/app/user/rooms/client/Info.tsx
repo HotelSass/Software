@@ -81,7 +81,7 @@ const CheckOutModal = ({ reservationData, open, setOpen }: any) => {
 
             <Modal open={open} setOpen={setOpen} width={900} >
                 <ShowInfo data={secData} open={open1} setOpen={setOpen1} />
-                <RoomCheckOut data={secData} open={openCheckOut} setOpen={setOpenCheckout} />
+                <RoomCheckOut reload={() => { setOpen(false); router.refresh() }} data={secData} open={openCheckOut} setOpen={setOpenCheckout} />
 
                 <div className="p-4 pt-0 overflow-y-scroll">
                     <div className="text-[24px] font-thin tracking-tight mb-6">Checkout</div>

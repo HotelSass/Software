@@ -1,11 +1,11 @@
 import Modal from '@/components/modal'
+import serverUrl from '@/config/config';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react'
-const screenWidth = window.innerWidth;
+import React, { useEffect, useState } from 'react'
+const screenWidth = 1600;
 
-const RoomCheckOut = ({ open, setOpen, data }: any) => {
+const RoomCheckOut = ({ open, setOpen, data,reload }: any) => {
   const [discount, setDiscount] = useState(0)
-  const router = useRouter()
   function getTotal() {
 
     let quantity = 0
@@ -66,10 +66,37 @@ const RoomCheckOut = ({ open, setOpen, data }: any) => {
     let days = dateDifference(data.checkIn, formattedDate)
     return days
   }
-  getFullTotal()
+  async function onSubmit() {    
+    try {
+      const response = await fetch(serverUrl + "/user/checkout/checkoutRoom", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          data,
+          discount,
+          total: getFullTotal()
+        })
+
+      });
+      if (response.ok) {
+        setOpen(false)
+        reload()
+      } else {
+      }
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  useEffect(()=>{
+
+  },[screenWidth])
+
   return (
-    <Modal open={open} setOpen={setOpen} width={screenWidth*0.9} height={900}>
-      <form className=' h-full'>
+    <Modal open={open} setOpen={setOpen} width={screenWidth * 0.9} height={900}>
+      <div className=' h-full'>
         <div className="flex flex-row h-full">
           <div className="flex-1 px-10 h-full border-r border-gray-300">
             <div className="text-[24px] font-thin tracking-tight ml-2 mb-5">Room Order</div>
@@ -195,7 +222,7 @@ const RoomCheckOut = ({ open, setOpen, data }: any) => {
                     </td>
                     <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
                       Rs.
-                      <input type="number" className='bg-gray-300 w-14' defaultValue={discount} onChange={(e) => { setDiscount(e.target.value) }} />
+                      <input type="number" className='bg-gray-300 w-14' defaultValue={discount} onChange={(e) => { if (getFullTotal() - e.target.value >= 0 && e.target.value >= 0) setDiscount(e.target.value) }} />
                     </td>
                   </tr>
 
@@ -205,13 +232,13 @@ const RoomCheckOut = ({ open, setOpen, data }: any) => {
                     <th scope="row" className="px-6 py-3 text-base text-[14px]">Grand Total:</th>
                     <td className="px-6 py-3 text-[14px]"></td>
 
-                    <td className="px-6 py-3 text-[14px]">Rs. {getFullTotal()}</td>
+                    <td className="px-6 py-3 text-[14px]">Rs. {getFullTotal() ? getFullTotal() : (getTotalResidenceDay() * parseInt(data.roomRate) - parseInt(data.advance) + getTotal().total)}</td>
                   </tr>
                 </tfoot>
               </table>
               <div className="flex flex-row">
                 <div className="flex-1"></div>
-                <button className='bg-red-700 text-white rounded p-3 px-6 flex-1'>Checkout</button>
+                <button type='button' onClick={() => { onSubmit()}} className='bg-red-700 text-white rounded p-3 px-6 flex-1'>Checkout</button>
               </div>
             </form>
           </div>
@@ -270,7 +297,7 @@ const RoomCheckOut = ({ open, setOpen, data }: any) => {
             </table>
           </div>
         </div>
-      </form>
+      </div>
     </Modal>
   )
 }
