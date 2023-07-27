@@ -58,7 +58,7 @@ const ReservationModal = ({ reservationData, open, setOpen }: any) => {
                                 <div className="text-[10px] font-extralight mb-auto">{item.checkOut.toUpperCase()}</div>
                             </div>
                             <button type='button' onClick={() => { setSecData(item); setOpen1(true) }} className='bg-red-900 items-center justify-center text-white flex-1 rounded-md text-[14px] font-light'>
-                                Check Out
+                                Check In
                             </button>
 
 

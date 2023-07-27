@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 const screenWidth = 1600;
 
-const RoomCheckOut = ({ open, setOpen, data,reload }: any) => {
+const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
   const [discount, setDiscount] = useState(0)
   function getTotal() {
 
@@ -42,6 +42,7 @@ const RoomCheckOut = ({ open, setOpen, data,reload }: any) => {
     const formattedDate = `${year}-${month}-${day}`;
 
     let days = dateDifference(data.checkIn, formattedDate)
+    if (days == 0) days = 1
     let fullTotal = days * parseInt(data.roomRate) + getTotal().total - parseInt(data.advance) - parseInt(discount)
     return fullTotal
   }
@@ -64,9 +65,10 @@ const RoomCheckOut = ({ open, setOpen, data,reload }: any) => {
     const formattedDate = `${year}-${month}-${day}`;
 
     let days = dateDifference(data.checkIn, formattedDate)
+    if (days == 0) return 1
     return days
   }
-  async function onSubmit() {    
+  async function onSubmit() {
     try {
       const response = await fetch(serverUrl + "/user/checkout/checkoutRoom", {
         method: 'POST',
@@ -90,9 +92,9 @@ const RoomCheckOut = ({ open, setOpen, data,reload }: any) => {
       console.log(err)
     }
   }
-  useEffect(()=>{
+  useEffect(() => {
 
-  },[screenWidth])
+  }, [screenWidth])
 
   return (
     <Modal open={open} setOpen={setOpen} width={screenWidth * 0.9} height={900}>
@@ -189,7 +191,7 @@ const RoomCheckOut = ({ open, setOpen, data,reload }: any) => {
                       Extended Stay:
                     </th>
                     <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
-                      {dateDifference(data.checkIn, data.checkOut)} days
+                      {dateDifference(data.checkOut, new Date()) < 0 ? "0 days" : dateDifference(data.checkOut, new Date())+" days"} 
                     </td>
                     <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
                     </td>
@@ -238,7 +240,7 @@ const RoomCheckOut = ({ open, setOpen, data,reload }: any) => {
               </table>
               <div className="flex flex-row">
                 <div className="flex-1"></div>
-                <button type='button' onClick={() => { onSubmit()}} className='bg-red-700 text-white rounded p-3 px-6 flex-1'>Checkout</button>
+                <button type='button' onClick={() => { onSubmit() }} className='bg-red-700 text-white rounded p-3 px-6 flex-1'>Checkout</button>
               </div>
             </form>
           </div>
