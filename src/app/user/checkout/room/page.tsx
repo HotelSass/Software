@@ -93,7 +93,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
   }
 
   return (
-    <Modal open={open} setOpen={setOpen} width={1500} height={900}>
+    <Modal open={open} setOpen={setOpen} width={1500} >
       <div className=' h-full'>
         <div className="flex flex-row h-full">
           <div className="flex-1 px-10 h-full border-r border-gray-300">
