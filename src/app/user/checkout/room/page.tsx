@@ -1,6 +1,6 @@
+'use client'
 import Modal from '@/components/modal'
 import serverUrl from '@/config/config';
-import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 const screenWidth = 1600;
 
