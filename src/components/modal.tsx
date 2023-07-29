@@ -14,7 +14,7 @@ const Modal = ({
   setOpen
 }: { children: React.ReactNode } & ModalProps) => {
   if (open == false) {
-    return null;
+    return <></>;
   }
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-50 ">
