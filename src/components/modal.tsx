@@ -14,7 +14,7 @@ function Modal({
   setOpen
 }: { children: React.ReactNode } & ModalProps) {
   if (open == false) {
-    return <></>;
+    return null;
   }
   return (
     <>
