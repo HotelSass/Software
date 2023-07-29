@@ -6,8 +6,8 @@ const Page = () => {
   const router = useRouter()
   return (
     <div className="">
-      <button className="m-5" onClick={() => router.replace('/user/rooms')}>User Section</button>
-      <button className="m-5" onClick={() => router.replace('/admin/rooms')}>Admin Section</button>
+      <button className="m-5" onClick={() => router.push('/user/rooms')}>User Section</button>
+      <button className="m-5" onClick={() => router.push('/admin/rooms')}>Admin Section</button>
     </div>
   );
 };
