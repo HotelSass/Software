@@ -6,13 +6,13 @@ type ModalProps = {
   height: number;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
 };
-const Modal = ({
+function Modal({
   children,
   open,
   width,
   height,
   setOpen
-}: { children: React.ReactNode } & ModalProps) => {
+}: { children: React.ReactNode } & ModalProps) {
   if (open == false) {
     return <></>;
   }

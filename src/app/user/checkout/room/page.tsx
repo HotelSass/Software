@@ -2,7 +2,6 @@
 import Modal from '@/components/modal'
 import serverUrl from '@/config/config';
 import React, { useState } from 'react'
-const screenWidth = 1600;
 
 const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
   const [discount, setDiscount] = useState(0)
