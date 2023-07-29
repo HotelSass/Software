@@ -94,7 +94,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
   }
 
   return (
-    <>
+    <div>
       <Modal open={open} setOpen={setOpen} width={1500} height={900}>
         <div className=' h-full'>
           <div className="flex flex-row h-full">
@@ -299,7 +299,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
           </div>
         </div>
       </Modal>
-    </>
+    </div>
   )
 }
 
