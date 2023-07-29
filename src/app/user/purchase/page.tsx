@@ -245,14 +245,14 @@ const History = () => {
                                                 <td className="px-6 py-4">
                                                     <div className=" items-center space-x-3">
                                                         <div>
-                                                            <input type="number" required value={itemArray[index].quantity} onChange={(e) => handleChange(index, "quantity", e.target.value)} id="first_product" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-3/4" placeholder="1" required />
+                                                            <input type="number" required value={itemArray[index].quantity} onChange={(e) => handleChange(index, "quantity", e.target.value)} id="first_product" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-3/4" placeholder="1"  />
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4">
                                                     <div className=" items-center space-x-3">
                                                         <div>
-                                                            <input value={itemArray[index].price} required onChange={(e) => handleChange(index, "price", e.target.value)} type="number" id="first_product" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-3/4" placeholder="1" required />
+                                                            <input value={itemArray[index].price} required onChange={(e) => handleChange(index, "price", e.target.value)} type="number" id="first_product" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-3/4" placeholder="1"  />
                                                         </div>
                                                     </div>
                                                 </td>

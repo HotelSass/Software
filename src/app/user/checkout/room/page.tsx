@@ -139,8 +139,8 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
                   <div className="flex flex-row">
                     {data.hasOwnProperty('roomNumber') &&
                       <>
-                        {(data.roomNumber).map((item: any) => (
-                          <p className="font-normal text-[17px] ml-2 capitalize">{item},</p>
+                        {(data.roomNumber).map((item: any,index:number) => (
+                          <p key={index} className="font-normal text-[17px] ml-2 capitalize">{item},</p>
                         ))}
                       </>
                     }
@@ -262,9 +262,9 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
               <tbody>
                 {data.orders && <>
                   {data.orders.map((item: any, index: number) => (
-                    <>
+                    <div key={index} >
                       {item.map((item1: any, index1: number) => (
-                        <>
+                        <div key={index1} >
                           <tr className={item.length == index1 + 1 ? " bg-gray-300 border-b " : " bg-gray-300 "}>
                             <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px] capitalize">
                               {index + 1}. {index1 + 1 + " "}{item1.itemName}
@@ -281,7 +281,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
                         </>
                       ))}
 
-                    </>
+                    </div>
                   ))}
                 </>}
               </tbody>
