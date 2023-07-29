@@ -3,6 +3,7 @@ import { BiX } from "react-icons/bi";
 type ModalProps = {
   open: boolean;
   width: number;
+  height:number;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
 };
 const Modal = ({
