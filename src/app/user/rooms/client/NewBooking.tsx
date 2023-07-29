@@ -5,9 +5,6 @@ import { BiPlus } from 'react-icons/bi'
 import Booking from './modals/Booking'
 import NewReservation from './modals/NewReservation'
 
-const onSubmit = (event: any) => {
-
-}
 
 const NewBooking = ({ data }: any) => {
     const [open, setOpen] = useState(false)

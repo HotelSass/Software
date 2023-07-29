@@ -1,15 +1,13 @@
 'use client'
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import React from "react";
 
 const Page = () => {
-  const [counter,setCounter]=useState<number>(0)
-  function buttonClicked(){
-    setCounter(counter+1)
-  }
+  const router = useRouter()
   return (
     <div className="">
-      <button onClick={buttonClicked}>Click Me to up</button>
-      <div className="">{counter}</div>
+      <button className="m-5" onClick={() => router.replace('/user/rooms')}>User Section</button>
+      <button className="m-5" onClick={() => router.replace('/admin/rooms')}>Admin Section</button>
     </div>
   );
 };

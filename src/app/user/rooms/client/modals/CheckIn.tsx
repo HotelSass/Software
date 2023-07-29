@@ -42,7 +42,7 @@ const CheckInModal = ({ open, setOpen, data }: any) => {
                         checkOut: data.checkOut,
                         status: 'inhouse',
                         reservationId: data._id,
-                        reservationDate:data.date
+                        reservationDate: data.date
                     })
 
                 });
@@ -203,11 +203,12 @@ const CheckInModal = ({ open, setOpen, data }: any) => {
                             Advance Payment
                         </label>
                         <input
-                            defaultValue={0}
+                            defaultValue={data.advance}
                             name="advance"
                             placeholder="Rs."
                             type="text"
                             id="nationality"
+                            disabled
                             className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>

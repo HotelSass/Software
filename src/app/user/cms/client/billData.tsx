@@ -6,7 +6,6 @@ import Datepicker from 'react-tailwindcss-datepicker'
 const BillData = ({ data }: any) => {
     const [res, setRes] = useState(data)
     const [value, setValue] = useState('')
-    console.log(data)
     function search(value: string) {
         const lowerCaseValue = value.toLowerCase();
 
