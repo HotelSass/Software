@@ -25,7 +25,7 @@ const POS = ({ data,bookingList }: any) => {
                         </div>
                         <div className="flex flex-row flex-wrap">
                             {occupiedTable.map((item: any, index: number) => (
-                                <button type='button' onClick={() => { setSelectedTable(item); setOpenTable(true) }} className="p-3 w-24 h-24 rounded bg-slate-700 capitalize flex flex-col items-center justify-center m-2">
+                                <button key={index} type='button' onClick={() => { setSelectedTable(item); setOpenTable(true) }} className="p-3 w-24 h-24 rounded bg-slate-700 capitalize flex flex-col items-center justify-center m-2">
                                     <div className="text-white font-thin">
                                         {item.tableNumber}
                                     </div>
@@ -43,9 +43,9 @@ const POS = ({ data,bookingList }: any) => {
                         </div>
                         <div className="flex flex-row flex-wrap">
                             {occupiedRoom.map((item: any, index: number) => (
-                                <>
-                                    {item.roomNumber.map((item1: any, index: number) => (
-                                        <button type='button' onClick={() => { setSelectedRoom({item,item1}); setOpenRoom(true) }} className="p-3 w-24 h-24 rounded bg-slate-700 capitalize flex flex-col items-center justify-center m-2">
+                                <div key={index} >
+                                    {item.roomNumber.map((item1: any, index2: number) => (
+                                        <button key={index2} type='button' onClick={() => { setSelectedRoom({item,item1}); setOpenRoom(true) }} className="p-3 w-24 h-24 rounded bg-slate-700 capitalize flex flex-col items-center justify-center m-2">
                                             <div className="text-white font-thin">
                                                 {item1}
                                             </div>
@@ -53,7 +53,7 @@ const POS = ({ data,bookingList }: any) => {
                                         </button>
                                     ))}
 
-                                </>
+                                </div>
                             ))}
                         </div>
                     </div>

@@ -89,18 +89,18 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
             <div className="flex-1 py-10 flex flex-col h-full ">
                 <div className="w-full p-3 rounded-xl bg-gray-200 overflow-x-scroll mb-5">
                     {category.map((item: any, index: any) => (
-                        <>
+                        <div key={index} >
                             {((item.category).toLowerCase() != selectedTab.toLowerCase()) ?
                                 <button type='button' onClick={() => setSelectedTab((item.category).toLowerCase())} className='p-2 px-5 text-[12px] capitalize text-gray-700 mx-2 font-medium'>{item.category}</button>
                                 :
                                 <button className='p-2 px-5 border border-orange-500 bg-white rounded-md text-[12px] capitalize text-orange-500 mx-2 font-medium'>{item.category}</button>
                             }
-                        </>
+                        </div>
                     ))}
                 </div>
                 <div className="w-full h-full p-3 py-6 rounded-xl bg-gray-200 overflow-y-scroll flex flex-row flex-wrap">
                     {menu.map((item: any, index: number) => (
-                        <>
+                        <div key={index} >
                             {item.category == selectedTab.toLowerCase() && (
                                 <div className="px-4 w-1/4">
                                     <div className="p-3 w-full h-36 rounded bg-slate-700 capitalize flex flex-col overflow-hidden">
@@ -119,7 +119,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                     </div>
                                 </div>
                             )}
-                        </>
+                        </div>
                     ))}
                 </div>
             </div>
@@ -146,7 +146,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                             </thead>
                             <tbody>
                                 {selectedItems.map((item, index) => (
-                                    <tr className=" bg-gray-300 border-b ">
+                                    <tr key={index} className=" bg-gray-300 border-b ">
                                         <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px] capitalize">
                                             {item.itemName}
                                         </th>

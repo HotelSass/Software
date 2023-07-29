@@ -39,7 +39,7 @@ const ReservationModal = ({ reservationData, open, setOpen }: any) => {
                 <div className="p-4 pt-0 overflow-y-scroll">
                     <div className="text-[24px] font-thin tracking-tight mb-6">Check In</div>
                     {reservationData.map((item: any, index: number) => (
-                        <div className="bg-gray-200 rounded-xl flex flex-row my-2">
+                        <div key={index} className="bg-gray-200 rounded-xl flex flex-row my-2">
                             <div className="flex flex-col bg-gray-500 p-4 rounded-md flex-1">
                                 <div className="text-[18px] text-white font-extralight">{item.name.toUpperCase()}</div>
                                 <div className="text-[10px] text-white font-extralight">{item.address.toUpperCase()}</div>
@@ -86,7 +86,7 @@ const CheckOutModal = ({ reservationData, open, setOpen }: any) => {
                 <div className="p-4 pt-0 overflow-y-scroll">
                     <div className="text-[24px] font-thin tracking-tight mb-6">Checkout</div>
                     {reservationData.map((item: any, index: number) => (
-                        <div className="bg-gray-200 rounded-xl flex flex-row my-2">
+                        <div key={index} className="bg-gray-200 rounded-xl flex flex-row my-2">
                             <button type='button' onClick={() => { setSecData(item); setOpen1(true) }} className="flex flex-col bg-gray-500 p-4 rounded-md flex-1">
                                 <div className="text-[18px] text-white font-extralight">{item.name.toUpperCase()}</div>
                                 <div className="text-[10px] text-white font-extralight">{item.address.toUpperCase()}</div>

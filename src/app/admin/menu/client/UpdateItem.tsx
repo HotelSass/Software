@@ -97,7 +97,7 @@ const UpdateItem = ({ open, setOpen, data, category }: any) => {
                         >
                             <option value="">Select...</option>
                             {category.map((item: any, index: number) => (
-                                <option value={item.category}>{item.category.toUpperCase()}</option>
+                                <option key={index} value={item.category}>{item.category.toUpperCase()}</option>
 
                             ))}
 

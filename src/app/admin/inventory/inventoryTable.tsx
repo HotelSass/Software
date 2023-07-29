@@ -54,7 +54,7 @@ const InventoryTable = ({ data }: any) => {
 
             </th>
             {Object.entries(InventoryLabel).map(([key, item]) => (
-              <th className="py-3 px-3 font-light text-ssm text-left">
+              <th key={key} className="py-3 px-3 font-light text-ssm text-left">
                 {item}
               </th>
             ))}
@@ -63,7 +63,7 @@ const InventoryTable = ({ data }: any) => {
         </thead>
         <tbody>
           {data.map((item: any, index: number) => (
-            <tr className="bg-gray-100 border-b h-12">
+            <tr key={index} className="bg-gray-100 border-b h-12">
               <td className="py-3 px-3 font-light text-ssm text-left">
                 <button
                   onClick={() => {setOpenAdd(true);setEditData(item)}}

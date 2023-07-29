@@ -42,7 +42,7 @@ const TableModal = ({ tableList, selectedItems,reload }: any) => {
 
                     {tableList.map((item: any, index: any) => {
                         return (
-                            <button type='button' onClick={() => { setSelectedTable(item); setOpenSecond(true) }} className="w-24 h-24 rounded-xl m-2 bg-gray-300 flex flex-col  hover:bg-gray-500 items-center justify-center">
+                            <button key={index} type='button' onClick={() => { setSelectedTable(item); setOpenSecond(true) }} className="w-24 h-24 rounded-xl m-2 bg-gray-300 flex flex-col  hover:bg-gray-500 items-center justify-center">
                                 <div className="font-light text-[24px] text-center text-gray-800">
                                     {item.tableNumber}
                                 </div>

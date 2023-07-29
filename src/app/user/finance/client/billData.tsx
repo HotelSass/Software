@@ -117,7 +117,7 @@ const BillData = ({ data, outgoing }: any) => {
                         </thead>
                         <tbody>
                             {res.map((item: any, index: number) => (
-                                <tr className="border-b bg-gray-500 font-thin text-ssm">
+                                <tr key={index} className="border-b bg-gray-500 font-thin text-ssm">
                                     <th scope="row" className="px-6 py-4 text-gray-100 whitespace-nowrap font-light text-ssm flex flex-row">
                                         {item.status == 'advance' ? (
                                             <>
@@ -139,8 +139,8 @@ const BillData = ({ data, outgoing }: any) => {
                                             }
                                             {item.roomNumber &&
                                                 <>
-                                                    {item.roomNumber.map((room: any) =>
-                                                        <p className='mx-1'>
+                                                    {item.roomNumber.map((room: any,index:number) =>
+                                                        <p key={index} className='mx-1'>
                                                             {room}
                                                         </p>
                                                     )}
@@ -205,7 +205,7 @@ const BillData = ({ data, outgoing }: any) => {
                         </thead>
                         <tbody>
                             {res2.map((item: any, index: number) => (
-                                <tr className="border-b bg-gray-500 font-thin text-ssm">
+                                <tr key={index} className="border-b bg-gray-500 font-thin text-ssm">
                                     <th scope="row" className="px-6 py-4 text-gray-100 whitespace-nowrap font-light text-ssm ">
                                         {item.bankData && (
                                             <div className="flex flex-col">
@@ -230,8 +230,8 @@ const BillData = ({ data, outgoing }: any) => {
                                             }
                                             {item.roomNumber &&
                                                 <>
-                                                    {item.roomNumber.map((room: any) =>
-                                                        <p className='mx-1'>
+                                                    {item.roomNumber.map((room: any,index:number) =>
+                                                        <p key={index} className='mx-1'>
                                                             {room}
                                                         </p>
                                                     )}

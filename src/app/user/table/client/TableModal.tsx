@@ -46,9 +46,9 @@ const TableModal = ({ open, setOpen, data, bookingList }: any) => {
                         <tbody>
                             {data.order && <>
                                 {data.order.map((item: any, index: number) => (
-                                    <>
+                                    <div key={index} >
                                         {item.map((item1: any, index1: number) => (
-                                            <tr className={item.length == index1 + 1 ? " bg-gray-300 border-b " : " bg-gray-300 "}>
+                                            <tr key={index1} className={item.length == index1 + 1 ? " bg-gray-300 border-b " : " bg-gray-300 "}>
                                                 <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px] capitalize">
                                                     {index + 1}. {index1 + 1 + " "}{item1.itemName}
                                                 </th>
@@ -62,7 +62,7 @@ const TableModal = ({ open, setOpen, data, bookingList }: any) => {
                                             </tr>
                                         ))}
 
-                                    </>
+                                    </div>
                                 ))}
                             </>}
                         </tbody>

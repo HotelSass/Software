@@ -105,7 +105,7 @@ const NewMenuModal = ({ categoryData }: any) => {
                             >
                                 <option value="">Select...</option>
                                 {categoryData.map((item: any, index: number) =>
-                                    <option value={item.category}>{(item.category).toUpperCase()}</option>
+                                    <option key={index} value={item.category}>{(item.category).toUpperCase()}</option>
                                 )}
 
                             </select>

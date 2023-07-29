@@ -92,9 +92,6 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
       console.log(err)
     }
   }
-  useEffect(() => {
-
-  }, [screenWidth])
 
   return (
     <Modal open={open} setOpen={setOpen} width={screenWidth * 0.9} height={900}>

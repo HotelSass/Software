@@ -12,7 +12,7 @@ const CategoryList = ({ categoryData }: any) => {
         
             <div className='flex flex-row flex-wrap'>
                 {categoryData.map((item: any, index: number) => (
-                    <CardSmall setOpen={setOpen} setData={setData} number={item.items} description={item.description} title={(item.category).toUpperCase()} color='#ff0000' />
+                    <CardSmall key={index} setOpen={setOpen} setData={setData} number={item.items} description={item.description} title={(item.category).toUpperCase()} color='#ff0000' />
                 ))}
             </div>
         </>

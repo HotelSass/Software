@@ -1,7 +1,5 @@
 'use client'
-import serverUrl from '@/config/config'
 import React, { useState } from 'react'
-import Datepicker from 'react-tailwindcss-datepicker'
 
 const BillData = ({ data }: any) => {
     const [res, setRes] = useState(data)
@@ -51,7 +49,7 @@ const BillData = ({ data }: any) => {
                         </thead>
                         <tbody>
                             {res.map((item: any, index: number) => (
-                                <tr className="border-b bg-gray-500 font-thin text-ssm">
+                                <tr key={index} className="border-b bg-gray-500 font-thin text-ssm">
                                     <th scope="row" className="px-6 py-4 text-gray-100 whitespace-nowrap font-light text-ssm flex flex-row">
                                         {item.name}
 
@@ -64,8 +62,8 @@ const BillData = ({ data }: any) => {
 
                                             {item.roomNumber &&
                                                 <>
-                                                    {item.roomNumber.map((room: any) =>
-                                                        <p className='mx-1'>
+                                                    {item.roomNumber.map((room: any,index:number) =>
+                                                        <p key={index} className='mx-1'>
                                                             {room}
                                                         </p>
                                                     )}

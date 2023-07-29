@@ -1,7 +1,6 @@
 import React from "react";
 import Layout from "../component/layout";
 import { BiPlus } from "react-icons/bi";
-import Calender from "./Calender";
 import NewBookingServer from "./server/NewBookingServer";
 import InfoServer from "./server/InfoServer";
 

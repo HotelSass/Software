@@ -145,14 +145,14 @@ const Booking = ({ open, setOpen, data }: any) => {
             <form onSubmit={(e) => onSubmit(e)} className='flex flex-col space-y-4'>
                 <Modal open={openSelectRoom} setOpen={setOpenSelectRoom} width={600}>
                     <div className=" flex flex-row flex-wrap">
-                        {availabeData.map((item: any) => (
-                            <>
+                        {availabeData.map((item: any,index:number) => (
+                            <div key={index} >
                                 {selectedRooms.includes(item) ?
                                     <button type='button' onClick={() => selectData(item)} className="p-4 border bg-green-700 text-[12px] items-center justify-center rounded-xl w-16 h-16 mx-2 text-white">{item}</button>
                                     :
                                     <button type='button' onClick={() => selectData(item)} className="p-4 border border-gray-400 text-[12px] items-center justify-center rounded-xl w-16 h-16 mx-2">{item}</button>
                                 }
-                            </>
+                            </div>
                         ))}
                     </div>
 
@@ -314,8 +314,8 @@ const Booking = ({ open, setOpen, data }: any) => {
                                         </div>
                                         <div className='flex flex-row flex-wrap overflow-x-scroll'>
 
-                                            {selectedRooms.map((item: any) => (
-                                                <div className="text-white text-center mx-2 ">{item}</div>
+                                            {selectedRooms.map((item: any,index:number) => (
+                                                <div key={index} className="text-white text-center mx-2 ">{item}</div>
                                             ))}
 
                                         </div>

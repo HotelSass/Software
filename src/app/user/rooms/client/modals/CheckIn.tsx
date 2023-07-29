@@ -224,8 +224,8 @@ const CheckInModal = ({ open, setOpen, data }: any) => {
 
                                 {data.hasOwnProperty('roomNumber') &&
                                     <>
-                                        {(data.roomNumber).map((item: any) => (
-                                            <div className="text-white text-center mx-2 ">{item}</div>
+                                        {(data.roomNumber).map((item: any,index:any) => (
+                                            <div key={index} className="text-white text-center mx-2 ">{item}</div>
                                         ))}
                                     </>
                                 }

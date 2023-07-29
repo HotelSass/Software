@@ -47,10 +47,10 @@ const RoomModal = ({ bookingList, selectedItems,reload }: any) => {
                 <div className=" flex flex-row flex-wrap">
 
                     {bookingList.val.map((item: any, index: any) => (
-                        <>
-                            {item.roomNumber.map((item1: any) => {
+                        <div key={index} >
+                            {item.roomNumber.map((item1: any,index2:number) => {
                                 return (
-                                    <button type='button' onClick={() => { setSelectedRoom({ id: item._id, roomNumber: item1 }); setOpenSecond(true) }} className="p-5 rounded-xl m-2 bg-gray-300 flex flex-col w-1/6 hover:bg-gray-500">
+                                    <button key={index2} type='button' onClick={() => { setSelectedRoom({ id: item._id, roomNumber: item1 }); setOpenSecond(true) }} className="p-5 rounded-xl m-2 bg-gray-300 flex flex-col w-1/6 hover:bg-gray-500">
                                         <div className="font-light text-[24px] text-left text-gray-800">
                                             {item1}
                                         </div>
@@ -61,7 +61,7 @@ const RoomModal = ({ bookingList, selectedItems,reload }: any) => {
                                     </button>
                                 )
                             })}
-                        </>
+                        </div>
                     ))}
                     <Modal open={openSecond} setOpen={setOpenSecond} width={350} >
                         <div className=" flex flex-col p-4">
