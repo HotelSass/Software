@@ -2,7 +2,7 @@ import Modal from '@/components/modal'
 import React from 'react'
 import TransferModal from './TransferModal'
 import { useRouter } from 'next/navigation'
-import TableCheckOut from '../../checkout/restaurant/page'
+import TableCheckOut from '../../rooms/client/checkout/restaurant/page'
 
 const TableModal = ({ open, setOpen, data, bookingList }: any) => {
     const router = useRouter()

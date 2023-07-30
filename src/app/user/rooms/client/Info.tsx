@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import CheckInModal from './modals/CheckIn'
 import ShowInfo from './modals/ShowInfo'
 import { useRouter } from 'next/navigation'
-import RoomCheckOut from '../../checkout/room/Page'
+import RoomCheckOut from './checkout/room/Page'
 
 const Info = ({ data }: any) => {
     const [reservationOpen, setReservationOpen] = useState(false)
