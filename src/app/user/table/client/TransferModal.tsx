@@ -6,7 +6,7 @@ import React, { useState } from 'react'
 const TransferModal = ({ bookingList, selectedItems, reload, data }: any) => {
     const [open, setOpen] = useState(false)
     const [openSecond, setOpenSecond] = useState(false)
-    const [selectedRoom, setSelectedRoom] = useState({})
+    const [selectedRoom, setSelectedRoom] = useState({id:null,roomNumber:null})
 
 
     async function orderToRoom() {
@@ -28,7 +28,7 @@ const TransferModal = ({ bookingList, selectedItems, reload, data }: any) => {
             if (response.ok) {
                 setOpen(false)
                 setOpenSecond(false)
-                setSelectedRoom({})
+                setSelectedRoom({id:null,roomNumber:null})
                 reload()
             } else {
             }
@@ -43,7 +43,7 @@ const TransferModal = ({ bookingList, selectedItems, reload, data }: any) => {
         <>
             <button type='button' onClick={() => { if (data.order.length > 0) { setOpen(true) } }} className='bg-blue-700 w-full text-center text-white p-4 rounded-xl'>Transfer To Room</button>
 
-            <Modal open={open} setOpen={setOpen} width={700} >
+            <Modal open={open} setOpen={setOpen} width={700} height={900}>
                 <div className=" flex flex-row flex-wrap">
 
                     {bookingList.val.map((item: any, index: any) => (
@@ -63,7 +63,7 @@ const TransferModal = ({ bookingList, selectedItems, reload, data }: any) => {
                             })}
                         </div>
                     ))}
-                    <Modal open={openSecond} setOpen={setOpenSecond} width={350} >
+                    <Modal open={openSecond} setOpen={setOpenSecond} width={350} height={400}>
                         <div className=" flex flex-col p-4">
                             <div className="text-thin text-[20px]">
                                 Transfer Bill to {selectedRoom.roomNumber}

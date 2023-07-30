@@ -30,28 +30,28 @@ async function getAllRoomList(newValue: any) {
         console.log(err)
     }
 }
-
 function dateDifference(startDateStr: string, endDateStr: string) {
     // Convert the date strings to Date objects
     const startDate = new Date(startDateStr);
     const endDate = new Date(endDateStr);
-
+  
     // Calculate the time difference in milliseconds
-    const timeDifferenceMs = endDate - startDate;
-
+    const timeDifferenceMs = endDate.getTime() - startDate.getTime();
+  
     // Convert milliseconds to days
     const millisecondsPerDay = 1000 * 60 * 60 * 24;
     const dateDifferenceDays = Math.floor(timeDifferenceMs / millisecondsPerDay);
-
+  
     return dateDifferenceDays;
-}
+  }
+  
 
 
 const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
     const router = useRouter()
     const [openSelectRoom, setOpenSelectRoom] = useState(false)
     const [availabeData, setAvailableData] = useState([])
-    const [selectedRooms, setSelectedRooms] = useState([])
+    const [selectedRooms, setSelectedRooms] = useState<number[]>([])
 
     const [value, setValue] = useState({
         startDate: null,
@@ -130,9 +130,9 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
         }
     }
     return (
-        <Modal open={openReservation} setOpen={setOpenReservation} width={800}>
+        <Modal open={openReservation} setOpen={setOpenReservation} width={800} height={900}>
             <form onSubmit={(e) => onSubmit(e)} className='flex flex-col space-y-4'>
-                <Modal open={openSelectRoom} setOpen={setOpenSelectRoom} width={600}>
+                <Modal open={openSelectRoom} setOpen={setOpenSelectRoom} width={600} height={400}>
                     <div className=" flex flex-row flex-wrap">
                         {availabeData.map((item: any,index:number) => (
                             <div key={index} >

@@ -58,7 +58,7 @@ const AddItemModal = () => {
                     <div className="my-auto">Add New Item</div>
                 </button>
             </div>
-            <Modal width={450} open={open} setOpen={setOpen}>
+            <Modal width={450} open={open} setOpen={setOpen} height={400}>
                 <form onSubmit={submitForm} className="p-2 flex flex-col space-y-4 pb-8">
                     <div className="pl-2 text-[26px] font-bold text-gray-600">
                         Add Item

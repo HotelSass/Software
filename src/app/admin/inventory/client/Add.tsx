@@ -34,7 +34,7 @@ const Add = ({ openAdd, setOpenAdd ,data}: any) => {
         event.target.reset();
     };
     return (
-        <Modal width={450} open={openAdd} setOpen={setOpenAdd}>
+        <Modal width={450} open={openAdd} setOpen={setOpenAdd} height={400}>
             <form onSubmit={submitForm} className="p-2 flex flex-col space-y-4 pb-8">
                 <div className="pl-2 text-[26px] font-bold text-gray-600">
                     Add Item

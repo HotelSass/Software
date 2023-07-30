@@ -2,10 +2,10 @@ import Modal from '@/components/modal'
 import serverUrl from '@/config/config'
 import React, { useState } from 'react'
 
-const TableModal = ({ tableList, selectedItems,reload }: any) => {
+const TableModal = ({ tableList, selectedItems, reload }: any) => {
     const [open, setOpen] = useState(false)
     const [openSecond, setOpenSecond] = useState(false)
-    const [selectedTable, setSelectedTable] = useState({})
+    const [selectedTable, setSelectedTable] = useState({ tableNumber: null })
     async function orderToTable() {
 
         try {
@@ -24,7 +24,7 @@ const TableModal = ({ tableList, selectedItems,reload }: any) => {
             if (response.ok) {
                 setOpen(false)
                 setOpenSecond(false)
-                setSelectedTable({})
+                setSelectedTable({ tableNumber: null })
                 reload()
             } else {
             }
@@ -37,7 +37,7 @@ const TableModal = ({ tableList, selectedItems,reload }: any) => {
         <>
             <button type='button' onClick={() => { if (selectedItems.length > 0) { setOpen(true) } }} className='bg-red-700 w-full text-center text-white p-4 rounded-xl'>Bill To Table</button>
 
-            <Modal open={open} setOpen={setOpen} width={700} >
+            <Modal open={open} setOpen={setOpen} width={700} height={400} >
                 <div className=" flex flex-row flex-wrap">
 
                     {tableList.map((item: any, index: any) => {
@@ -51,12 +51,12 @@ const TableModal = ({ tableList, selectedItems,reload }: any) => {
                             </button>
                         )
                     })}
-                    <Modal open={openSecond} setOpen={setOpenSecond} width={350} >
+                    <Modal open={openSecond} setOpen={setOpenSecond} width={350} height={400} >
                         <div className=" flex flex-col p-4">
                             <div className="text-thin text-[20px] text-center">
                                 Add Bill to Table No.{selectedTable.tableNumber}
                             </div>
-                            <button type='button' onClick={()=>orderToTable()} className=' mt-10 p-4 px-8 text-[13px] bg-red-700 text-white'>Confirm</button>
+                            <button type='button' onClick={() => orderToTable()} className=' mt-10 p-4 px-8 text-[13px] bg-red-700 text-white'>Confirm</button>
                         </div>
                     </Modal>
                 </div>

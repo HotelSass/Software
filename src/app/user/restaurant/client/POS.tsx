@@ -6,15 +6,15 @@ import TableModal from './TableModal';
 
 
 const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
-    const [selectedItems, setSelectedItems] = useState([])
-    const [selectedId, setSelectedId] = useState([])
+    const [selectedItems, setSelectedItems] = useState<any[]>([])
+    const [selectedId, setSelectedId] = useState<string[]>([])
     const [selectedTab, setSelectedTab] = useState(data.categories[0].category)
     const category = data.categories
     const menu = data.menu
 
     function addItem(item: any) {
-        const tempIndex = selectedId
-        tempIndex.push(item._id)
+        let tempIndex = [...selectedId]
+        tempIndex.push(item['_id'])
         setSelectedId([...tempIndex])
         let selected = {
             itemName: item.itemName,
@@ -32,7 +32,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
         for (let i = 0; i < temp.length; i++) {
             if (temp[i].id == id) {
                 const edit = temp[i]
-                edit.quantity = parseInt(val)
+                edit.quantity = val
                 temp[i] = edit
                 setSelectedItems([...temp])
                 return
@@ -151,7 +151,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                             {item.itemName}
                                         </th>
                                         <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
-                                            <input type='number' onChange={(e) => changeValue(item.id, e.target.value)} defaultValue={item.quantity} min={1} className='bg-gray-300 w-12' />
+                                            <input type='number' onChange={(e) => changeValue(item.id,parseInt( e.target.value))} defaultValue={item.quantity} min={1} className='bg-gray-300 w-12' />
                                         </td>
                                         <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
                                             {item.price}

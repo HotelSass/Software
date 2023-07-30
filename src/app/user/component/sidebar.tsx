@@ -7,7 +7,7 @@ import React from "react";
 import { UserSidebarInfo } from "../data/SidebarInfo";
 
 const Sidebar = () => {
-  const routeUrl = "/user/"+usePathname().split("/")[2];
+  const routeUrl = "/user/"+usePathname()?.split("/")[2];
   return (
     <div
       className="bg-blue-900 py-10 w-70"

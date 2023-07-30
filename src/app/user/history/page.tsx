@@ -27,6 +27,8 @@ const History = () => {
 
                 </div>
                 <div className="flex-1 mt-5">
+                            {/* @ts-expect-error Async Server Component */}
+
                     <BillServer />
                 </div>
             </div>

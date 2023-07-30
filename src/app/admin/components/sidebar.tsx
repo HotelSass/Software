@@ -6,8 +6,7 @@ import { usePathname } from "next/navigation";
 import React from "react";
 
 const Sidebar = () => {
-  const routeUrl = "/admin/"+usePathname().split("/")[2];
-  console.log(routeUrl)
+  const routeUrl = "/admin/"+usePathname()?.split("/")[2];
   return (
     <div
       className="bg-blue-900 py-10 w-70 h-screen "

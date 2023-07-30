@@ -27,8 +27,8 @@ const CreateTableModal = () => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    tableNumber: parseInt(tableNumber),
-                    tableCapacity:parseInt(tableCapacity),
+                    tableNumber,
+                    tableCapacity,
                     tableDescription:tableDescription
                 })
 
@@ -63,7 +63,7 @@ const CreateTableModal = () => {
                     <div className="my-auto">Add New Table</div>
                 </button>
             </div>
-            <Modal width={450} open={open} setOpen={setOpen}>
+            <Modal width={450} open={open} setOpen={setOpen} height={500}>
                 <form onSubmit={submitForm} className="p-2 flex flex-col space-y-4 pb-8">
                     <div className="pl-2 text-[26px] font-bold text-gray-600">
                         Add Table

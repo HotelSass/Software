@@ -3,36 +3,40 @@ import Modal from '@/components/modal'
 import serverUrl from '@/config/config';
 import React, { useState } from 'react'
 
-const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
-  const [discount, setDiscount] = useState(0)
-  function getTotal() {
+function dateDifference(startDateStr: string, endDateStr: string) {
+  // Convert the date strings to Date objects
+  const startDate = new Date(startDateStr);
+  const endDate = new Date(endDateStr);
 
-    let quantity = 0
-    let total = 0
-    if (data.orders) {
-      for (let i = 0; i < data.orders.length; i++) {
-        for (let j = 0; j < data.orders[i].length; j++) {
-          quantity = quantity + data.orders[i][j].quantity
-          total = total + data.orders[i][j].quantity * data.orders[i][j].price
-        }
+  // Calculate the time difference in milliseconds
+  const timeDifferenceMs = endDate.getTime() - startDate.getTime();
+
+  // Convert milliseconds to days
+  const millisecondsPerDay = 1000 * 60 * 60 * 24;
+  const dateDifferenceDays = Math.floor(timeDifferenceMs / millisecondsPerDay);
+
+  return dateDifferenceDays;
+}
+
+function getTotal(data:any) {
+
+  let quantity = 0
+  let total = 0
+  if (data.orders) {
+    for (let i = 0; i < data.orders.length; i++) {
+      for (let j = 0; j < data.orders[i].length; j++) {
+        quantity = quantity + data.orders[i][j].quantity
+        total = total + data.orders[i][j].quantity * data.orders[i][j].price
       }
     }
-    return { quantity, total }
   }
-  function dateDifference(startDateStr: string, endDateStr: string) {
-    // Convert the date strings to Date objects
-    const startDate = new Date(startDateStr);
-    const endDate = new Date(endDateStr);
+  return { quantity, total }
+}
 
-    // Calculate the time difference in milliseconds
-    const timeDifferenceMs = endDate - startDate;
 
-    // Convert milliseconds to days
-    const millisecondsPerDay = 1000 * 60 * 60 * 24;
-    const dateDifferenceDays = Math.floor(timeDifferenceMs / millisecondsPerDay);
+const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
+  const [discount, setDiscount] = useState(0)
 
-    return dateDifferenceDays;
-  }
   function getFullTotal() {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
@@ -42,7 +46,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
 
     let days = dateDifference(data.checkIn, formattedDate)
     if (days == 0) days = 1
-    let fullTotal = days * parseInt(data.roomRate) + getTotal().total - parseInt(data.advance) - parseInt(discount)
+    let fullTotal = days * parseInt(data.roomRate) + getTotal(data).total - parseInt(data.advance) - discount
     return fullTotal
   }
   function getTotalRoomPrice() {
@@ -55,17 +59,6 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
     let days = dateDifference(data.checkIn, formattedDate)
     let fullTotal = days * parseInt(data.roomRate)
     return fullTotal
-  }
-  function getTotalResidenceDay() {
-    const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-    const day = String(currentDate.getDate()).padStart(2, '0');
-    const formattedDate = `${year}-${month}-${day}`;
-
-    let days = dateDifference(data.checkIn, formattedDate)
-    if (days == 0) return 1
-    return days
   }
   async function onSubmit() {
     try {
@@ -91,6 +84,18 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
       console.log(err)
     }
   }
+  function getTotalResidenceDay() {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+
+    let days = dateDifference(data.checkIn, formattedDate)
+    if (days == 0) return 1
+    return days
+  }
+
 
   return (
     <Modal open={open} setOpen={setOpen} width={1500} height={900}>
@@ -187,7 +192,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
                       Extended Stay:
                     </th>
                     <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
-                      {dateDifference(data.checkOut, new Date()) < 0 ? "0 days" : dateDifference(data.checkOut, new Date()) + " days"}
+                      {dateDifference(data.checkOut, (new Date()).toString()) < 0 ? "0 days" : dateDifference(data.checkOut, (new Date()).toString()) + " days"}
                     </td>
                     <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
                     </td>
@@ -199,7 +204,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
                     <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
                     </td>
                     <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
-                      Rs. {getTotal().total}
+                      Rs. {getTotal(data).total}
                     </td>
                   </tr>
                   <tr className={"bg-gray-300 border-b"}>
@@ -220,7 +225,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
                     </td>
                     <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
                       Rs.
-                      <input type="number" className='bg-gray-300 w-14' defaultValue={discount} onChange={(e) => { if (getFullTotal() - e.target.value >= 0 && e.target.value >= 0) setDiscount(e.target.value) }} />
+                      <input type="number" className='bg-gray-300 w-14' defaultValue={discount} onChange={(e) => { if (getFullTotal() - parseInt(e.target.value) >= 0 && parseInt(e.target.value) >= 0) setDiscount(parseInt(e.target.value)) }} />
                     </td>
                   </tr>
 
@@ -230,7 +235,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
                     <th scope="row" className="px-6 py-3 text-base text-[14px]">Grand Total:</th>
                     <td className="px-6 py-3 text-[14px]"></td>
 
-                    <td className="px-6 py-3 text-[14px]">Rs. {getFullTotal() ? getFullTotal() : (getTotalResidenceDay() * parseInt(data.roomRate) - parseInt(data.advance) + getTotal().total)}</td>
+                    <td className="px-6 py-3 text-[14px]">Rs. {getFullTotal() ? getFullTotal() : (getTotalResidenceDay() * parseInt(data.roomRate) - parseInt(data.advance) + getTotal(data).total)}</td>
                   </tr>
                 </tfoot>
               </table>
@@ -277,7 +282,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
 
                           </tr>
 
-                        </>
+                        </div>
                       ))}
 
                     </div>
@@ -287,9 +292,9 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
               <tfoot>
                 <tr className="font-semibold text-gray-100 bg-slate-800">
                   <th scope="row" className="px-6 py-3 text-[14px]">Total</th>
-                  <td className="px-6 py-3 text-[14px]">{getTotal().quantity}</td>
+                  <td className="px-6 py-3 text-[14px]">{getTotal(data).quantity}</td>
 
-                  <td className="px-6 py-3 text-[14px]">{getTotal().total}</td>
+                  <td className="px-6 py-3 text-[14px]">{getTotal(data).total}</td>
                 </tr>
               </tfoot>
             </table>
@@ -297,7 +302,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
         </div>
       </div>
     </Modal>
-  )
+  );
 }
 
 export default RoomCheckOut

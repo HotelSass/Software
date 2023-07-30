@@ -52,6 +52,16 @@ const History = () => {
             return newArray;
         });
     };
+    const handleChangeBoolean = (index: number, field: string, value: boolean) => {
+        setItemArray((prevArray) => {
+            const newArray = [...prevArray];
+            newArray[index] = {
+                ...newArray[index],
+                [field]: value,
+            };
+            return newArray;
+        });
+    };
     const handleChangeBank = (field: string, value: string | number) => {
         setBankData((prevBankData) => ({
             ...prevBankData,
@@ -69,7 +79,7 @@ const History = () => {
     const c_month_name = currentDate.toLocaleDateString("en-US", {
         month: "short",
     });
-    async function submitData(e) {
+    async function submitData(e: any) {
         //e.preventDefault()
         const formData = new FormData(e.target);
         const billDate = formData.get('billDate');
@@ -119,7 +129,7 @@ const History = () => {
 
                 });
                 if (response.ok) {
-                    
+
                 }
 
             } catch (err) {
@@ -245,20 +255,20 @@ const History = () => {
                                                 <td className="px-6 py-4">
                                                     <div className=" items-center space-x-3">
                                                         <div>
-                                                            <input type="number" required value={itemArray[index].quantity} onChange={(e) => handleChange(index, "quantity", e.target.value)} id="first_product" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-3/4" placeholder="1"  />
+                                                            <input type="number" required value={itemArray[index].quantity} onChange={(e) => handleChange(index, "quantity", e.target.value)} id="first_product" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-3/4" placeholder="1" />
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4">
                                                     <div className=" items-center space-x-3">
                                                         <div>
-                                                            <input value={itemArray[index].price} required onChange={(e) => handleChange(index, "price", e.target.value)} type="number" id="first_product" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-3/4" placeholder="1"  />
+                                                            <input value={itemArray[index].price} required onChange={(e) => handleChange(index, "price", e.target.value)} type="number" id="first_product" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-3/4" placeholder="1" />
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4 ">
                                                     <label className="relative inline-flex items-center my-auto cursor-pointer">
-                                                        <input type="checkbox" checked={itemArray[index].inventory} onChange={(e) => handleChange(index, "inventory", e.target.checked)} className="sr-only peer" />
+                                                        <input type="checkbox" checked={itemArray[index].inventory} onChange={(e) => handleChangeBoolean(index, "inventory", e.target.checked)} className="sr-only peer" />
                                                         <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                                                         <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Inventory</span>
                                                     </label>

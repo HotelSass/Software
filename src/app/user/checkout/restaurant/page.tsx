@@ -2,8 +2,7 @@
 import Modal from '@/components/modal'
 import serverUrl from '@/config/config';
 import React, { useState } from 'react'
-const screenWidth = window.innerWidth;
-const screenHeight = window.innerHeight;
+
 
 const TableCheckOut = ({ data, reload }: any) => {
   const [open, setOpen] = useState(false)
@@ -12,7 +11,7 @@ const TableCheckOut = ({ data, reload }: any) => {
 
     let quantity = 0
     let total = 0
-    if (data.order) {
+    if (data && data.order ) {
       for (let i = 0; i < data.order.length; i++) {
         for (let j = 0; j < data.order[i].length; j++) {
           quantity = quantity + data.order[i][j].quantity
@@ -24,7 +23,7 @@ const TableCheckOut = ({ data, reload }: any) => {
   }
 
   function getFullTotal() {
-    let fullTotal = getTotal().total - parseInt(discount)
+    let fullTotal = getTotal().total - discount
     return fullTotal
   }
 
@@ -55,9 +54,9 @@ const TableCheckOut = ({ data, reload }: any) => {
 
   return (
     <>
-      <button type='button' onClick={() => { if (data.order.length > 0) { setOpen(true) } }} className='bg-red-700 w-full text-center text-white p-4 rounded-xl'>Check Out</button>
-      <Modal open={open} setOpen={setOpen} width={800} height={screenHeight / 1.8}>
-        <form onSubmit={(e) => submitData(e)} className=' h-full'>
+      <button type='button' onClick={() => { if (data.order) { if (data.order.length > 0) { setOpen(true) } } }} className='bg-red-700 w-full text-center text-white p-4 rounded-xl'>Check Out</button>
+      <Modal open={open} setOpen={setOpen} width={800} height={900}>
+        <form onSubmit={(e) => submitData()} className=' h-full'>
           <div className="flex flex-row h-full">
             <div className="flex-1 px-10 h-full">
 
@@ -99,7 +98,7 @@ const TableCheckOut = ({ data, reload }: any) => {
                       </td>
                       <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
                         Rs.
-                        <input type="number" className='bg-gray-300 w-14' defaultValue={discount} onChange={(e) => { if ((getTotal().total - e.target.value) >= 0 && e.target.value >= 0) setDiscount(e.target.value) }} />
+                        <input type="number" className='bg-gray-300 w-14' defaultValue={discount} onChange={(e) => { if ((getTotal().total - parseInt(e.target.value)) >= 0 && parseInt(e.target.value) >= 0) setDiscount(parseInt(e.target.value)) }} />
                       </td>
                     </tr>
 

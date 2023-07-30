@@ -4,7 +4,6 @@ import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const pathUrl=usePathname()
-  console.log(pathUrl)
   return (
     <div className='w-full p-5 bg-gray-200'>
     </div>

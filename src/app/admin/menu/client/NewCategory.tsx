@@ -52,7 +52,7 @@ const NewCategory = () => {
                 <BiPlus color="white" size={24} className="my-auto" />
                 <div className="my-auto">Add New Category</div>
             </button>
-            <Modal width={450} open={open} setOpen={setOpen}>
+            <Modal width={450} open={open} setOpen={setOpen} height={400}>
                 <form onSubmit={submitForm} className="p-2 flex flex-col space-y-4 pb-8">
                     <div className="pl-2 text-[26px] font-bold text-gray-600">
                         Add Category

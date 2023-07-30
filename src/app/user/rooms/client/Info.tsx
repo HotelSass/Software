@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import CheckInModal from './modals/CheckIn'
 import ShowInfo from './modals/ShowInfo'
 import { useRouter } from 'next/navigation'
-import RoomCheckOut from '../../checkout/room/page'
+import RoomCheckOut from '../../checkout/room/Page'
 
 const Info = ({ data }: any) => {
     const [reservationOpen, setReservationOpen] = useState(false)
@@ -33,7 +33,7 @@ const ReservationModal = ({ reservationData, open, setOpen }: any) => {
     return (
         <>
 
-            <Modal open={open} setOpen={setOpen} width={900} >
+            <Modal open={open} setOpen={setOpen} width={900} height={400} >
                 <CheckInModal data={secData} open={open1} setOpen={setOpen1} />
 
                 <div className="p-4 pt-0 overflow-y-scroll">
@@ -79,7 +79,7 @@ const CheckOutModal = ({ reservationData, open, setOpen }: any) => {
     return (
         <>
 
-            <Modal open={open} setOpen={setOpen} width={900} >
+            <Modal open={open} setOpen={setOpen} width={900} height={400} >
                 <ShowInfo data={secData} open={open1} setOpen={setOpen1} />
                 <RoomCheckOut reload={() => { setOpen(false); router.refresh() }} data={secData} open={openCheckOut} setOpen={setOpenCheckout} />
 

@@ -63,7 +63,7 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
         }
     }
     return (
-        <Modal open={open} setOpen={setOpen} width={800}>
+        <Modal open={open} setOpen={setOpen} width={800} height={900}>
             <form onSubmit={(e) => onSubmit(e)} className='flex flex-col space-y-4'>
                 <div className="text-[28px] font-thin tracking-tight ml-4">Info</div>
 

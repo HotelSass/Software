@@ -41,7 +41,7 @@ const EditItem = ({ openEdit, setOpenEdit, data }: any) => {
     }
     return (
         <>
-            <Modal width={450} open={openEdit} setOpen={setOpenEdit}>
+            <Modal width={450} open={openEdit} setOpen={setOpenEdit} height={400}>
                 <form onSubmit={submitForm} className="p-2 flex flex-col space-y-4 pb-8">
                     <div className="pl-2 text-[26px] font-bold text-gray-600">
                         Edit Item
