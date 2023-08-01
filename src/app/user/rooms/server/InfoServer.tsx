@@ -1,6 +1,5 @@
 import serverUrl from '@/config/config';
 import React from 'react'
-import NewBooking from '../client/NewBooking';
 import Info from '../client/Info';
 
 

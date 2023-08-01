@@ -1,2 +1,2 @@
-const serverUrl="https://api-eta-brown.vercel.app"
+const serverUrl="http://localhost:3000"
 export default serverUrl

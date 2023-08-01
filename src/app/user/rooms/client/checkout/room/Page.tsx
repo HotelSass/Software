@@ -18,7 +18,7 @@ function dateDifference(startDateStr: string, endDateStr: string) {
   return dateDifferenceDays;
 }
 
-function getTotal(data:any) {
+function getTotal(data: any) {
 
   let quantity = 0
   let total = 0
@@ -264,12 +264,12 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
                 </tr>
               </thead>
               <tbody>
-                {data.orders && <>
-                  {data.orders.map((item: any, index: number) => (
-                    <div key={index} >
-                      {item.map((item1: any, index1: number) => (
-                        <div key={index1} >
-                          <tr className={item.length == index1 + 1 ? " bg-gray-300 border-b " : " bg-gray-300 "}>
+                {data.orders &&
+                  <>
+                    {data.orders.map((item: any, index: number) => (
+                      <>
+                        {item.map((item1: any, index1: number) => (
+                          <tr key={index1} className={item.length == index1 + 1 ? " bg-gray-300 border-b " : " bg-gray-300 "}>
                             <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px] capitalize">
                               {index + 1}. {index1 + 1 + " "}{item1.itemName}
                             </th>
@@ -279,15 +279,11 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
                             <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
                               {item1.price}
                             </td>
-
                           </tr>
-
-                        </div>
-                      ))}
-
-                    </div>
-                  ))}
-                </>}
+                        ))}
+                      </>
+                    ))}
+                  </>}
               </tbody>
               <tfoot>
                 <tr className="font-semibold text-gray-100 bg-slate-800">
