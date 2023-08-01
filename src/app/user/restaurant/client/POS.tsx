@@ -86,23 +86,30 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
 
     return (
         <div className='flex-1 flex flex-row h-full w-full '>
-            <div className="flex-1 py-10 flex flex-col h-full ">
-                <div className="w-full p-3 rounded-xl bg-gray-200 overflow-x-scroll mb-5">
-                    {category.map((item: any, index: any) => (
-                        <div key={index} >
-                            {((item.category).toLowerCase() != selectedTab.toLowerCase()) ?
-                                <button type='button' onClick={() => setSelectedTab((item.category).toLowerCase())} className='p-2 px-5 text-[12px] capitalize text-gray-700 mx-2 font-medium'>{item.category}</button>
-                                :
-                                <button className='p-2 px-5 border border-orange-500 bg-white rounded-md text-[12px] capitalize text-orange-500 mx-2 font-medium'>{item.category}</button>
-                            }
-                        </div>
-                    ))}
+            <div className="w-7/12 py-10 flex flex-col h-full ">
+                <div className="w-full">
+                    <div className=" p-3 rounded-xl bg-gray-200 mb-5 flex flex-row overflow-x-scroll">
+                        {category.map((item: any, index: any) => (
+                            <>
+                                {((item.category).toLowerCase() !== selectedTab.toLowerCase()) ? (
+                                    <button key={index} type='button' onClick={() => setSelectedTab((item.category).toLowerCase())} className='p-2 px-4 text-[12px] capitalize text-gray-700 mx-2 font-medium w-20'>
+                                        {item.category}
+                                    </button>
+                                ) : (
+                                    <button className='p-2 px-5 border border-orange-500 bg-white rounded-md text-[12px] capitalize text-orange-500 mx-2 font-medium w-20'>
+                                        {item.category}
+                                    </button>
+                                )}
+                            </>
+                        ))}
+                    </div>
                 </div>
+
                 <div className="w-full h-full p-3 py-6 rounded-xl bg-gray-200 overflow-y-scroll flex flex-row flex-wrap">
                     {menu.map((item: any, index: number) => (
-                        <div key={index} >
+                        <>
                             {item.category == selectedTab.toLowerCase() && (
-                                <div className="px-4 w-1/4">
+                                <div key={index} className="px-4 w-1/4 py-2">
                                     <div className="p-3 w-full h-36 rounded bg-slate-700 capitalize flex flex-col overflow-hidden">
                                         <div className="text-white font-thin">
                                             {item.itemName}
@@ -119,7 +126,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                     </div>
                                 </div>
                             )}
-                        </div>
+                        </>
                     ))}
                 </div>
             </div>
@@ -151,7 +158,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                             {item.itemName}
                                         </th>
                                         <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
-                                            <input type='number' onChange={(e) => changeValue(item.id,parseInt( e.target.value))} defaultValue={item.quantity} min={1} className='bg-gray-300 w-12' />
+                                            <input type='number' onChange={(e) => changeValue(item.id, parseInt(e.target.value))} defaultValue={item.quantity} min={1} className='bg-gray-300 w-12' />
                                         </td>
                                         <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
                                             {item.price}
@@ -174,7 +181,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                 </tr>
                             </tfoot>
                         </table>
-                        <div className="mt-auto flex flex-row ">
+                        <div className="mt-20 flex flex-row ">
                             <div className="flex-1 px-2">
                                 <TableModal reload={() => reload()} tableList={unOccupiedTableList} selectedItems={selectedItems} />
                             </div>
