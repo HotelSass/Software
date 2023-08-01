@@ -2,9 +2,12 @@
 import serverUrl from '@/config/config'
 import React, { useState } from 'react'
 import Datepicker from 'react-tailwindcss-datepicker'
+import RoomBill from './bill'
 
 const BillData = ({ data }: any) => {
     const [res, setRes] = useState(data)
+    const [roomBillOpen, setRoomBillOpen] = useState(false)
+    const [roomBillData,setRoomBillData]=useState({})
     const [value, setValue] = useState({
         startDate: null,
         endDate: null
@@ -13,7 +16,7 @@ const BillData = ({ data }: any) => {
         setValue(newValue);
         getAllRoomList(newValue)
     }
-    async function getAllRoomList(dateValue:any) {
+    async function getAllRoomList(dateValue: any) {
         if (!dateValue.startDate && !dateValue.endDate) {
             const currentDate = new Date();
             const year = currentDate.getFullYear();
@@ -40,6 +43,7 @@ const BillData = ({ data }: any) => {
     }
     return (
         <div className='w-full'>
+            <RoomBill open={roomBillOpen} setOpen={setRoomBillOpen} data={roomBillData} />
             <div className='w-1/3'>
                 <Datepicker
                     inputClassName=' border border-gray-300 rounded-lg bg-gray-50 text-gray-700 p-4 rounded-xl text-[12px] w-full'
@@ -71,8 +75,9 @@ const BillData = ({ data }: any) => {
                             {res.map((item: any, index: number) => (
                                 <tr key={index} className="border-b bg-gray-500 font-thin text-ssm">
                                     <th scope="row" className="px-6 py-4 text-gray-100 whitespace-nowrap font-light text-ssm flex flex-row">
-                                        Payment from {item.name || "Restaurant"}
-
+                                        <button onClick={() => {setRoomBillOpen(true);setRoomBillData(item)}}>
+                                            Payment from {item.name || "Restaurant"}
+                                        </button>
                                     </th>
                                     <td className="px-6 py-4 text-white">
                                         <div className=' ml-4 flex flex-row'>
@@ -84,7 +89,7 @@ const BillData = ({ data }: any) => {
                                             }
                                             {item.roomNumber &&
                                                 <>
-                                                    {item.roomNumber.map((room: any,index:number) =>
+                                                    {item.roomNumber.map((room: any, index: number) =>
                                                         <p key={index} className='mx-1'>
                                                             {room}
                                                         </p>
