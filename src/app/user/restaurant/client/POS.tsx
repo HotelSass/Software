@@ -9,7 +9,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
     const [selectedItems, setSelectedItems] = useState<any[]>([])
     const [selectedId, setSelectedId] = useState<string[]>([])
     const [selectedTab, setSelectedTab] = useState("all")
-    const [search, setSearch] = useState('')
+    const [search, setSearch] = useState<string>("")
     const category = data.categories
     const menu = data.menu
 
@@ -138,7 +138,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
 
                 <div className="w-full h-full p-3 py-6 rounded-xl bg-gray-200 overflow-y-scroll flex flex-col ">
                     <div className="px-3">
-                        <Input type="text" label="Search" value={search} className='border border-gray-400 rounded-xl' onValueChange={setSearch} />
+                        <Input value={search} onValueChange={(val) => setSearch(val ? val.toString() : "")} label="Search" className='border border-gray-400 rounded-xl' />
                     </div>
                     <div className="flex w-full flex-wrap mt-5">
                         {menu.map((item: any, index: number) => (
@@ -165,7 +165,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                 )}
                             </>
                         ))}
-                        
+
                         {menu.map((item: any, index: number) => (
                             <>
                                 {('all' == selectedTab.toLowerCase() && (item.itemName).toLowerCase().includes(search.toLowerCase())) && (
