@@ -3,33 +3,14 @@ import React, { useState } from 'react'
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import RoomModal from './RoomModal';
 import TableModal from './TableModal';
-import { Tabs, Tab, Card, CardBody, CardHeader, Divider, Button, Input } from "@nextui-org/react";
-
+import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Image } from "@nextui-org/react";
 const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
     const [selectedItems, setSelectedItems] = useState<any[]>([])
     const [selectedId, setSelectedId] = useState<string[]>([])
-    const [selectedTab, setSelectedTab] = useState("all")
-    const [search, setSearch] = useState('')
+    const [selectedTab, setSelectedTab] = useState(data.categories[0].category)
     const category = data.categories
     const menu = data.menu
 
-    let tabs = [
-        {
-            id: "photos",
-            label: "Photos",
-            content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-        },
-        {
-            id: "music",
-            label: "Music",
-            content: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-        },
-        {
-            id: "videos",
-            label: "Videos",
-            content: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        }
-    ];
     function addItem(item: any) {
         let tempIndex = [...selectedId]
         tempIndex.push(item['_id'])
@@ -106,91 +87,48 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
         <div className='flex-1 flex flex-row h-full w-full '>
             <div className="w-7/12 py-10 flex flex-col h-full ">
                 <div className="w-full">
-                    <div className=" p-3 rounded-xl bg-gray-200 mb-5 flex flex-row overflow-x-scroll no-scrollbar">
-                        <div key={999} className='w-56 my-auto pr-4'>
-
-                            {('all' != selectedTab.toLowerCase()) ? (
-                                <Button onClick={() => setSelectedTab('all')} className='p-2 px-4 text-[12px] capitalize text-gray-700 mx-2 font-medium w-full '>
-                                    All
-                                </Button>
-                            ) : (
-                                <Button className='p-2 px-5 border border-orange-500 bg-white rounded-md text-[12px] capitalize text-orange-500 mx-2 font-medium w-full'>
-                                    All
-                                </Button>
-                            )}
-                        </div>
+                    <div className=" p-3 rounded-xl bg-gray-200 mb-5 flex flex-row overflow-x-scroll">
                         {category.map((item: any, index: any) => (
-                            <div key={index} className='w-56 my-auto pr-4'>
-
+                            <div key={index} className='w-56 my-auto'>
                                 {((item.category).toLowerCase() !== selectedTab.toLowerCase()) ? (
-                                    <Button onClick={() => setSelectedTab((item.category).toLowerCase())} className='p-2 px-4 text-[12px] capitalize text-gray-700 mx-2 font-medium w-full '>
+                                    <button type='button' onClick={() => setSelectedTab((item.category).toLowerCase())} className='p-2 px-4 text-[12px] capitalize text-gray-700 mx-2 font-medium w-full '>
                                         {item.category}
-                                    </Button>
+                                    </button>
                                 ) : (
-                                    <Button className='p-2 px-5 border border-orange-500 bg-white rounded-md text-[12px] capitalize text-orange-500 mx-2 font-medium w-full'>
+                                    <button className='p-2 px-5 border border-orange-500 bg-white rounded-md text-[12px] capitalize text-orange-500 mx-2 font-medium w-full'>
                                         {item.category}
-                                    </Button>
+                                    </button>
                                 )}
                             </div>
                         ))}
                     </div>
                 </div>
 
-                <div className="w-full h-full p-3 py-6 rounded-xl bg-gray-200 overflow-y-scroll flex flex-col ">
-                    <div className="px-3">
-                        <Input type="text" label="Search" value={search} className='border border-gray-400 rounded-xl' onValueChange={setSearch} />
-                    </div>
-                    <div className="flex w-full flex-wrap mt-5">
-                        {menu.map((item: any, index: number) => (
-                            <>
-                                {(item.category == selectedTab.toLowerCase() && (item.itemName).toLowerCase().includes(search.toLowerCase())) && (
-                                    <div key={index} className="px-2 w-1/5 py-3">
-                                        <div className="p-3 w-full h-36 rounded-lg bg-slate-700 capitalize flex flex-col">
-                                            <div className="text-white font-thin truncate w-full">
-                                                {item.itemName}
-                                            </div>
-                                            <div className="text-white font-thin text-[12px]">
-                                                Rs.{item.price}
-                                            </div>
-                                            <Divider className='mt-auto mb-2' />
-                                            {selectedId.includes(item['_id']) ?
-                                                <button type='button' disabled={true} className='p-2 rounded-md text-center w-full bg-gray-400 text-slate-700 text-[12px]'>Select</button>
-                                                :
-                                                <button type='button' onClick={() => addItem(item)} className='p-2 rounded-md text-center w-full bg-white text-slate-700 text-[12px]'>Select</button>
-                                            }
+                <div className="w-full h-full p-3 py-6 rounded-xl bg-gray-200 overflow-y-scroll flex flex-row flex-wrap">
+                    
+                    {menu.map((item: any, index: number) => (
+                        <>
+                            {item.category == selectedTab.toLowerCase() && (
+                                <div key={index} className="px-2 w-1/4">
+                                    <div className="p-3 w-full h-40 rounded-lg bg-slate-700 capitalize flex flex-col overflow-hidden">
+                                        <div className="text-white font-thin">
+                                            {item.itemName}
                                         </div>
-                                    </div>
-
-
-                                )}
-                            </>
-                        ))}
-                        
-                        {menu.map((item: any, index: number) => (
-                            <>
-                                {('all' == selectedTab.toLowerCase() && (item.itemName).toLowerCase().includes(search.toLowerCase())) && (
-                                    <div key={index} className="px-2 w-1/5 py-3">
-                                        <div className="p-3 w-full h-36 rounded-lg bg-slate-700 capitalize flex flex-col">
-                                            <div className="text-white font-thin truncate w-full">
-                                                {item.itemName}
-                                            </div>
-                                            <div className="text-white font-thin text-[12px]">
-                                                Rs.{item.price}
-                                            </div>
-                                            <Divider className='mt-auto mb-2' />
-                                            {selectedId.includes(item['_id']) ?
-                                                <button type='button' disabled={true} className='p-2 rounded-md text-center w-full bg-gray-400 text-slate-700 text-[12px]'>Select</button>
-                                                :
-                                                <button type='button' onClick={() => addItem(item)} className='p-2 rounded-md text-center w-full bg-white text-slate-700 text-[12px]'>Select</button>
-                                            }
+                                        <div className="text-white font-thin text-[12px]">
+                                            Rs.{item.price}
                                         </div>
+                                        <Divider className='bg-gray-200 mt-auto mb-2'/>
+                                        {selectedId.includes(item['_id']) ?
+                                            <button type='button' disabled={true} className='p-2 rounded-md text-center w-full bg-gray-400 text-slate-700 text-[12px]'>Select</button>
+
+                                            :
+                                            <button type='button' onClick={() => addItem(item)} className='p-2 rounded-md text-center w-full bg-white text-slate-700 text-[12px]'>Select</button>
+                                        }
                                     </div>
-
-
-                                )}
-                            </>
-                        ))}
-                    </div>
+                                </div>
+                            )}
+                        </>
+                    ))}
                 </div>
             </div>
             <div className="w-5/12 py-10 px-3">

@@ -5,7 +5,7 @@ import CheckInModal from './modals/CheckIn'
 import ShowInfo from './modals/ShowInfo'
 import { useRouter } from 'next/navigation'
 import RoomCheckOut from './checkout/room/Page'
-
+import { Card, CardFooter, Image, Button } from "@nextui-org/react";
 const Info = ({ data }: any) => {
     const [reservationOpen, setReservationOpen] = useState(false)
     const [checkOutModal, setCheckOutModal] = useState(false)
@@ -13,15 +13,44 @@ const Info = ({ data }: any) => {
         <>
             <ReservationModal open={reservationOpen} setOpen={setReservationOpen} reservationData={data.reservations} />
             <CheckOutModal open={checkOutModal} setOpen={setCheckOutModal} reservationData={data.inhouse} />
-            <div className="flex flex-row">
-                <button type='button' onClick={() => setCheckOutModal(true)} className='flex flex-col p-2 text-white bg-green-700 rounded-xl px-8'>
-                    <div className=" text-[16px] mt-4">Checked In</div>
-                    <div className=" text-[36px] font-thin">{data.inhouse.length}</div>
-                </button>
-                <button type='button' onClick={() => setReservationOpen(true)} className='flex flex-col p-2 text-white bg-orange-700 rounded-xl px-8 mx-4'>
-                    <div className=" text-[16px] mt-4">Reservation</div>
-                    <div className=" text-[36px] font-thin">{data.reservations.length}</div>
-                </button>
+            <div className="flex flex-row space-x-4">
+                <Card
+                    isFooterBlurred
+                    radius="sm"
+                    className="border-none bg-green-800"
+                >
+                    <div className="z-20 w-48 h-48 ">
+                        <p className='font-black text-[44px] text-center text-white mt-7'>
+                            {data.inhouse.length}
+                        </p>
+                    </div>
+                   
+                    <CardFooter className="justify-between before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_14px)] shadow-small ml-2 mb-2 z-20">
+                        <p className="text-tiny text-white/80">Checked in</p>
+                        <Button onClick={() => setCheckOutModal(true)} className="text-tiny text-white bg-black/20" variant="flat" color="default" radius="lg" size="sm">
+                            View
+                        </Button>
+                    </CardFooter>
+                </Card>
+                <Card
+                    isFooterBlurred
+                    radius="md"
+                    className="border-none bg-orange-600"
+                >
+                     <div className="z-20 w-48 h-48 ">
+                        <p className='font-black text-[44px] text-center text-white mt-7'>
+                            {data.reservations.length}
+                        </p>
+                    </div>
+                    <CardFooter className="justify-between before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_14px)] shadow-small ml-2 mb-2 z-20">
+                        <p className="text-tiny text-white/80">Reservation</p>
+                        <Button onClick={() => setReservationOpen(true)} className="text-tiny text-white bg-black/20" variant="flat" color="default" radius="lg" size="sm">
+                            View
+                        </Button>
+                    </CardFooter>
+                </Card>
+
+
             </div>
         </>
     )

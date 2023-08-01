@@ -11,7 +11,6 @@ async function getAllRoomList() {
     const formattedDate = `${year}-${month}-${day}`;
     const res = await fetch(serverUrl + "/user/finance/getFinanceData/" + formattedDate + "/date/" + formattedDate, { cache: 'no-store' });
     const data = await res.json();
-    console.log(data)
     return data
 }
 
