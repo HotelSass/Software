@@ -1,11 +1,7 @@
 import Modal from '@/components/modal'
 import React from 'react'
-import TransferModal from './TransferModal'
-import { useRouter } from 'next/navigation'
-import TableCheckOut from '../../rooms/client/checkout/restaurant/page'
 
-const TableModal = ({ open, setOpen, data, bookingList }: any) => {
-    const router = useRouter()
+const TableBill = ({ open, setOpen, data }: any) => {
 
 
 
@@ -48,7 +44,7 @@ const TableModal = ({ open, setOpen, data, bookingList }: any) => {
                                 {data.order.map((item: any, index: number) => (
                                     <>
                                         {item.map((item1: any, index1: number) => (
-                                            <tr key={index+index1} className={item.length == index1 + 1 ? " bg-gray-300 border-b " : " bg-gray-300 "}>
+                                            <tr key={index + index1} className={item.length == index1 + 1 ? " bg-gray-300 border-b " : " bg-gray-300 "}>
                                                 <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px] capitalize">
                                                     {index + 1}. {index1 + 1 + " "}{item1.itemName}
                                                 </th>
@@ -78,14 +74,7 @@ const TableModal = ({ open, setOpen, data, bookingList }: any) => {
 
                 </div>
 
-                <div className="flex flex-row py-3 mt-12">
-                    <div className="flex-1 px-4">
-                        <TransferModal reload={() => { setOpen(false); router.refresh() }} bookingList={bookingList} data={data} />
-                    </div>
-                    <div className="flex-1 px-4">
-                        <TableCheckOut reload={() => { setOpen(false); router.refresh() }} data={data} />
-                    </div>
-                </div>
+               
 
 
             </div>
@@ -93,4 +82,4 @@ const TableModal = ({ open, setOpen, data, bookingList }: any) => {
     )
 }
 
-export default TableModal
+export default TableBill

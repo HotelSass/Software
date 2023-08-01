@@ -3,11 +3,14 @@ import serverUrl from '@/config/config'
 import React, { useState } from 'react'
 import Datepicker from 'react-tailwindcss-datepicker'
 import RoomBill from './bill'
+import TableBill from './tableBill'
 
 const BillData = ({ data }: any) => {
     const [res, setRes] = useState(data)
     const [roomBillOpen, setRoomBillOpen] = useState(false)
-    const [roomBillData,setRoomBillData]=useState({})
+    const [roomBillData, setRoomBillData] = useState({})
+    const [tableBillData, setTableBillData] = useState({})
+    const [tableBillOpen, setTableBillOpen] = useState(false)
     const [value, setValue] = useState({
         startDate: null,
         endDate: null
@@ -44,6 +47,7 @@ const BillData = ({ data }: any) => {
     return (
         <div className='w-full'>
             <RoomBill open={roomBillOpen} setOpen={setRoomBillOpen} data={roomBillData} />
+            <TableBill open={tableBillOpen} setOpen={setTableBillData} data={tableBillData} />
             <div className='w-1/3'>
                 <Datepicker
                     inputClassName=' border border-gray-300 rounded-lg bg-gray-50 text-gray-700 p-4 rounded-xl text-[12px] w-full'
@@ -75,7 +79,14 @@ const BillData = ({ data }: any) => {
                             {res.map((item: any, index: number) => (
                                 <tr key={index} className="border-b bg-gray-500 font-thin text-ssm">
                                     <th scope="row" className="px-6 py-4 text-gray-100 whitespace-nowrap font-light text-ssm flex flex-row">
-                                        <button onClick={() => {setRoomBillOpen(true);setRoomBillData(item)}}>
+                                        <button type='button' className='underline' onClick={() => {
+                                            if (item.name) {
+                                                setRoomBillOpen(true); setRoomBillData(item)
+                                            }else{
+                                                setTableBillData(item);setTableBillOpen(true)
+                                            }
+                                        }
+                                        }>
                                             Payment from {item.name || "Restaurant"}
                                         </button>
                                     </th>

@@ -9,8 +9,7 @@ async function getAllRoomList() {
     const month = String(currentDate.getMonth() + 1).padStart(2, '0');
     const day = String(currentDate.getDate()).padStart(2, '0');
     const formattedDate = `${year}-${month}-${day}`;
-
-    const res = await fetch(serverUrl + "/user/history/getHistory/" + formattedDate + "/date/" + formattedDate, { cache: 'no-store' });
+    const res = await fetch(serverUrl + "/user/finance/getFinanceData/" + formattedDate + "/date/" + formattedDate, { cache: 'no-store' });
     const data = await res.json();
     console.log(data)
     return data
