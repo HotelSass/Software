@@ -90,17 +90,17 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                 <div className="w-full">
                     <div className=" p-3 rounded-xl bg-gray-200 mb-5 flex flex-row overflow-x-scroll">
                         {category.map((item: any, index: any) => (
-                            <>
+                            <div key={index} className='w-56 my-auto'>
                                 {((item.category).toLowerCase() !== selectedTab.toLowerCase()) ? (
-                                    <button key={index} type='button' onClick={() => setSelectedTab((item.category).toLowerCase())} className='p-2 px-4 text-[12px] capitalize text-gray-700 mx-2 font-medium w-20'>
+                                    <button type='button' onClick={() => setSelectedTab((item.category).toLowerCase())} className='p-2 px-4 text-[12px] capitalize text-gray-700 mx-2 font-medium w-full '>
                                         {item.category}
                                     </button>
                                 ) : (
-                                    <button className='p-2 px-5 border border-orange-500 bg-white rounded-md text-[12px] capitalize text-orange-500 mx-2 font-medium w-20'>
+                                    <button className='p-2 px-5 border border-orange-500 bg-white rounded-md text-[12px] capitalize text-orange-500 mx-2 font-medium w-full'>
                                         {item.category}
                                     </button>
                                 )}
-                            </>
+                            </div>
                         ))}
                     </div>
                 </div>
