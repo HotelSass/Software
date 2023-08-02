@@ -215,7 +215,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                             <thead className=" text-[14px] = uppercase bg-gray-100 dark:bg-gray-700 text-gray-200">
                                 <tr className='bg-slate-900'>
                                     <th scope="col" className="px-6 py-5 rounded-l-lg">
-                                        Name
+                                        Names
                                     </th>
                                     <th scope="col" className="px-6 py-5">
                                         Qty
@@ -229,10 +229,10 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                             </thead>
                             <tbody>
                                 {selectedItems.map((item, index) => (
-                                    <tr key={index} className=" bg-gray-300 border-b ">
+                                    <tr key={index} className=" bg-gray-300 border-b flex-1 ">
                                         <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px] capitalize">
                                             {(item.manual) ?
-                                                <input type='text' onChange={(e) => changeValueName(item.id, e.target.value)} placeholder='Item Name' defaultValue={item.itemName} min={1} className='bg-slate-600 w-28 py-3 rounded-lg text-left px-2 text-white text-[12px]' />
+                                                <input type='text' onChange={(e) => changeValueName(item.id, e.target.value)} placeholder='Item Name' defaultValue={item.itemName} min={1} className='bg-slate-600 w-full py-3 rounded-lg text-left px-2 text-white text-[12px]' />
                                                 :
                                                 <>
                                                     {item.itemName}
@@ -240,13 +240,13 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                             }
                                         </th>
                                         <td className="px-6 text-gray-900 whitespace-nowrap font-light text-[14px]">
-                                            <input type='number' onChange={(e) => changeValue(item.id, parseInt(e.target.value))} defaultValue={item.quantity} min={1} className='bg-gray-300 w-28 text-center py-3' />
+                                            <input type='number' onChange={(e) => changeValue(item.id, parseInt(e.target.value))} defaultValue={item.quantity} min={1} className='bg-gray-300 w-full text-center py-3' />
                                         </td>
                                         <td className="px-6 text-gray-900 whitespace-nowrap font-light text-[14px]">
                                             {item.manual ?
-                                                <input type='number' onChange={(e) => changePriceValue(item.id, parseInt(e.target.value))} defaultValue={item.price} min={1} className='bg-gray-300 text-center py-3 w-28' />
+                                                <input type='number' onChange={(e) => changePriceValue(item.id, parseInt(e.target.value))} defaultValue={item.price} min={1} className='bg-gray-300 text-center py-3 ' />
                                                 :
-                                                <p className='w-28 text-right pr-14'>
+                                                <p className='w-full text-center '>
                                                     {item.price}
                                                 </p>
                                             }
@@ -270,12 +270,12 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                 <tr className="font-semibold text-gray-100 bg-slate-800">
                                     <th scope="row" className="px-6 py-3 text-base">Total</th>
                                     <td className="px-6 py-3 text-center">
-                                        <p className='w-28'>
+                                        <p className='w-full'>
                                             {getTotalQuantity()}
                                         </p>
                                     </td>
-                                    <td className="px-6 py-3 text-left">
-                                        <p className='w-28'>
+                                    <td className="px-6 py-3 text-center  ">
+                                        <p className='w-full'>
                                             {getTotalAmount()}
                                         </p>
                                     </td>
