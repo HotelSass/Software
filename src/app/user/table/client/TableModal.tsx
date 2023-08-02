@@ -30,7 +30,7 @@ const TableModal = ({ open, setOpen, data, bookingList }: any) => {
                 <div className="relative overflow-x-auto mt-8 flex flex-col p-4">
                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 rounded">
                         <thead className=" text-[14px] = uppercase bg-gray-100 dark:bg-gray-700 text-gray-200">
-                            <tr >
+                            <tr className='bg-slate-800' >
                                 <th scope="col" className="px-6 py-5 rounded-l-lg">
                                     Name
                                 </th>

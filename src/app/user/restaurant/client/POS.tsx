@@ -1,35 +1,19 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import RoomModal from './RoomModal';
 import TableModal from './TableModal';
-import { Tabs, Tab, Card, CardBody, CardHeader, Divider, Button, Input } from "@nextui-org/react";
+import { Switch, Button, Input } from "@nextui-org/react";
 
 const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
+    const [freeMenu, setFreeMenu] = useState(false)
     const [selectedItems, setSelectedItems] = useState<any[]>([])
     const [selectedId, setSelectedId] = useState<string[]>([])
     const [selectedTab, setSelectedTab] = useState("all")
     const [search, setSearch] = useState<string>("")
+    const [menu, setMenu] = useState(data.menu)
     const category = data.categories
-    const menu = data.menu
 
-    let tabs = [
-        {
-            id: "photos",
-            label: "Photos",
-            content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-        },
-        {
-            id: "music",
-            label: "Music",
-            content: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-        },
-        {
-            id: "videos",
-            label: "Videos",
-            content: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        }
-    ];
     function addItem(item: any) {
         let tempIndex = [...selectedId]
         tempIndex.push(item['_id'])
@@ -57,6 +41,18 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
             }
         }
     }
+    function changePriceValue(id: any, val: number) {
+        const temp = selectedItems
+        for (let i = 0; i < temp.length; i++) {
+            if (temp[i].id == id) {
+                const edit = temp[i]
+                edit.price = val
+                temp[i] = edit
+                setSelectedItems([...temp])
+                return
+            }
+        }
+    }
     function removeItem(id: any) {
         const temp = selectedItems
         const temp1 = selectedId
@@ -72,6 +68,16 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
             }
         }
     }
+
+    useEffect(() => {
+        const selectedItemsIds = new Set(selectedItems.map((item) => item.id));
+        const selectedItemsArray = menu.filter((item: { _id: string }) => selectedItemsIds.has(item._id.toString()));
+        const restItemsArray = menu.filter((item: { _id: string }) => !selectedItemsIds.has(item._id.toString()));
+        const arrangedItemsArray = [...selectedItemsArray, ...restItemsArray];
+        setMenu(arrangedItemsArray);
+
+    }, [selectedItems])
+
 
     function getTotalAmount() {
         let num = 0
@@ -145,23 +151,15 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                             <>
                                 {(item.category == selectedTab.toLowerCase() && (item.itemName).toLowerCase().includes(search.toLowerCase())) && (
                                     <div key={index} className="px-2 w-1/5 py-3">
-                                        <div className="p-3 w-full h-36 rounded-lg bg-slate-700 capitalize flex flex-col">
+                                        <button onClick={() => addItem(item)} type='button' disabled={selectedId.includes(item['_id'])} className={!selectedId.includes(item['_id']) ? "p-3 w-full rounded-lg bg-slate-700 capitalize flex flex-col" : "p-3 w-full rounded-lg bg-green-700 capitalize flex flex-col"}>
                                             <div className="text-white font-thin truncate w-full">
                                                 {item.itemName}
                                             </div>
                                             <div className="text-white font-thin text-[12px]">
                                                 Rs.{item.price}
                                             </div>
-                                            <Divider className='mt-auto mb-2' />
-                                            {selectedId.includes(item['_id']) ?
-                                                <button type='button' disabled={true} className='p-2 rounded-md text-center w-full bg-gray-400 text-slate-700 text-[12px]'>Select</button>
-                                                :
-                                                <button type='button' onClick={() => addItem(item)} className='p-2 rounded-md text-center w-full bg-white text-slate-700 text-[12px]'>Select</button>
-                                            }
-                                        </div>
+                                        </button>
                                     </div>
-
-
                                 )}
                             </>
                         ))}
@@ -170,23 +168,15 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                             <>
                                 {('all' == selectedTab.toLowerCase() && (item.itemName).toLowerCase().includes(search.toLowerCase())) && (
                                     <div key={index} className="px-2 w-1/5 py-3">
-                                        <div className="p-3 w-full h-36 rounded-lg bg-slate-700 capitalize flex flex-col">
+                                        <button onClick={() => addItem(item)} type='button' disabled={selectedId.includes(item['_id'])} className={!selectedId.includes(item['_id']) ? "p-3 w-full rounded-lg bg-slate-700 capitalize flex flex-col" : "p-3 w-full rounded-lg bg-green-700 capitalize flex flex-col"}>
                                             <div className="text-white font-thin truncate w-full">
                                                 {item.itemName}
                                             </div>
                                             <div className="text-white font-thin text-[12px]">
                                                 Rs.{item.price}
                                             </div>
-                                            <Divider className='mt-auto mb-2' />
-                                            {selectedId.includes(item['_id']) ?
-                                                <button type='button' disabled={true} className='p-2 rounded-md text-center w-full bg-gray-400 text-slate-700 text-[12px]'>Select</button>
-                                                :
-                                                <button type='button' onClick={() => addItem(item)} className='p-2 rounded-md text-center w-full bg-white text-slate-700 text-[12px]'>Select</button>
-                                            }
-                                        </div>
+                                        </button>
                                     </div>
-
-
                                 )}
                             </>
                         ))}
@@ -195,7 +185,13 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
             </div>
             <div className="w-5/12 py-10 px-3">
                 <div className="bg-gray-200 rounded-xl h-full p-8 flex flex-col">
-                    <div className="text-[24px] font-thin tracking-tight">Order</div>
+                    <div className="text-[24px] font-thin tracking-tight flex ">
+                        <p> Order</p>
+                        <div className="ml-auto bg-gray-600 flex px-3 py-2 rounded-xl">
+                            <Switch isSelected={freeMenu} color='danger' onChange={() => setFreeMenu(!freeMenu)} className='ml-auto mr-5' />
+                            <p className='text-[14px] my-auto text-white'> Free Menu</p>
+                        </div>
+                    </div>
 
                     <div className="relative overflow-x-auto mt-8 flex-1 flex flex-col">
                         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 rounded">
@@ -220,11 +216,17 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                         <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px] capitalize">
                                             {item.itemName}
                                         </th>
-                                        <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
-                                            <input type='number' onChange={(e) => changeValue(item.id, parseInt(e.target.value))} defaultValue={item.quantity} min={1} className='bg-gray-300 w-12' />
+                                        <td className="px-6 text-gray-900 whitespace-nowrap font-light text-[14px]">
+                                            <input type='number' onChange={(e) => changeValue(item.id, parseInt(e.target.value))} defaultValue={item.quantity} min={1} className='bg-gray-300 w-28 text-center py-3' />
                                         </td>
-                                        <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
-                                            {item.price}
+                                        <td className="px-6 text-gray-900 whitespace-nowrap font-light text-[14px]">
+                                            {freeMenu ?
+                                                <input type='number' onChange={(e) => changePriceValue(item.id, parseInt(e.target.value))} defaultValue={item.price} min={1} className='bg-gray-300 w-12 text-center py-3' />
+                                                :
+                                                <p className=''>
+                                                    {item.price}
+                                                </p>
+                                            }
                                         </td>
                                         <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px] justify-center">
                                             <button onClick={() => removeItem(item.id)} type='button' className='my-auto'>
@@ -237,9 +239,16 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                             <tfoot>
                                 <tr className="font-semibold text-gray-100 bg-slate-800">
                                     <th scope="row" className="px-6 py-3 text-base">Total</th>
-                                    <td className="px-6 py-3">{getTotalQuantity()}</td>
-
-                                    <td className="px-6 py-3">{getTotalAmount()}</td>
+                                    <td className="px-6 py-3 text-center">
+                                        <p className='w-28'>
+                                            {getTotalQuantity()}
+                                        </p>
+                                    </td>
+                                    <td className="px-6 py-3 text-left">
+                                        <p className='w-28'>
+                                            {getTotalAmount()}
+                                        </p>
+                                    </td>
                                     <td className="px-6 py-3"></td>
                                 </tr>
                             </tfoot>
