@@ -6,6 +6,7 @@ import TableModal from './TableModal';
 import { Switch, Button, Input } from "@nextui-org/react";
 
 const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
+    const [manualMenu, setManualMenu] = useState(false)
     const [freeMenu, setFreeMenu] = useState(false)
     const [selectedItems, setSelectedItems] = useState<any[]>([])
     const [selectedId, setSelectedId] = useState<string[]>([])
@@ -13,7 +14,6 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
     const [search, setSearch] = useState<string>("")
     const [menu, setMenu] = useState(data.menu)
     const category = data.categories
-
     function addItem(item: any) {
         let tempIndex = [...selectedId]
         tempIndex.push(item['_id'])
@@ -53,6 +53,19 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
             }
         }
     }
+    function changeValueName(id: any, val: string) {
+        console.log(val)
+        const temp = selectedItems
+        for (let i = 0; i < temp.length; i++) {
+            if (temp[i].id == id) {
+                const edit = temp[i]
+                edit.itemName = val
+                temp[i] = edit
+                setSelectedItems([...temp])
+                return
+            }
+        }
+    }
     function removeItem(id: any) {
         const temp = selectedItems
         const temp1 = selectedId
@@ -83,7 +96,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
         let num = 0
         const temp = selectedItems
         for (let i = 0; i < temp.length; i++) {
-            num = num + temp[i].quantity * temp[i].price
+            num = num + temp[i].quantity * (temp[i].price || 0)
         }
         if (temp.length == 0) {
             return ""
@@ -188,7 +201,11 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                     <div className="text-[24px] font-thin tracking-tight flex ">
                         <p> Order</p>
                         <div className="ml-auto bg-gray-600 flex px-3 py-2 rounded-xl">
-                            <Switch isSelected={freeMenu} color='danger' onChange={() => setFreeMenu(!freeMenu)} className='ml-auto mr-5' />
+                            <Switch isSelected={manualMenu} color='danger' onChange={() => setManualMenu(!manualMenu)} className='ml-auto mr-5' />
+                            <p className='text-[14px] my-auto text-white'> Manual Menu</p>
+                        </div>
+                        <div className="ml-2 bg-gray-600 flex px-3 py-2 rounded-xl">
+                            <Switch isDisabled isSelected={freeMenu} color='danger' onChange={() => setFreeMenu(!freeMenu)} className='ml-auto mr-5' />
                             <p className='text-[14px] my-auto text-white'> Free Menu</p>
                         </div>
                     </div>
@@ -214,19 +231,32 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                 {selectedItems.map((item, index) => (
                                     <tr key={index} className=" bg-gray-300 border-b ">
                                         <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px] capitalize">
-                                            {item.itemName}
+                                            {(item.manual) ?
+                                                <input type='text' onChange={(e) => changeValueName(item.id, e.target.value)} placeholder='Item Name' defaultValue={item.itemName} min={1} className='bg-slate-600 w-36 py-3 rounded-lg text-left px-2 text-white' />
+                                                :
+                                                <>
+                                                    {item.itemName}
+                                                </>
+                                            }
                                         </th>
                                         <td className="px-6 text-gray-900 whitespace-nowrap font-light text-[14px]">
                                             <input type='number' onChange={(e) => changeValue(item.id, parseInt(e.target.value))} defaultValue={item.quantity} min={1} className='bg-gray-300 w-28 text-center py-3' />
                                         </td>
                                         <td className="px-6 text-gray-900 whitespace-nowrap font-light text-[14px]">
-                                            {freeMenu ?
+                                            {item.manual ?
+                                                <input type='number' onChange={(e) => changePriceValue(item.id, parseInt(e.target.value))} defaultValue={item.price} min={1} className='bg-gray-300 text-center py-3 w-28' />
+                                                :
+                                                <p className='w-28 text-right pr-14'>
+                                                    {item.price}
+                                                </p>
+                                            }
+                                            {/*freeMenu ?
                                                 <input type='number' onChange={(e) => changePriceValue(item.id, parseInt(e.target.value))} defaultValue={item.price} min={1} className='bg-gray-300 w-12 text-center py-3' />
                                                 :
                                                 <p className=''>
                                                     {item.price}
                                                 </p>
-                                            }
+                                        */}
                                         </td>
                                         <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px] justify-center">
                                             <button onClick={() => removeItem(item.id)} type='button' className='my-auto'>
@@ -252,7 +282,24 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                     <td className="px-6 py-3"></td>
                                 </tr>
                             </tfoot>
+
                         </table>
+                        {manualMenu &&
+                            <button onClick={() => {
+                                const temp = [
+                                    {
+                                        id: (Math.random() * 10000).toString(),
+                                        itemName: '',
+                                        price: 1,
+                                        quantity: 1,
+                                        manual: true
+                                    }
+                                ]
+                                setSelectedItems([...selectedItems, ...temp])
+                            }} className='text-left ml-2 w-1/5 font-light text-[12px] text-blue-600 underline mt-4'>
+                                Add More...
+                            </button>
+                        }
                         <div className="mt-20 flex flex-row ">
                             <div className="flex-1 px-2">
                                 <TableModal reload={() => reload()} tableList={unOccupiedTableList} selectedItems={selectedItems} />
