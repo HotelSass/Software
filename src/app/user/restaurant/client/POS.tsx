@@ -123,7 +123,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
 
     return (
         <div className='flex-1 flex flex-row h-full w-full '>
-            <div className="w-7/12 py-10 flex flex-col h-full ">
+            <div className="w-1/2 py-10 flex flex-col h-full ">
                 <div className="w-full">
                     <div className=" p-3 rounded-xl bg-gray-200 mb-5 flex flex-row overflow-x-scroll no-scrollbar">
                         <div key={999} className='w-56 my-auto pr-4'>
@@ -196,7 +196,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                     </div>
                 </div>
             </div>
-            <div className="w-5/12 py-10 px-3">
+            <div className="w-1/2 py-10 px-3">
                 <div className="bg-gray-200 rounded-xl h-full p-8 flex flex-col">
                     <div className="text-[24px] font-thin tracking-tight flex ">
                         <p> Order</p>
@@ -232,7 +232,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                     <tr key={index} className=" bg-gray-300 border-b ">
                                         <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px] capitalize">
                                             {(item.manual) ?
-                                                <input type='text' onChange={(e) => changeValueName(item.id, e.target.value)} placeholder='Item Name' defaultValue={item.itemName} min={1} className='bg-slate-600 w-36 py-3 rounded-lg text-left px-2 text-white' />
+                                                <input type='text' onChange={(e) => changeValueName(item.id, e.target.value)} placeholder='Item Name' defaultValue={item.itemName} min={1} className='bg-slate-600 w-28 py-3 rounded-lg text-left px-2 text-white text-[12px]' />
                                                 :
                                                 <>
                                                     {item.itemName}
