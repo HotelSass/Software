@@ -24,11 +24,12 @@ const TableModal = ({ open, setOpen, data, bookingList }: any) => {
     }
     return (
         <Modal open={open} setOpen={setOpen} width={1000} height={700} >
-            <div className=" flex flex-col overflow-y-scroll px-4 h-full">
-                <div className="text-[24px] font-thin tracking-tight">Orders</div>
+            <div className=" flex flex-col overflow-y-scroll px-4 ">
+                <div className="text-[24px] font-thin tracking-tight">Order</div>
 
-                <div className="relative overflow-x-auto mt-8 flex flex-col p-4">
+                <div className="relative overflow-x-auto mt-8 flex flex-col p-4 h-[500px] overflow-y-scroll">
                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 rounded">
+
                         <thead className=" text-[14px] = uppercase bg-gray-100 dark:bg-gray-700 text-gray-200">
                             <tr className='bg-slate-800' >
                                 <th scope="col" className="px-6 py-5 rounded-l-lg">
@@ -43,12 +44,13 @@ const TableModal = ({ open, setOpen, data, bookingList }: any) => {
 
                             </tr>
                         </thead>
+
                         <tbody>
                             {data.order && <>
                                 {data.order.map((item: any, index: number) => (
                                     <>
                                         {item.map((item1: any, index1: number) => (
-                                            <tr key={index+index1} className={item.length == index1 + 1 ? " bg-gray-300 border-b " : " bg-gray-300 "}>
+                                            <tr key={index + index1} className={item.length == index1 + 1 ? " bg-gray-300 border-b " : " bg-gray-300 "}>
                                                 <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px] capitalize">
                                                     {index + 1}. {index1 + 1 + " "}{item1.itemName}
                                                 </th>
@@ -67,7 +69,7 @@ const TableModal = ({ open, setOpen, data, bookingList }: any) => {
                             </>}
                         </tbody>
                         <tfoot>
-                            <tr className="font-semibold text-gray-100 bg-slate-800">
+                            <tr className="font-semibold text-gray-100 bg-slate-800 border-b">
                                 <th scope="row" className="px-6 py-3 text-base">Total</th>
                                 <td className="px-6 py-3">{getTotal().quantity}</td>
 
