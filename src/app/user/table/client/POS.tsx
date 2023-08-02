@@ -37,15 +37,15 @@ const POS = ({ data,bookingList }: any) => {
                 </div>
                 <div className="flex-1 py-10 flex flex-col ">
 
-                    <div className="flex-1 p-3 py-6 rounded-xl bg-gray-200 overflow-y-scroll flex flex-col">
+                    <div className="flex-1 p-3 py-6 rounded-xl bg-gray-200 overflow-y-scroll flex flex-col ">
                         <div className="">
                             <div className="text-[24px] font-thin tracking-tight mb-6">Occupied Rooms</div>
                         </div>
-                        <div className="flex flex-row flex-wrap">
+                        <div className="flex flex-row flex-wrap ">
                             {occupiedRoom.map((item: any, index: number) => (
-                                <div key={index} >
+                                <>
                                     {item.roomNumber.map((item1: any, index2: number) => (
-                                        <button key={index2} type='button' onClick={() => { setSelectedRoom({item,item1}); setOpenRoom(true) }} className="p-3 w-24 h-24 rounded bg-slate-700 capitalize flex flex-col items-center justify-center m-2">
+                                        <button key={index+index2} type='button' onClick={() => { setSelectedRoom({item,item1}); setOpenRoom(true) }} className="p-3 w-24 h-24 rounded bg-slate-700 capitalize flex flex-col items-center justify-center m-2">
                                             <div className="text-white font-thin">
                                                 {item1}
                                             </div>
@@ -53,7 +53,7 @@ const POS = ({ data,bookingList }: any) => {
                                         </button>
                                     ))}
 
-                                </div>
+                                </>
                             ))}
                         </div>
                     </div>

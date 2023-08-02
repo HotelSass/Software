@@ -135,7 +135,7 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
                 <Modal open={openSelectRoom} setOpen={setOpenSelectRoom} width={600} height={400}>
                     <div className=" flex flex-row flex-wrap">
                         {availabeData.map((item: any,index:number) => (
-                            <div key={index} >
+                            <div key={index} className='my-2' >
                                 {selectedRooms.includes(item) ?
                                     <button type='button' onClick={() => selectData(item)} className="p-4 border bg-green-700 text-[12px] items-center justify-center rounded-xl w-16 h-16 mx-2 text-white">{item}</button>
                                     :

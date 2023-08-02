@@ -1,7 +1,16 @@
 'use client'
 import React, { useState } from 'react'
+import { Button } from "@nextui-org/react";
+import { BsFillCheckSquareFill, BsFillEjectFill } from 'react-icons/bs'
+import Booking from '../modals/Booking';
+import NewReservation from '../modals/NewReservation';
 
 const BillData = ({ data }: any) => {
+    const [openBooking, setOpenBooking] = useState(false)
+    const [openReservation, setOpenReservation] = useState(false)
+
+    const [userData, setUserData] = useState({})
+
     const [res, setRes] = useState(data)
     const [value, setValue] = useState('')
     function search(value: string) {
@@ -23,6 +32,9 @@ const BillData = ({ data }: any) => {
 
     return (
         <div className='w-full'>
+            <Booking open={openBooking} setOpen={setOpenBooking} data={userData} />
+            <NewReservation openReservation={openReservation} setOpenReservation={setOpenReservation} data={userData} />
+
             <div className='w-1/3'>
                 <input
                     value={value}
@@ -35,7 +47,7 @@ const BillData = ({ data }: any) => {
                 <div className="relative overflow-x-auto py-4">
                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead className="text-ssm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b py-4">
-                            <tr>
+                            <tr className='bg-slate-800'>
                                 <th scope="col" className="px-6 py-6 tracking-widest font-thin text-white">
                                     Name
                                 </th>
@@ -45,15 +57,18 @@ const BillData = ({ data }: any) => {
                                 <th scope="col" className="px-6 py-3 tracking-widest font-thin text-white">
                                     Phone Number
                                 </th>
+                                <th>
+
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             {res.map((item: any, index: number) => (
-                                <tr key={index} className="border-b bg-gray-500 font-thin text-ssm">
-                                    <th scope="row" className="px-6 py-4 text-gray-100 whitespace-nowrap font-light text-ssm flex flex-row">
-                                        {item.name}
+                                <tr key={index} className="border-b bg-gray-500 font-thin text-ssm ">
 
-                                    </th>
+                                    <td className="px-6 py-4 text-white">
+                                        {item.name}
+                                    </td>
                                     <td className="px-6 py-4 text-white">
                                         <div className=' flex flex-row mx-auto'>
                                             {item.roomNumber &&
@@ -62,7 +77,7 @@ const BillData = ({ data }: any) => {
 
                                             {item.roomNumber &&
                                                 <>
-                                                    {item.roomNumber.map((room: any,index:number) =>
+                                                    {item.roomNumber.map((room: any, index: number) =>
                                                         <p key={index} className='mx-1'>
                                                             {room}
                                                         </p>
@@ -76,6 +91,16 @@ const BillData = ({ data }: any) => {
 
                                     <td className="px-6 py-4 text-white">
                                         {item.phone}
+                                    </td>
+                                    <td>
+                                        <div className="flex gap-4 items-center py-3">
+                                            <Button onPress={() => { setUserData(item); setOpenBooking(true) }} color="primary" endContent={<BsFillCheckSquareFill />} className='text-white ml-auto'>
+                                                Check In
+                                            </Button>
+                                            <Button onPress={() => { setUserData(item); setOpenReservation(true) }} color="warning" startContent={<BsFillEjectFill />} className='mr-8'>
+                                                Reserve Room
+                                            </Button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}

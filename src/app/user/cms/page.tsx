@@ -20,8 +20,7 @@ const History = () => {
                 <div className="text-[20px] font-thin tracking-tight">Client Management System</div>
                 
                 <div className="flex-1 mt-5">
-                            {/* @ts-expect-error Async Server Component */}
-
+                    {/* @ts-expect-error Async Server Component */}
                     <BillServer />
                 </div>
             </div>

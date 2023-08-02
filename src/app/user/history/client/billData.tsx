@@ -11,6 +11,7 @@ const BillData = ({ data }: any) => {
     const [roomBillData, setRoomBillData] = useState({})
     const [tableBillData, setTableBillData] = useState({})
     const [tableBillOpen, setTableBillOpen] = useState(false)
+
     const [value, setValue] = useState({
         startDate: null,
         endDate: null
@@ -47,7 +48,7 @@ const BillData = ({ data }: any) => {
     return (
         <div className='w-full'>
             <RoomBill open={roomBillOpen} setOpen={setRoomBillOpen} data={roomBillData} />
-            <TableBill open={tableBillOpen} setOpen={setTableBillData} data={tableBillData} />
+            <TableBill open={tableBillOpen} setOpen={setTableBillOpen} data={tableBillData} />
             <div className='w-1/3'>
                 <Datepicker
                     inputClassName=' border border-gray-300 rounded-lg bg-gray-50 text-gray-700 p-4 rounded-xl text-[12px] w-full'
@@ -63,7 +64,7 @@ const BillData = ({ data }: any) => {
                 <div className="relative overflow-x-auto py-10">
                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead className="text-ssm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b py-4">
-                            <tr>
+                            <tr className='bg-slate-800'>
                                 <th scope="col" className="px-6 py-6 tracking-widest font-thin text-white">
                                     Description
                                 </th>
@@ -82,8 +83,8 @@ const BillData = ({ data }: any) => {
                                         <button type='button' className='underline' onClick={() => {
                                             if (item.name) {
                                                 setRoomBillOpen(true); setRoomBillData(item)
-                                            }else{
-                                                setTableBillData(item);setTableBillOpen(true)
+                                            } else {
+                                                setTableBillOpen(true); setTableBillData(item)
                                             }
                                         }
                                         }>

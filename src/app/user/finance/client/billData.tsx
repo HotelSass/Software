@@ -103,7 +103,7 @@ const BillData = ({ data, outgoing }: any) => {
 
                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead className="text-ssm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b py-4">
-                            <tr>
+                            <tr className='bg-slate-800'>
                                 <th scope="col" className="px-6 py-6 tracking-widest font-thin text-white">
                                     Description
                                 </th>
@@ -191,7 +191,7 @@ const BillData = ({ data, outgoing }: any) => {
 
                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead className="text-ssm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b py-4">
-                            <tr>
+                            <tr className='bg-slate-800'>
                                 <th scope="col" className="px-6 py-6 tracking-widest font-thin text-white">
                                     Description
                                 </th>

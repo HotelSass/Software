@@ -24,10 +24,10 @@ const Info = ({ data }: any) => {
                             {data.inhouse.length}
                         </p>
                     </div>
-                   
+
                     <CardFooter className="justify-between before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_14px)] shadow-small ml-2 mb-2 z-20">
                         <p className="text-tiny text-white/80">Checked in</p>
-                        <Button onClick={() => setCheckOutModal(true)} className="text-tiny text-white bg-black/20" variant="flat" color="default" radius="lg" size="sm">
+                        <Button onClick={() => { setCheckOutModal(true) }} className="text-tiny text-white bg-black/20" variant="flat" color="default" radius="lg" size="sm">
                             View
                         </Button>
                     </CardFooter>
@@ -37,14 +37,14 @@ const Info = ({ data }: any) => {
                     radius="md"
                     className="border-none bg-orange-600"
                 >
-                     <div className="z-20 w-48 h-48 ">
+                    <div className="z-20 w-48 h-48 ">
                         <p className='font-black text-[44px] text-center text-white mt-7'>
                             {data.reservations.length}
                         </p>
                     </div>
                     <CardFooter className="justify-between before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_14px)] shadow-small ml-2 mb-2 z-20">
                         <p className="text-tiny text-white/80">Reservation</p>
-                        <Button onClick={() => setReservationOpen(true)} className="text-tiny text-white bg-black/20" variant="flat" color="default" radius="lg" size="sm">
+                        <Button onClick={() => { setReservationOpen(true) }} className="text-tiny text-white bg-black/20" variant="flat" color="default" radius="lg" size="sm">
                             View
                         </Button>
                     </CardFooter>
@@ -67,6 +67,9 @@ const ReservationModal = ({ reservationData, open, setOpen }: any) => {
 
                 <div className="p-4 pt-0 overflow-y-scroll">
                     <div className="text-[24px] font-thin tracking-tight mb-6">Check In</div>
+                    {reservationData.length == 0 &&
+                        <div className="my-10 text-center font-thin text-[18px]">Nothing to show here</div>
+                    }
                     {reservationData.map((item: any, index: number) => (
                         <div key={index} className="bg-gray-200 rounded-xl flex flex-row my-2">
                             <div className="flex flex-col bg-gray-500 p-4 rounded-md flex-1">
@@ -114,6 +117,9 @@ const CheckOutModal = ({ reservationData, open, setOpen }: any) => {
 
                 <div className="p-4 pt-0 overflow-y-scroll">
                     <div className="text-[24px] font-thin tracking-tight mb-6">Checkout</div>
+                    {reservationData.length == 0 &&
+                        <div className="my-10 text-center font-thin text-[18px]">Nothing to show here</div>
+                    }
                     {reservationData.map((item: any, index: number) => (
                         <div key={index} className="bg-gray-200 rounded-xl flex flex-row my-2">
                             <button type='button' onClick={() => { setSecData(item); setOpen1(true) }} className="flex flex-col bg-gray-500 p-4 rounded-md flex-1">

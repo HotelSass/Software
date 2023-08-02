@@ -34,17 +34,17 @@ function dateDifference(startDateStr: string, endDateStr: string) {
     // Convert the date strings to Date objects
     const startDate = new Date(startDateStr);
     const endDate = new Date(endDateStr);
-  
+
     // Calculate the time difference in milliseconds
     const timeDifferenceMs = endDate.getTime() - startDate.getTime();
-  
+
     // Convert milliseconds to days
     const millisecondsPerDay = 1000 * 60 * 60 * 24;
     const dateDifferenceDays = Math.floor(timeDifferenceMs / millisecondsPerDay);
-  
+
     return dateDifferenceDays;
-  }
-  
+}
+
 
 const Booking = ({ open, setOpen, data }: any) => {
     const router = useRouter()
@@ -69,7 +69,6 @@ const Booking = ({ open, setOpen, data }: any) => {
         }
     }
     const selectData = (val: number) => {
-console.log(val)
         let temp = selectedRooms
         if (selectedRooms.includes(val)) {
             const index = selectedRooms.indexOf(val);
@@ -94,7 +93,7 @@ console.log(val)
             const to = formData.get('to');
             const roomRate = formData.get('roomRate');
             const advance = formData.get('advance');
-            
+
             try {
                 const response = await fetch(serverUrl + "/user/room/reserveRoom", {
                     method: 'POST',
@@ -144,8 +143,8 @@ console.log(val)
             <form onSubmit={(e) => onSubmit(e)} className='flex flex-col space-y-4'>
                 <Modal open={openSelectRoom} setOpen={setOpenSelectRoom} width={600} height={900}>
                     <div className=" flex flex-row flex-wrap">
-                        {availabeData.map((item: any,index:number) => (
-                            <div key={index} className='my-2'>
+                        {availabeData.map((item: any, index: number) => (
+                            <div key={index} className='my-2' >
                                 {selectedRooms.includes(item) ?
                                     <button type='button' onClick={() => selectData(item)} className="p-4 border bg-green-700 text-[12px] items-center justify-center rounded-xl w-16 h-16 mx-2 text-white">{item}</button>
                                     :
@@ -165,6 +164,7 @@ console.log(val)
                             Client Name
                         </label>
                         <input
+                            defaultValue={data.name}
                             name="name"
                             placeholder="Client Name"
                             type="text"
@@ -178,6 +178,7 @@ console.log(val)
                             Client Address
                         </label>
                         <input
+                            defaultValue={data.address}
                             name="address"
                             placeholder="Client Address"
                             type="text"
@@ -193,6 +194,7 @@ console.log(val)
                             Client Phone
                         </label>
                         <input
+                            defaultValue={data.phone}
                             name="phone"
                             placeholder="Client Phone"
                             type="text"
@@ -221,6 +223,7 @@ console.log(val)
                             Nationality
                         </label>
                         <input
+
                             defaultValue={"Nepali"}
                             name="nationality"
                             placeholder="Nationality"
@@ -235,6 +238,7 @@ console.log(val)
                             Client Email
                         </label>
                         <input
+                            defaultValue={data.email}
                             name="email"
                             placeholder="Client Email"
                             type="text"
@@ -251,6 +255,7 @@ console.log(val)
                             Visiting From
                         </label>
                         <input
+                            defaultValue={data.from}
                             name="from"
                             placeholder="Visting From"
                             type="text"
@@ -263,6 +268,7 @@ console.log(val)
                             Visiting To
                         </label>
                         <input
+                            defaultValue={data.to}
                             name="to"
                             placeholder="Visiting To"
                             type="text"
@@ -277,6 +283,7 @@ console.log(val)
                             Room Rate
                         </label>
                         <input
+                            defaultValue={data.roomRate}
                             name="roomRate"
                             placeholder="Rs."
                             type="text"
@@ -313,7 +320,7 @@ console.log(val)
                                         </div>
                                         <div className='flex flex-row flex-wrap overflow-x-scroll'>
 
-                                            {selectedRooms.map((item: any,index:number) => (
+                                            {selectedRooms.map((item: any, index: number) => (
                                                 <div key={index} className="text-white text-center mx-2 ">{item}</div>
                                             ))}
 
