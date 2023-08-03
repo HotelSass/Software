@@ -20,7 +20,7 @@ const TableBill = ({ open, setOpen, data }: any) => {
             <div className=" flex flex-col overflow-y-scroll px-4 h-full">
                 <div className="text-[24px] font-thin tracking-tight">Orders</div>
 
-                <div className="relative overflow-x-auto mt-8 flex flex-col p-4">
+                <div className="relative overflow-x-auto mt-8 flex flex-col p-4 h-[500px] overflow-y-scroll">
                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 rounded">
                         <thead className=" text-[14px] = uppercase bg-gray-100 dark:bg-gray-700 text-gray-200">
                             <tr className='bg-slate-800'>

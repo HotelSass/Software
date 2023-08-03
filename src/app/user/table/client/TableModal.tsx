@@ -6,9 +6,6 @@ import TableCheckOut from '../../rooms/client/checkout/restaurant/page'
 
 const TableModal = ({ open, setOpen, data, bookingList }: any) => {
     const router = useRouter()
-
-
-
     function getTotal() {
         let quantity = 0
         let total = 0
@@ -24,7 +21,7 @@ const TableModal = ({ open, setOpen, data, bookingList }: any) => {
     }
     return (
         <Modal open={open} setOpen={setOpen} width={1000} height={700} >
-            <div className=" flex flex-col overflow-y-scroll px-4 ">
+            <div className=" flex flex-col overflow-y-scroll px-4 h-full">
                 <div className="text-[24px] font-thin tracking-tight">Order</div>
 
                 <div className="relative overflow-x-auto mt-8 flex flex-col p-4 h-[500px] overflow-y-scroll">
