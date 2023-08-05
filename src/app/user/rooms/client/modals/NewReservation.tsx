@@ -307,9 +307,10 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
                         {(value.startDate != null && value.endDate != null) &&
                             <div className="text-[16px] font-thin tracking-tight p-3 bg-gray-700 text-white rounded-lg w-44 text-center">{duration} day</div>
                         }
-                        <button className="bg-orange-700 p-3 rounded space-x-3 ml-auto w-2/12 text-center text-white ">
+                        <button  className="bg-orange-700 p-3 rounded space-x-3 ml-auto w-2/12 text-center text-white ">
                             Reserve
                         </button>
+                    
                     </div>
 
                 </form>

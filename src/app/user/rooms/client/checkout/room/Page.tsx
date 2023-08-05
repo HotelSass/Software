@@ -43,10 +43,12 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
     const month = String(currentDate.getMonth() + 1).padStart(2, '0');
     const day = String(currentDate.getDate()).padStart(2, '0');
     const formattedDate = `${year}-${month}-${day}`;
-
+    let fullTotal = 0
     let days = Math.abs(dateDifference(data.checkIn, formattedDate))
     if (days == 0) days = 1
-    let fullTotal = Math.abs(days * parseInt(data.roomRate) * parseInt(data.roomNumber.length)) + Math.abs(getTotal(data).total) - Math.abs(parseInt(data.advance ? data.advance : 0)) - Math.abs(discount)
+    if (data.roomNumber) {
+      fullTotal = Math.abs(days * parseInt(data.roomRate) * parseInt(data.roomNumber.length)) + Math.abs(getTotal(data).total) - Math.abs(parseInt(data.advance ? data.advance : 0)) - Math.abs(discount)
+    }
     return fullTotal
   }
   function getTotalRoomPrice() {
@@ -202,10 +204,10 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
                       Rooms:
                     </th>
                     <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
-                      x{data.roomNumber.length}
+                      x{data.roomNumber && data.roomNumber.length}
                     </td>
                     <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
-                      Rs. {getTotalRoomPrice() * parseInt(data.roomNumber.length)}
+                      Rs. {getTotalRoomPrice() * parseInt(data.roomNumber && data.roomNumber.length)}
                     </td>
                   </tr>
                   <tr className={"bg-gray-300 border-b"}>

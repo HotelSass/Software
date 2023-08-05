@@ -6,6 +6,10 @@ import ShowInfo from './modals/ShowInfo'
 import { useRouter } from 'next/navigation'
 import RoomCheckOut from './checkout/room/Page'
 import { Card, CardFooter, Image, Button } from "@nextui-org/react";
+import PasswordProtected from '../../component/PasswordProtected'
+import serverUrl from '@/config/config'
+
+
 const Info = ({ data }: any) => {
     const [reservationOpen, setReservationOpen] = useState(false)
     const [checkOutModal, setCheckOutModal] = useState(false)
@@ -57,12 +61,63 @@ const Info = ({ data }: any) => {
 }
 
 const ReservationModal = ({ reservationData, open, setOpen }: any) => {
+    const router = useRouter()
     const [open1, setOpen1] = useState(false)
+    const [cancelOpen, setCancelOpen] = useState(false)
     const [secData, setSecData] = useState({})
+    const cancelReservation = (item: any) => {
+        setCancelOpen(true)
+    }
+    const deleteRecord = async (reservationData: [Object]) => {
+        const data=reservationData[0]
+        try {
+            const response = await fetch(serverUrl + "/user/room/cancelReservation", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    ...data
+                })
+
+            });
+
+            if (response.ok) {
+                setCancelOpen(false)
+                setOpen(false)
+                router.refresh()
+
+            }
+
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
     return (
         <>
 
             <Modal open={open} setOpen={setOpen} width={900} height={400} >
+                <PasswordProtected width={700} height={300} open={cancelOpen} setOpen={setCancelOpen}>
+                    <div id="alert-additional-content-2" className="p-4 mb-4 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800" role="alert">
+                        <div className="flex items-center">
+                            <svg className="flex-shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                            </svg>
+                            <span className="sr-only">Info</span>
+                            <h3 className="text-lg font-medium">Are you sure you want to cancel Reservation?</h3>
+                        </div>
+                        <div className="mt-2 mb-4 text-ssm font-thin">
+                            You cannot undo this process
+                        </div>
+                        <div className="flex">
+                            <button type="button" onClick={() => deleteRecord(reservationData)} className="text-white bg-red-800 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-xs px-3 py-1.5 mr-2 text-center inline-flex items-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                                Cancel reservation
+                            </button>
+
+                        </div>
+                    </div>
+                </PasswordProtected>
                 <CheckInModal data={secData} open={open1} setOpen={setOpen1} />
 
                 <div className="p-4 pt-0 overflow-y-scroll">
@@ -91,10 +146,14 @@ const ReservationModal = ({ reservationData, open, setOpen }: any) => {
                                     <div className="text-[14px] font-extralight mb-auto">Check Out.</div>
                                     <div className="text-[10px] font-extralight mb-auto">{item.checkOut.toUpperCase()}</div>
                                 </div>
-                                <button type='button' onClick={() => { setSecData(item); setOpen1(true) }} className='bg-red-900 items-center justify-center text-white flex-1 rounded-md text-[14px] font-light'>
-                                    Check In
-                                </button>
-
+                                <div className="flex flex-col w-44">
+                                    <button type='button' onClick={() => { setSecData(item); setOpen1(true) }} className='bg-red-900 items-center justify-center text-white flex-1 rounded-md text-[14px] font-light'>
+                                        Check In
+                                    </button>
+                                    <button type='button' onClick={() => { setSecData(item); cancelReservation(item) }} className=' items-center justify-center text-red-800 underline flex-1 rounded-md text-[14px] font-light'>
+                                        Cancel reservation
+                                    </button>
+                                </div>
 
                             </div>
 

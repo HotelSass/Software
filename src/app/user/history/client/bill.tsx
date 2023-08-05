@@ -52,11 +52,10 @@ const RoomBill = ({ open, setOpen, data }: any) => {
     const day = String(currentDate.getDate()).padStart(2, '0');
     const formattedDate = `${year}-${month}-${day}`;
 
-    let days = dateDifference(data.checkIn, formattedDate)
+    let days = Math.abs(dateDifference(data.checkIn, formattedDate))
     let fullTotal = days * parseInt(data.roomRate)
     return fullTotal
   }
-
   function getTotalResidenceDay() {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
@@ -73,7 +72,7 @@ const RoomBill = ({ open, setOpen, data }: any) => {
   return (
     <Modal open={open} setOpen={setOpen} width={1500} height={900}>
       <div className=' h-full'>
-        <div className="relative overflow-x-auto mt-8 flex flex-col p-4 h-[600px] overflow-y-scroll">
+        <div className="relative overflow-x-auto mt-8 flex flex-col p-4 h-[700px] overflow-y-scroll">
 
           <div className="flex flex-row h-full">
             <div className="flex-1 px-10 h-full border-r border-gray-300">
@@ -222,7 +221,7 @@ const RoomBill = ({ open, setOpen, data }: any) => {
 
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 text-[10px] rounded">
                 <thead className=" text-[14px] = uppercase bg-gray-100 dark:bg-gray-700 text-gray-200">
-                  <tr className='bg-slate-800'>
+                  <tr className='bg-slate-800 py-3'>
                     <th scope="col" className="px-6 py-5 rounded-l-lg">
                       Name
                     </th>
