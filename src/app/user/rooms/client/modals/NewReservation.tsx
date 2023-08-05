@@ -48,6 +48,10 @@ function dateDifference(startDateStr: string, endDateStr: string) {
 
 
 const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
+    const today = new Date();
+    const oneDayBefore = new Date(today);
+    oneDayBefore.setDate(today.getDate());
+    const prevDate = oneDayBefore.toISOString().slice(0, 10)
     const router = useRouter()
     const [openSelectRoom, setOpenSelectRoom] = useState(false)
     const [availabeData, setAvailableData] = useState([])
@@ -234,6 +238,8 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
                                 primaryColor={"indigo"}
                                 value={value}
                                 onChange={handleValueChange}
+                                minDate={new Date(prevDate)}
+
                             />
                         </div>
                     </div>

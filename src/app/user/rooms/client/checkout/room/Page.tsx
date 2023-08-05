@@ -46,7 +46,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
 
     let days = Math.abs(dateDifference(data.checkIn, formattedDate))
     if (days == 0) days = 1
-    let fullTotal = days * parseInt(data.roomRate) + getTotal(data).total - parseInt(data.advance) - discount
+    let fullTotal = Math.abs(days * parseInt(data.roomRate) * parseInt(data.roomNumber.length)) + Math.abs(getTotal(data).total) - Math.abs(parseInt(data.advance ? data.advance : 0)) - Math.abs(discount)
     return fullTotal
   }
   function getTotalRoomPrice() {
@@ -144,7 +144,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
                     {data.hasOwnProperty('roomNumber') &&
                       <>
                         {(data.roomNumber).map((item: any, index: number) => (
-                          <p key={index} className="font-normal text-[17px] ml-2 capitalize">{item},</p>
+                          <p key={index} className="font-normal text-[17px] ml-3 capitalize">{item}</p>
                         ))}
                       </>
                     }
@@ -199,6 +199,17 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
                   </tr>
                   <tr className={"bg-gray-300 border-b"}>
                     <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px] capitalize">
+                      Rooms:
+                    </th>
+                    <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
+                      x{data.roomNumber.length}
+                    </td>
+                    <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
+                      Rs. {getTotalRoomPrice() * parseInt(data.roomNumber.length)}
+                    </td>
+                  </tr>
+                  <tr className={"bg-gray-300 border-b"}>
+                    <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px] capitalize">
                       Food Bill:
                     </th>
                     <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
@@ -225,7 +236,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
                     </td>
                     <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
                       Rs.
-                      <input type="number" className='bg-gray-300 w-14' defaultValue={discount} onChange={(e) => { if (getFullTotal() - parseInt(e.target.value) >= 0 && parseInt(e.target.value) >= 0) setDiscount(parseInt(e.target.value)) }} />
+                      <input min={0} type="number" className='bg-gray-300 w-14' defaultValue={discount} onChange={(e) => { if (getFullTotal() - parseInt(e.target.value) >= 0 && parseInt(e.target.value) >= 0) setDiscount(parseInt(e.target.value)) }} />
                     </td>
                   </tr>
 
