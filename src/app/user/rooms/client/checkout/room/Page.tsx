@@ -44,7 +44,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
     const day = String(currentDate.getDate()).padStart(2, '0');
     const formattedDate = `${year}-${month}-${day}`;
 
-    let days = dateDifference(data.checkIn, formattedDate)
+    let days = Math.abs(dateDifference(data.checkIn, formattedDate))
     if (days == 0) days = 1
     let fullTotal = days * parseInt(data.roomRate) + getTotal(data).total - parseInt(data.advance) - discount
     return fullTotal
@@ -56,7 +56,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
     const day = String(currentDate.getDate()).padStart(2, '0');
     const formattedDate = `${year}-${month}-${day}`;
 
-    let days = dateDifference(data.checkIn, formattedDate)
+    let days = Math.abs(dateDifference(data.checkIn, formattedDate))
     let fullTotal = days * parseInt(data.roomRate)
     return fullTotal
   }
@@ -93,7 +93,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
 
     let days = dateDifference(data.checkIn, formattedDate)
     if (days == 0) return 1
-    return days
+    return Math.abs(days)
   }
 
 
@@ -153,7 +153,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
                 </div>
                 <div className="flex flex-col flex-1">
                   <label className="font-light text-gray-400 text-[10px] ml-2" htmlFor="roomNumber">
-                    Check Out:
+                    Check Out: ( Expected )
                   </label>
                   <p className="font-normal text-[17px] ml-2 capitalize">{data.checkOut}</p>
                 </div>
@@ -162,7 +162,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
 
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 text-[10px] rounded">
                 <thead className=" text-[14px] = uppercase bg-gray-100 dark:bg-gray-700 text-gray-200">
-                  <tr >
+                  <tr className='bg-slate-800'>
                     <th scope="col" className="px-6 py-5 rounded-l-lg">
                       Name
                     </th>
@@ -250,7 +250,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
 
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 text-[10px] rounded">
               <thead className=" text-[14px] = uppercase bg-gray-100 dark:bg-gray-700 text-gray-200">
-                <tr >
+                <tr className='bg-slate-800' >
                   <th scope="col" className="px-6 py-5 rounded-l-lg">
                     Name
                   </th>

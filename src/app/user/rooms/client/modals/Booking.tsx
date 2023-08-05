@@ -34,24 +34,25 @@ function dateDifference(startDateStr: string, endDateStr: string) {
     // Convert the date strings to Date objects
     const startDate = new Date(startDateStr);
     const endDate = new Date(endDateStr);
-  
+
     // Calculate the time difference in milliseconds
     const timeDifferenceMs = endDate.getTime() - startDate.getTime();
-  
+
     // Convert milliseconds to days
     const millisecondsPerDay = 1000 * 60 * 60 * 24;
     const dateDifferenceDays = Math.floor(timeDifferenceMs / millisecondsPerDay);
-  
+
     return dateDifferenceDays;
-  }
-  
+}
+
 
 const Booking = ({ open, setOpen, data }: any) => {
     const router = useRouter()
     const [openSelectRoom, setOpenSelectRoom] = useState(false)
     const [availabeData, setAvailableData] = useState([])
     const [selectedRooms, setSelectedRooms] = useState<number[]>([])
-
+    const [error, setError] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
     const [value, setValue] = useState({
         startDate: null,
         endDate: null
@@ -69,7 +70,6 @@ const Booking = ({ open, setOpen, data }: any) => {
         }
     }
     const selectData = (val: number) => {
-console.log(val)
         let temp = selectedRooms
         if (selectedRooms.includes(val)) {
             const index = selectedRooms.indexOf(val);
@@ -83,6 +83,11 @@ console.log(val)
     }
     async function onSubmit(event: any) {
         event.preventDefault()
+        if (value.startDate == null && value.endDate == null) {
+            setError(true)
+            setErrorMessage("Select Checkin and Checkout date")
+            return
+        }
         if (selectedRooms.length != 0) {
             const formData = new FormData(event.target);
             const name = formData.get('name');
@@ -94,7 +99,7 @@ console.log(val)
             const to = formData.get('to');
             const roomRate = formData.get('roomRate');
             const advance = formData.get('advance');
-            
+
             try {
                 const response = await fetch(serverUrl + "/user/room/reserveRoom", {
                     method: 'POST',
@@ -137,14 +142,32 @@ console.log(val)
                 console.log(err)
             }
 
+        } else {
+            setError(true)
+            setErrorMessage("Select Rooms")
+            return
         }
     }
     return (
         <Modal open={open} setOpen={setOpen} width={800} height={900}>
+            {error &&
+
+                <div role="alert" className=" absolute top-5 right-5">
+                    <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2 text-left flex flex-row">
+                        <p>Error</p>
+                        <button type='button' onClick={() => { setError(false); setErrorMessage('') }} className='ml-auto'>
+                            <svg className="fill-current h-6 w-6 text-red-100" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
+                        </button>
+                    </div>
+                    <div className="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+                        <p className='capitalize'>{errorMessage}</p>
+                    </div>
+                </div>
+            }
             <form onSubmit={(e) => onSubmit(e)} className='flex flex-col space-y-4'>
                 <Modal open={openSelectRoom} setOpen={setOpenSelectRoom} width={600} height={900}>
                     <div className=" flex flex-row flex-wrap">
-                        {availabeData.map((item: any,index:number) => (
+                        {availabeData.map((item: any, index: number) => (
                             <div key={index} className='my-2'>
                                 {selectedRooms.includes(item) ?
                                     <button type='button' onClick={() => selectData(item)} className="p-4 border bg-green-700 text-[12px] items-center justify-center rounded-xl w-16 h-16 mx-2 text-white">{item}</button>
@@ -153,6 +176,7 @@ console.log(val)
                                 }
                             </div>
                         ))}
+                        <button type='button' onClick={() => setOpenSelectRoom(false)} className='bg-green-700 p-3 rounded-lg text-white px-5 ml-auto mr-4 mt-5'>Done</button>
                     </div>
 
                 </Modal>
@@ -193,6 +217,7 @@ console.log(val)
                             Client Phone
                         </label>
                         <input
+                            pattern="[0-9+]*"
                             name="phone"
                             placeholder="Client Phone"
                             type="text"
@@ -239,7 +264,6 @@ console.log(val)
                             placeholder="Client Email"
                             type="text"
                             id="clientEmail"
-                            required
                             className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
@@ -277,6 +301,7 @@ console.log(val)
                             Room Rate
                         </label>
                         <input
+                            pattern="[0-9]*"
                             name="roomRate"
                             placeholder="Rs."
                             type="text"
@@ -290,6 +315,7 @@ console.log(val)
                             Advance Payment
                         </label>
                         <input
+                            pattern="[0-9]*"
                             defaultValue={0}
                             name="advance"
                             placeholder="Rs."
@@ -313,7 +339,7 @@ console.log(val)
                                         </div>
                                         <div className='flex flex-row flex-wrap overflow-x-scroll'>
 
-                                            {selectedRooms.map((item: any,index:number) => (
+                                            {selectedRooms.map((item: any, index: number) => (
                                                 <div key={index} className="text-white text-center mx-2 ">{item}</div>
                                             ))}
 

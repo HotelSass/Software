@@ -23,13 +23,17 @@ const Rooms = () => {
             <div className="text-[36px] font-thin">{c_month_name}</div>
             <div className="text-[36px] font-thin">{c_year}</div>
           </div>
+
           {/* @ts-expect-error Async Server Component */}
           <NewBookingServer />
         </div>
         <div className="flex-1 mt-10">
+
           {/* @ts-expect-error Async Server Component */}
           <InfoServer />
-
+        </div>
+        <div className=" mt-8">
+          
         </div>
       </div>
     </Layout>

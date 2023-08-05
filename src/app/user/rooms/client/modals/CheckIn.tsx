@@ -190,6 +190,7 @@ const CheckInModal = ({ open, setOpen, data }: any) => {
                             Room Rate
                         </label>
                         <input
+                        defaultValue={data.roomRate}
                             name="roomRate"
                             placeholder="Rs."
                             type="text"
