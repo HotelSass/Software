@@ -32,9 +32,7 @@ const Rooms = () => {
           {/* @ts-expect-error Async Server Component */}
           <InfoServer />
         </div>
-        <div className=" mt-8">
-          
-        </div>
+        
       </div>
     </Layout>
   );

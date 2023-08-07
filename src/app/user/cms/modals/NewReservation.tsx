@@ -223,32 +223,47 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
                         />
                     </div>
                     <div className="flex flex-col flex-1">
-
-                        {value.startDate != null && value.endDate != null &&
-                            <div className="flex flex-col flex-1">
-                                <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
-                                    Rooms
-                                </label>
-                                <button type='button' onClick={() => setOpenSelectRoom(true)} className='bg-gray-600 text-white p-4 rounded-xl text-[12px] items-center'>
-                                    {selectedRooms.length == 0 ?
-                                        "Select Room" :
-                                        <div className='flex flex-row flex-wrap'>
-                                            <div className="mr-4">
-                                                Selected Room:
-                                            </div>
-                                            <div className='flex flex-row flex-wrap overflow-x-scroll'>
-
-                                                {selectedRooms.map((item: any, index: number) => (
-                                                    <div key={index} className="text-white text-center mx-2 ">{item}</div>
-                                                ))}
-
-                                            </div>
-                                        </div>
-                                    }
-                                </button>
-                            </div>
-                        }
+                        <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
+                            Room Rate
+                        </label>
+                        <input
+                            defaultValue={data.roomRate}
+                            name="advance"
+                            placeholder="Rs. "
+                            type="text"
+                            id="clientPhone"
+                            required
+                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                        />
                     </div>
+
+                </div>
+                <div className="flex flex-col flex-1">
+
+                    {value.startDate != null && value.endDate != null &&
+                        <div className="flex flex-col flex-1">
+                            <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
+                                Rooms
+                            </label>
+                            <button type='button' onClick={() => setOpenSelectRoom(true)} className='bg-gray-600 text-white p-4 rounded-xl text-[12px] items-center'>
+                                {selectedRooms.length == 0 ?
+                                    "Select Room" :
+                                    <div className='flex flex-row flex-wrap'>
+                                        <div className="mr-4">
+                                            Selected Room:
+                                        </div>
+                                        <div className='flex flex-row flex-wrap overflow-x-scroll'>
+
+                                            {selectedRooms.map((item: any, index: number) => (
+                                                <div key={index} className="text-white text-center mx-2 ">{item}</div>
+                                            ))}
+
+                                        </div>
+                                    </div>
+                                }
+                            </button>
+                        </div>
+                    }
                 </div>
 
 

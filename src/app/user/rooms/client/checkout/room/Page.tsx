@@ -1,7 +1,8 @@
 'use client'
 import Modal from '@/components/modal'
 import serverUrl from '@/config/config';
-import React, { useState } from 'react'
+import Image from 'next/image';
+import React, { use, useState } from 'react'
 
 function dateDifference(startDateStr: string, endDateStr: string) {
   // Convert the date strings to Date objects
@@ -36,6 +37,12 @@ function getTotal(data: any) {
 
 const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
   const [discount, setDiscount] = useState(0)
+  const [openPayment, setOpenPayment] = useState(false)
+  const [givenAmount, setGivenAmount] = useState("")
+  const [phoneNumber, setPhoneNumber] = useState("")
+  const [cash, setCash] = useState(true)
+  const [platform, setPlatform] = useState('fonepay')
+  const totalPayment = getFullTotal() ? getFullTotal() : (getTotalResidenceDay() * parseInt(data.roomRate) - parseInt(data.advance) + getTotal(data).total)
 
   function getFullTotal() {
     const currentDate = new Date();
@@ -62,7 +69,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
     let fullTotal = days * parseInt(data.roomRate)
     return fullTotal
   }
-  async function onSubmit() {
+  async function onSubmitCash() {
     try {
       const response = await fetch(serverUrl + "/user/checkout/checkoutRoom", {
         method: 'POST',
@@ -72,6 +79,33 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
         body: JSON.stringify({
           data,
           discount,
+          paymentType: "cash",
+          total: getFullTotal()
+        })
+
+      });
+      if (response.ok) {
+        setOpen(false)
+        reload()
+      } else {
+      }
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  async function onSubmitOnline() {
+    try {
+      const response = await fetch(serverUrl + "/user/checkout/checkoutRoom", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          data,
+          discount,
+          paymentType: "cash",
+          account: platform,
           total: getFullTotal()
         })
 
@@ -98,17 +132,103 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
     return Math.abs(days)
   }
 
+  function showCalculator() {
+    setOpenPayment(true)
+  }
+
 
   return (
     <Modal open={open} setOpen={setOpen} width={1500} height={900}>
+      <Modal open={openPayment} setOpen={setOpenPayment} width={900} height={900}>
+        <div className="flex flex-col pb-8">
+          <div className="rounded-lg flex p-4 bg-gray-800">
+            <p className='p-4 text-[20px] text-white my-auto'>
+              Total Payment:
+            </p>
+            <p className='p-4 text-[30px] text-white ml-auto'>
+              Rs. {getFullTotal() ? getFullTotal() : (getTotalResidenceDay() * parseInt(data.roomRate) - parseInt(data.advance) + getTotal(data).total)}
+            </p>
+          </div>
+          <div className="flex flex-row mt-8">
+            <label className="relative inline-flex items-center cursor-pointer ml-4">
+              <input checked={cash} onChange={() => setCash(!cash)} type="checkbox" value="" className="sr-only peer " />
+              <div className="w-14 h-7 bg-green-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300  rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+              <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">{cash ? "Cash" : "Online"}</span>
+            </label>
+
+          </div>
+          <div className="flex flex-row mt-3 space-x-5">
+            {!cash &&
+              <div className="flex">
+                <button onClick={() => setPlatform('fonepay')} className={platform == 'fonepay' ? 'p-2 rounded-lg border-2 border-blue-700 mx-4 ml-0' : 'p-2 rounded-lg border border-gray-200 mx-4 ml-0'}>
+                  <Image
+                    src="/images/fonepay.png"
+                    width={200}
+                    height={50}
+                    alt="Picture of the author"
+                  />
+                </button>
+                <button onClick={() => setPlatform('gibl')} className={platform == 'gibl' ? 'p-2 rounded-lg border-2 border-blue-700 mx-4 ml-0' : 'p-2 rounded-lg border border-gray-200 mx-4 ml-0'}>
+                  <Image
+                    src="/images/gibl.png"
+                    width={200}
+                    height={50}
+                    alt="Picture of the author"
+                  />
+                </button>
+                <button onClick={() => setPlatform('hbl')} className={platform == 'hbl' ? 'p-2 rounded-lg border-2 border-blue-700 mx-4 ml-0' : 'p-2 rounded-lg border border-gray-200 mx-4 ml-0'}>
+                  <Image
+                    src="/images/hbl.png"
+                    width={200}
+                    height={50}
+                    alt="Picture of the author"
+                  />
+                </button>
+              </div>
+            }
+          </div>
+          {cash ?
+            <div className="flex space-x-5 mt-10">
+              <div className="rounded-lg flex-1 p-4 bg-gray-800 flex flex-col">
+                <p className='text-gray-200 text-[10px] ml-2'>Cash Given By Client</p>
+                <input type="text" value={givenAmount} onChange={(e) => setGivenAmount(e.target.value)} pattern='[0-9]*' placeholder='Amount' className='px-3 w-full h-full rounded-xl bg-gray-500 text-gray-100' />
+              </div>
+              <div className="rounded-lg flex p-4 bg-gray-800">
+                <p className='p-4 text-[20px] text-white'>
+                  Return:
+                </p>
+                <p className='p-4 text-[20px] text-white ml-auto'>
+                  Rs. {parseFloat(givenAmount) - totalPayment > 0 ? parseFloat(givenAmount) - totalPayment : 0}
+                </p>
+              </div>
+              <button onClick={() => { onSubmitCash() }} type='button' className="rounded-lg flex p-4 bg-red-700">
+                <p className='p-4 text-[20px] text-white'>
+                  Checkout
+                </p>
+
+              </button>
+            </div>
+            :
+            <div className="flex space-x-5 mt-10">
+              <div className="rounded-lg flex-1 p-4 bg-gray-800 flex flex-col">
+                <p className='text-gray-200 text-[10px] ml-2'>Phone Number</p>
+                <input type="text" placeholder='Phone Number' onChange={(e) => setPhoneNumber(e.target.value)} className='px-3 w-full h-full rounded-xl bg-gray-500 text-gray-100' />
+              </div>
+              <button onClick={() => { onSubmitOnline() }} type='button' className="rounded-lg flex p-4 bg-red-700">
+                <p className='p-4 text-[20px] text-white'>
+                  Checkout
+                </p>
+
+              </button>
+            </div>}
+        </div>
+      </Modal>
       <div className=' h-full'>
         <div className="flex flex-row h-full">
           <div className="flex-1 px-10 h-full border-r border-gray-300">
             <div className="text-[24px] font-thin tracking-tight ml-2 mb-5">Room Order</div>
 
             <form className='flex flex-col space-y-4'>
-
-
               <div className="flex flex-row ">
                 <div className="flex flex-col flex-1">
                   <label className="font-light  ml-2 text-gray-400 text-[10px]" htmlFor="roomNumber">
@@ -254,7 +374,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
               </table>
               <div className="flex flex-row">
                 <div className="flex-1"></div>
-                <button type='button' onClick={() => { onSubmit() }} className='bg-red-700 text-white rounded p-3 px-6 flex-1'>Checkout</button>
+                <button type='button' onClick={() => { showCalculator() }} className='bg-red-700 text-white rounded p-3 px-6 flex-1'>Checkout</button>
               </div>
             </form>
           </div>
