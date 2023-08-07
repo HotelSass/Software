@@ -126,6 +126,18 @@ const BillData = ({ data, outgoing }: any) => {
                                         ) :
                                             <>
                                                 Checkout Payment from {item.name || "Restaurant"}
+                                                {item.paymentType &&
+                                                    <>
+                                                        {item.paymentType == "cash" ?
+                                                            <>
+                                                            ( Cash Payment )
+                                                            </>
+                                                            :
+                                                            <>
+                                                            ( Payment made using {item.account} )
+                                                            </>
+                                                        }
+                                                    </>}
                                             </>
                                         }
                                     </th>
@@ -139,7 +151,7 @@ const BillData = ({ data, outgoing }: any) => {
                                             }
                                             {item.roomNumber &&
                                                 <>
-                                                    {item.roomNumber.map((room: any,index:number) =>
+                                                    {item.roomNumber.map((room: any, index: number) =>
                                                         <p key={index} className='mx-1'>
                                                             {room}
                                                         </p>
@@ -230,7 +242,7 @@ const BillData = ({ data, outgoing }: any) => {
                                             }
                                             {item.roomNumber &&
                                                 <>
-                                                    {item.roomNumber.map((room: any,index:number) =>
+                                                    {item.roomNumber.map((room: any, index: number) =>
                                                         <p key={index} className='mx-1'>
                                                             {room}
                                                         </p>

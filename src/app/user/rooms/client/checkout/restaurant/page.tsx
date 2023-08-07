@@ -74,7 +74,7 @@ const TableCheckOut = ({ data, reload }: any) => {
         body: JSON.stringify({
           data,
           discount,
-          paymentType: "cash",
+          paymentType: "online",
           account: platform,
           total: getFullTotal()
         })
@@ -172,7 +172,7 @@ const TableCheckOut = ({ data, reload }: any) => {
                 </div>
                 <button onClick={() => { submitDataOnline() }} type='button' className="rounded-lg flex p-4 bg-red-700">
                   <p className='p-4 text-[20px] text-white'>
-                    Checkouts
+                    Checkout
                   </p>
 
                 </button>

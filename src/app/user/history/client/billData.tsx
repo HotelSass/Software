@@ -89,6 +89,7 @@ const BillData = ({ data }: any) => {
                                         }
                                         }>
                                             Payment from {item.name || "Restaurant"}
+                                            
                                         </button>
                                     </th>
                                     <td className="px-6 py-4 text-white">
