@@ -2,6 +2,26 @@ import Modal from '@/components/modal'
 import React from 'react'
 
 const TableBill = ({ open, setOpen, data }: any) => {
+    function getServiceCharge() {
+        let num = 0
+        if (data.order) {
+            const temp = data.order[0]
+            console.log(temp)
+            for (let i = 0; i < temp.length; i++) {
+
+                if (temp[i].serviceCharge) {
+                    console.log(temp[i])
+                    num = num + temp[i].quantity * (temp[i].price || 0) * 0.1
+                }
+            }
+            if (temp.length == 0) {
+                return 0
+            }
+            return num
+        } else {
+            return 0
+        }
+    }
     function getTotal() {
         let quantity = 0
         let total = 0
@@ -13,6 +33,7 @@ const TableBill = ({ open, setOpen, data }: any) => {
                 }
             }
         }
+        total=total+getServiceCharge()
         return { quantity, total }
     }
     return (
@@ -57,7 +78,14 @@ const TableBill = ({ open, setOpen, data }: any) => {
 
                                     </>
                                 ))}
-                            </>}
+                            </>}{getServiceCharge() != 0 &&
+                                <tr className="font-semibold text-gray-100 bg-slate-600 text-[14px] ">
+                                    <th scope="row" className="px-6 py-3 text-[14px]]">Service Charge</th>
+                                    <td className="px-6 py-3"></td>
+
+                                    <td className="px-6 py-3">{getServiceCharge()}</td>
+                                </tr>
+                            }
                         </tbody>
                         <tfoot>
                             <tr className="font-semibold text-gray-100 bg-slate-800">

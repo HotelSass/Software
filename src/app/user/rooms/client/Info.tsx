@@ -23,7 +23,7 @@ const Info = ({ data }: any) => {
                     radius="sm"
                     className="border-none bg-green-800"
                 >
-                    <div className="z-20 w-48 h-48 ">
+                    <div className="z-20 w-48 h-36 ">
                         <p className='font-black text-[44px] text-center text-white mt-7'>
                             {data.inhouse.length}
                         </p>
@@ -41,7 +41,7 @@ const Info = ({ data }: any) => {
                     radius="md"
                     className="border-none bg-orange-600"
                 >
-                    <div className="z-20 w-48 h-48 ">
+                    <div className="z-20 w-48 h-36 ">
                         <p className='font-black text-[44px] text-center text-white mt-7'>
                             {data.reservations.length}
                         </p>

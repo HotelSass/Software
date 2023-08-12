@@ -14,6 +14,28 @@ const TableCheckOut = ({ data, reload }: any) => {
   const totalPayment = getTotal() ? getTotal().total : 0
   const [open, setOpen] = useState(false)
   const [discount, setDiscount] = useState(0)
+  function getServiceCharge() {
+    let num = 0
+    if (data) {
+      if (data.order) {
+        const temp = data.order[0]
+        for (let i = 0; i < temp.length; i++) {
+
+          if (temp[i].serviceCharge) {
+            num = num + temp[i].quantity * (temp[i].price || 0) * 0.1
+          }
+        }
+        if (temp.length == 0) {
+          return 0
+        }
+        return num
+      } else {
+        return 0
+      }
+    }else{
+      return 0
+    }
+  }
   function getTotal() {
 
     let quantity = 0
@@ -26,6 +48,7 @@ const TableCheckOut = ({ data, reload }: any) => {
         }
       }
     }
+    total = total + getServiceCharge()
     return { quantity, total }
   }
 
@@ -60,11 +83,7 @@ const TableCheckOut = ({ data, reload }: any) => {
     }
   }
   async function submitDataOnline() {
-    console.log(data,
-      discount,
-      "cash",
-      platform,
-       getFullTotal())
+
     try {
       const response = await fetch(serverUrl + "/user/checkout/checkoutTable", {
         method: 'POST',

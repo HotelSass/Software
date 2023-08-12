@@ -1,14 +1,31 @@
 'use client'
 import Modal from '@/components/modal'
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import TransferModal from './TransferModal'
 import { useRouter } from 'next/navigation'
 import TableCheckOut from '../../rooms/client/checkout/restaurant/page'
-import Image from 'next/image'
-
 const TableModal = ({ open, setOpen, data, bookingList }: any) => {
     const router = useRouter()
-   
+    function getServiceCharge() {
+        let num = 0
+        if (data.order) {
+            const temp = data.order[0]
+            console.log(temp)
+            for (let i = 0; i < temp.length; i++) {
+
+                if (temp[i].serviceCharge) {
+                    console.log(temp[i])
+                    num = num + temp[i].quantity * (temp[i].price || 0) * 0.1
+                }
+            }
+            if (temp.length == 0) {
+                return 0
+            }
+            return num
+        } else {
+            return 0
+        }
+    }
 
     function getTotal() {
         let quantity = 0
@@ -21,11 +38,12 @@ const TableModal = ({ open, setOpen, data, bookingList }: any) => {
                 }
             }
         }
+        total=total+getServiceCharge()
         return { quantity, total }
     }
     return (
         <Modal open={open} setOpen={setOpen} width={1000} height={700} >
-            
+
             <div className=" flex flex-col overflow-y-scroll px-4 h-full">
                 <div className="text-[24px] font-thin tracking-tight">Order</div>
 
@@ -69,6 +87,14 @@ const TableModal = ({ open, setOpen, data, bookingList }: any) => {
                                     </>
                                 ))}
                             </>}
+                            {getServiceCharge() != 0 &&
+                                <tr className="font-semibold text-gray-100 bg-slate-600 ">
+                                    <th scope="row" className="px-6 py-3 text-[14px]]">Service Charge</th>
+                                    <td className="px-6 py-3"></td>
+
+                                    <td className="px-6 py-3">{getServiceCharge()}</td>
+                                </tr>
+                            }
                         </tbody>
                         <tfoot>
                             <tr className="font-semibold text-gray-100 bg-slate-800 border-b">

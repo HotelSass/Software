@@ -17,7 +17,7 @@ const History = () => {
     return (
         <Layout>
             <div className="w-full p-8 flex flex-col">
-                <div className="text-[20px] font-thin tracking-tight">Room History</div>
+                <div className="text-[20px] font-thin tracking-tight">Billings History</div>
                 <div className="flex flex-row">
                     <div className="flex flex-row space-x-4 flex-1">
                         <div className="text-[36px] font-thin">{c_date}</div>

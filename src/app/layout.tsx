@@ -14,7 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-
+      <head>
+        <link href="/style/styles.css" rel="stylesheet"/>
+      </head>
       <body className={`bg-white-800`}>
         <Providers>
           {children}

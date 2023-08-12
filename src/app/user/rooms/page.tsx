@@ -2,6 +2,7 @@ import React from "react";
 import Layout from "../component/layout";
 import NewBookingServer from "./server/NewBookingServer";
 import InfoServer from "./server/InfoServer";
+import CalenderServer from "./server/CalenderServer";
 
 const Rooms = () => {
   const currentDate = new Date();
@@ -32,7 +33,10 @@ const Rooms = () => {
           {/* @ts-expect-error Async Server Component */}
           <InfoServer />
         </div>
-        
+        <div className="">
+         
+        </div>
+
       </div>
     </Layout>
   );

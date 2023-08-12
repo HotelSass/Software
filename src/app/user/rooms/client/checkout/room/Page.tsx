@@ -31,9 +31,28 @@ function getTotal(data: any) {
       }
     }
   }
+  total=total+getServiceCharge(data)
   return { quantity, total }
 }
 
+function getServiceCharge(data:any) {
+  let num = 0
+
+  if (data.orders) {
+
+    for (let j = 0; j < data.orders.length; j++) {
+      const temp = data.orders[j]
+      for (let i = 0; i < temp.length; i++) {
+        if (temp[i].serviceCharge == true) {
+          num = num + temp[i].quantity * (temp[i].price || 0) * 0.1
+        }
+      }
+    }
+    return num
+  } else {
+    return 0
+  }
+}
 
 const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
   const [discount, setDiscount] = useState(0)
@@ -419,6 +438,12 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
                   </>}
               </tbody>
               <tfoot>
+                <tr className="font-semibold text-gray-100 bg-slate-800">
+                  <th scope="row" className="px-6 py-3 text-[14px]">Service Charge</th>
+                  <td className="px-6 py-3 text-[14px]"></td>
+
+                  <td className="px-6 py-3 text-[14px]">{getServiceCharge(data)}</td>
+                </tr>
                 <tr className="font-semibold text-gray-100 bg-slate-800">
                   <th scope="row" className="px-6 py-3 text-[14px]">Total</th>
                   <td className="px-6 py-3 text-[14px]">{getTotal(data).quantity}</td>

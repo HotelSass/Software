@@ -1,9 +1,10 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import { MdOutlineRoomService, MdRoomService } from "react-icons/md";
 import RoomModal from './RoomModal';
 import TableModal from './TableModal';
-import { Switch, Button, Input } from "@nextui-org/react";
+import { Switch, Button, Input, Tooltip, Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
 
 const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
     const [manualMenu, setManualMenu] = useState(false)
@@ -13,20 +14,37 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
     const [selectedTab, setSelectedTab] = useState("all")
     const [search, setSearch] = useState<string>("")
     const [menu, setMenu] = useState(data.menu)
+    const [serviceArray, setServiceArray] = useState<string[]>([])
     const category = data.categories
-    function addItem(item: any) {
+    function addItem(item: any, e: any) {
+        e.preventDefault()
         let tempIndex = [...selectedId]
         tempIndex.push(item['_id'])
         setSelectedId([...tempIndex])
-        let selected = {
-            itemName: item.itemName,
-            price: item.price,
-            quantity: 1,
-            id: item._id
+        const number = parseInt(e.target.quantity.value)
+        if (number) {
+            let selected = {
+                itemName: item.itemName,
+                price: item.price,
+                quantity: parseInt(e.target.quantity.value),
+                id: item._id,
+                serviceCharge: false
+            }
+            const temp = selectedItems
+            temp.push(selected)
+            setSelectedItems([...temp])
         }
-        const temp = selectedItems
-        temp.push(selected)
-        setSelectedItems([...temp])
+    }
+    function updateItem(item: any, e: any) {
+        e.preventDefault()
+        const targetIndex = selectedItems.findIndex(item => item.id === item.id);
+        const number = parseInt(e.target.quantity.value)
+        if (number) {
+            const temp = selectedItems
+            let val = temp[targetIndex]
+            val['quantity'] = number
+            setSelectedItems([...temp])
+        }
     }
 
     function changeValue(id: any, val: number) {
@@ -54,7 +72,6 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
         }
     }
     function changeValueName(id: any, val: string) {
-        console.log(val)
         const temp = selectedItems
         for (let i = 0; i < temp.length; i++) {
             if (temp[i].id == id) {
@@ -118,9 +135,55 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
         setSelectedId([])
         setSelectedItems([])
         setSelectedTab(data.categories[0].category)
-
     }
 
+    function addServiceToThis(id: string) {
+        if (!serviceArray.includes(id)) {
+            const targetIndex = selectedItems.findIndex(item => item.id === id);
+            let temp = selectedItems
+            let val = temp[targetIndex]
+            val['serviceCharge'] = true
+            temp[targetIndex] = val
+            setSelectedItems([...temp])
+            let temp2=serviceArray
+            temp2.push(id)
+            setServiceArray([...temp2])
+            console.log(selectedItems)
+        }
+    }
+    function removeServiceFromThis(id: any) {
+        if (serviceArray.includes(id)) {
+            const targetIndex = selectedItems.findIndex(item => item.id === id);
+            const temp = serviceArray
+            const temp2 = selectedItems
+            let val = temp2[targetIndex]
+            delete val['serviceCharge']
+            temp2[targetIndex] = val
+            setSelectedItems([...temp2])
+
+            var index = temp.indexOf(id);
+            if (index !== -1) {
+                temp.splice(index, 1);
+            }
+            setServiceArray([...temp])
+        }
+    }
+
+    function getServiceCharge() {
+        let num = 0
+        const temp = selectedItems
+        for (let i = 0; i < temp.length; i++) {
+
+            if (temp[i].serviceCharge) {
+                console.log(temp[i])
+                num = num + temp[i].quantity * (temp[i].price || 0) * 0.1
+            }
+        }
+        if (temp.length == 0) {
+            return 0
+        }
+        return num
+    }
     return (
         <div className='flex-1 flex flex-row h-full w-full '>
             <div className="w-1/2 py-10 flex flex-col h-full ">
@@ -163,16 +226,28 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                         {menu.map((item: any, index: number) => (
                             <>
                                 {(item.category == selectedTab.toLowerCase() && (item.itemName).toLowerCase().includes(search.toLowerCase())) && (
-                                    <div key={index} className="px-2 w-1/5 py-3">
-                                        <button onClick={() => addItem(item)} type='button' disabled={selectedId.includes(item['_id'])} className={!selectedId.includes(item['_id']) ? "p-3 w-full rounded-lg bg-slate-700 capitalize flex flex-col" : "p-3 w-full rounded-lg bg-green-700 capitalize flex flex-col"}>
-                                            <div className="text-white font-thin truncate w-full">
-                                                {item.itemName}
-                                            </div>
-                                            <div className="text-white font-thin text-[12px]">
-                                                Rs.{item.price}
-                                            </div>
-                                        </button>
-                                    </div>
+                                    <Tooltip key={index} color={"primary"} content={item.itemName} className="capitalize">
+                                        <div key={index} className="px-2 w-1/4 py-3">
+                                            <Popover showArrow placement="bottom">
+                                                <PopoverTrigger>
+                                                    <div className={!selectedId.includes(item['_id']) ? "p-3 w-full rounded-lg bg-slate-700 capitalize flex flex-col" : "p-3 w-full rounded-lg bg-green-700 capitalize flex flex-col"}>
+                                                        <div className="text-white font-thin truncate w-full">
+                                                            {item.itemName}
+                                                        </div>
+                                                        <div className="text-white font-thin text-[12px]">
+                                                            {item.price}
+                                                        </div>
+                                                    </div>
+                                                </PopoverTrigger>
+                                                <PopoverContent className="w-64 bg-black p-4">
+                                                    <form onSubmit={(e) => { if (selectedId.includes(item['_id'])) { addItem(item, e) } else { updateItem(item, e) } }} className='flex flex-row '>
+                                                        <input name='quantity' placeholder='Quantity' className='w-full rounded p-3  text-[14px] flex-1' />
+                                                        <button type='submit' onClick={() => close()} className='bg-green-700 p-3 text-center rounded text-white my-auto ml-2'>Done</button>
+                                                    </form>
+                                                </PopoverContent>
+                                            </Popover>
+                                        </div>
+                                    </Tooltip>
                                 )}
                             </>
                         ))}
@@ -180,16 +255,28 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                         {menu.map((item: any, index: number) => (
                             <>
                                 {('all' == selectedTab.toLowerCase() && (item.itemName).toLowerCase().includes(search.toLowerCase())) && (
-                                    <div key={index} className="px-2 w-1/5 py-3">
-                                        <button onClick={() => addItem(item)} type='button' disabled={selectedId.includes(item['_id'])} className={!selectedId.includes(item['_id']) ? "p-3 w-full rounded-lg bg-slate-700 capitalize flex flex-col" : "p-3 w-full rounded-lg bg-green-700 capitalize flex flex-col"}>
-                                            <div className="text-white font-thin truncate w-full">
-                                                {item.itemName}
-                                            </div>
-                                            <div className="text-white font-thin text-[12px]">
-                                                Rs.{item.price}
-                                            </div>
-                                        </button>
-                                    </div>
+                                    <Tooltip key={index} color={"primary"} content={item.itemName} className="capitalize">
+                                        <div key={index} className="px-2 w-1/4 py-3">
+                                            <Popover showArrow placement="bottom">
+                                                <PopoverTrigger>
+                                                    <div className={!selectedId.includes(item['_id']) ? "p-3 w-full rounded-lg bg-slate-700 capitalize flex flex-col" : "p-3 w-full rounded-lg bg-green-700 capitalize flex flex-col"}>
+                                                        <div className="text-white font-thin truncate w-full">
+                                                            {item.itemName}
+                                                        </div>
+                                                        <div className="text-white font-thin text-[12px]">
+                                                            Rs.{item.price}
+                                                        </div>
+                                                    </div>
+                                                </PopoverTrigger>
+                                                <PopoverContent className="w-64 bg-black p-4">
+                                                    <form onSubmit={(e) => { if (!selectedId.includes(item['_id'])) { addItem(item, e) } else { updateItem(item, e) } }} className='flex flex-row '>
+                                                        <input name='quantity' defaultValue={1} placeholder='Quantity' className='w-full rounded p-3  text-[14px] flex-1' />
+                                                        <button type='submit' onClick={() => close()} className='bg-green-700 p-3 text-center rounded text-white my-auto ml-2'>Done</button>
+                                                    </form>
+                                                </PopoverContent>
+                                            </Popover>
+                                        </div>
+                                    </Tooltip>
                                 )}
                             </>
                         ))}
@@ -221,7 +308,10 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                         Qty
                                     </th>
                                     <th scope="col" className="px-6 py-5 rounded-r-lg">
-                                        Price
+                                        Rate
+                                    </th>
+                                    <th scope="col" className="px-6 py-5 rounded-r-lg">
+                                        Total
                                     </th>
                                     <th scope="col" className="px-6 py-5 rounded-r-lg">
                                     </th>
@@ -240,33 +330,57 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                             }
                                         </th>
                                         <td className="px-6 text-gray-900 whitespace-nowrap font-light text-[14px]">
-                                            <input type='number' onChange={(e) => changeValue(item.id, parseInt(e.target.value))} defaultValue={item.quantity} min={1} className='bg-gray-300 w-full text-center py-3' />
+                                            <div className='bg-gray-300 w-full text-center py-3' >{item.quantity}  </div>
+                                        </td>
+                                        <td className="px-6 text-gray-900 whitespace-nowrap font-light text-[14px]">
+                                            <div className='bg-gray-300 w-full text-center py-3' >Rs.{item.price}  </div>
                                         </td>
                                         <td className="px-6 text-gray-900 whitespace-nowrap font-light text-[14px]">
                                             {item.manual ?
                                                 <input type='number' onChange={(e) => changePriceValue(item.id, parseInt(e.target.value))} defaultValue={item.price} min={1} className='bg-gray-300 text-center py-3 ' />
                                                 :
                                                 <p className='w-full text-center '>
-                                                    {item.price}
+                                                    {item.price * item.quantity}
                                                 </p>
                                             }
-                                            {/*freeMenu ?
-                                                <input type='number' onChange={(e) => changePriceValue(item.id, parseInt(e.target.value))} defaultValue={item.price} min={1} className='bg-gray-300 w-12 text-center py-3' />
-                                                :
-                                                <p className=''>
-                                                    {item.price}
-                                                </p>
-                                        */}
                                         </td>
                                         <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px] justify-center">
+
+                                            {serviceArray.includes(item.id) ? (
+                                                <button onClick={() => removeServiceFromThis(item.id)} type='button' className='my-auto bg-green-600 rounded p-2 ml-5'>
+                                                    <MdRoomService color='#fff' size={20} style={{ marginTop: 'auto', marginBottom: 'auto' }} />
+                                                </button>)
+                                                : (<button onClick={() => addServiceToThis(item.id)} type='button' className='my-auto bg-gray-500 ml-5 p-2 rounded'>
+                                                    <MdOutlineRoomService color='#fff' size={20} style={{ marginTop: 'auto', marginBottom: 'auto' }} />
+                                                </button>
+                                                )}
                                             <button onClick={() => removeItem(item.id)} type='button' className='my-auto'>
-                                                <AiOutlineCloseCircle size={16} />
+                                                <AiOutlineCloseCircle size={16} style={{ marginLeft: 10, marginTop: 'auto', marginBottom: 'auto' }} />
                                             </button>
                                         </td>
                                     </tr>
                                 ))}
                             </tbody>
                             <tfoot>
+                                {getServiceCharge() != 0 &&
+                                    <tr className="font-semibold text-gray-100 bg-slate-600">
+                                        <th scope="row" className="px-6 py-3 text-[10px]">Service Charge</th>
+                                        <td className="px-6 py-3 text-center">
+                                            <p className='w-full'>
+                                            </p>
+                                        </td>
+                                        <td className="px-6 py-3 text-center">
+                                            <p className='w-full'>
+                                            </p>
+                                        </td>
+                                        <td className="px-6 py-3 text-center  ">
+                                            <p className='w-full'>
+                                                Rs. {getServiceCharge()}
+                                            </p>
+                                        </td>
+                                        <td className="px-6 py-3"></td>
+                                    </tr>
+                                }
                                 <tr className="font-semibold text-gray-100 bg-slate-800">
                                     <th scope="row" className="px-6 py-3 text-base">Total</th>
                                     <td className="px-6 py-3 text-center">
@@ -274,9 +388,14 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                             {getTotalQuantity()}
                                         </p>
                                     </td>
+                                    <td className="px-6 py-3 text-center">
+                                        <p className='w-full'>
+                                            {getTotalQuantity()}
+                                        </p>
+                                    </td>
                                     <td className="px-6 py-3 text-center  ">
                                         <p className='w-full'>
-                                            {getTotalAmount()}
+                                            Rs. {getTotalAmount()}
                                         </p>
                                     </td>
                                     <td className="px-6 py-3"></td>
@@ -290,8 +409,8 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                     {
                                         id: (Math.random() * 10000).toString(),
                                         itemName: '',
-                                        price: 1,
-                                        quantity: 1,
+                                        price: 0,
+                                        quantity: 0,
                                         manual: true
                                     }
                                 ]
