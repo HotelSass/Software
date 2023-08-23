@@ -105,7 +105,7 @@ const Booking = ({ open, setOpen, data }: any) => {
             const roomRate = formData.get('roomRate');
             const advance = formData.get('advance');
             const price = formData.getAll('price[]')
-            const roomArray:Object[] = []
+            const roomArray: Object[] = []
             selectedRooms.map((item: any, index: number) => {
                 roomArray.push({
                     room: item.roomNumber,
@@ -126,7 +126,7 @@ const Booking = ({ open, setOpen, data }: any) => {
                 advance,
                 rooms: roomArray,
             })
-            
+
             try {
                 const response = await fetch(serverUrl + "/user/room/reserveRoom", {
                     method: 'POST',
@@ -143,7 +143,7 @@ const Booking = ({ open, setOpen, data }: any) => {
                         to,
                         advance,
                         rooms: roomArray,
-                        status:'inhouse'
+                        status: 'inhouse'
                     })
 
                 });
@@ -164,7 +164,7 @@ const Booking = ({ open, setOpen, data }: any) => {
             } catch (err) {
                 console.log(err)
             }
-            
+
 
         } else {
             setError(true)
@@ -337,7 +337,11 @@ const Booking = ({ open, setOpen, data }: any) => {
                         />
                     </div>
                     <div className="flex flex-col flex-1">
-
+                        <label className="font-medium text-ssm ml-2 mt-4" htmlFor="roomNumber">
+                        </label>
+                        <button className="bg-orange-700 p-3 rounded space-x-3 ml-auto w-full text-center text-white ">
+                            Check In
+                        </button>
                     </div>
                 </div>
                 <div className="flex flex-row space-x-5">
@@ -407,12 +411,7 @@ const Booking = ({ open, setOpen, data }: any) => {
                     </div>
 
                 </div>
-                <div className="flex flex-row">
 
-                    <button className="bg-orange-700 p-3 rounded space-x-3 ml-auto w-2/12 text-center text-white ">
-                        Check In
-                    </button>
-                </div>
 
             </form>
         </Modal>
