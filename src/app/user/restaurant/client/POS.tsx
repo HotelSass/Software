@@ -4,7 +4,7 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import { MdOutlineRoomService, MdRoomService } from "react-icons/md";
 import RoomModal from './RoomModal';
 import TableModal from './TableModal';
-import { Switch, Button, Input, Tooltip, Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
+import { Switch, Button, Input, Tooltip, Popover, PopoverTrigger, PopoverContent, PopoverProvider } from "@nextui-org/react";
 
 const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
     const [manualMenu, setManualMenu] = useState(false)
@@ -15,6 +15,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
     const [search, setSearch] = useState<string>("")
     const [menu, setMenu] = useState(data.menu)
     const [serviceArray, setServiceArray] = useState<string[]>([])
+    const [selectedMenu, setSelectedMenu] = useState('')
     const category = data.categories
     function addItem(item: any, e: any) {
         e.preventDefault()
@@ -188,15 +189,15 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
         <div className='flex-1 flex flex-row h-full w-full '>
             <div className="w-1/2 py-10 flex flex-col h-full ">
                 <div className="w-full">
-                    <div className=" p-3 rounded-xl bg-gray-200 mb-5 flex flex-row overflow-x-scroll no-scrollbar">
+                    <div className=" p-3 rounded bg-gray-200 mb-5 flex flex-row overflow-x-scroll no-scrollbar">
                         <div key={999} className='w-56 my-auto pr-4'>
 
                             {('all' != selectedTab.toLowerCase()) ? (
-                                <Button onClick={() => setSelectedTab('all')} className='p-2 px-4 text-[12px] capitalize text-gray-700 mx-2 font-medium w-full '>
+                                <Button onClick={() => setSelectedTab('all')} className='p-2 px-4 text-[12px] capitalize text-gray-700 mx-2 font-medium w-full rounded-sm '>
                                     All
                                 </Button>
                             ) : (
-                                <Button className='p-2 px-5 border border-orange-500 bg-white rounded-md text-[12px] capitalize text-orange-500 mx-2 font-medium w-full'>
+                                <Button className='p-2 px-5 border border-orange-500 bg-white rounded-sm text-[12px] capitalize text-orange-500 mx-2 font-medium w-full'>
                                     All
                                 </Button>
                             )}
@@ -205,11 +206,11 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                             <div key={index} className='w-56 my-auto pr-4'>
 
                                 {((item.category).toLowerCase() !== selectedTab.toLowerCase()) ? (
-                                    <Button onClick={() => setSelectedTab((item.category).toLowerCase())} className='p-2 px-4 text-[12px] capitalize text-gray-700 mx-2 font-medium w-full '>
+                                    <Button onClick={() => setSelectedTab((item.category).toLowerCase())} className='p-2 px-4 text-[12px] capitalize text-gray-700 mx-2 font-medium w-full rounded-sm '>
                                         {item.category}
                                     </Button>
                                 ) : (
-                                    <Button className='p-2 px-5 border border-orange-500 bg-white rounded-md text-[12px] capitalize text-orange-500 mx-2 font-medium w-full'>
+                                    <Button className='p-2 px-5 border border-orange-500 bg-white rounded-sm text-[12px] capitalize text-orange-500 mx-2 font-medium w-full'>
                                         {item.category}
                                     </Button>
                                 )}
@@ -218,31 +219,32 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                     </div>
                 </div>
 
-                <div className="w-full h-full p-3 py-6 rounded-xl bg-gray-200 overflow-y-scroll flex flex-col ">
+                <div className="w-full h-full p-3 py-6 rounded-lg bg-gray-200 overflow-y-scroll flex flex-col ">
                     <div className="px-3">
-                        <Input value={search} onValueChange={(val) => setSearch(val ? val.toString() : "")} label="Search" className='border border-gray-400 rounded-xl' />
+                        <Input value={search} onValueChange={(val) => setSearch(val ? val.toString() : "")} label="Search" className='border border-gray-400 rounded-md' />
                     </div>
                     <div className="flex w-full flex-wrap mt-5">
                         {menu.map((item: any, index: number) => (
                             <>
                                 {(item.category == selectedTab.toLowerCase() && (item.itemName).toLowerCase().includes(search.toLowerCase())) && (
                                     <Tooltip key={index} color={"primary"} content={item.itemName} className="capitalize">
-                                        <div key={index} className="px-2 w-1/4 py-3">
-                                            <Popover showArrow placement="bottom">
-                                                <PopoverTrigger>
-                                                    <div className={!selectedId.includes(item['_id']) ? "p-3 w-full rounded-lg bg-slate-700 capitalize flex flex-col" : "p-3 w-full rounded-lg bg-green-700 capitalize flex flex-col"}>
+                                        <div key={index} className="px-2 w-1/3 py-1">
+                                            <Popover isOpen={item._id == selectedMenu} showArrow placement="bottom">
+                                                <PopoverTrigger onClick={() => setSelectedMenu(item._id)}>
+                                                    <div className={!selectedId.includes(item['_id']) ? "p-5 w-full rounded-lg bg-slate-700 capitalize flex flex-col" : "p-5 w-full rounded-lg bg-green-700 capitalize flex flex-col"}>
                                                         <div className="text-white font-thin truncate w-full">
                                                             {item.itemName}
                                                         </div>
                                                         <div className="text-white font-thin text-[12px]">
                                                             Rs.{item.price}
                                                         </div>
+
                                                     </div>
                                                 </PopoverTrigger>
                                                 <PopoverContent className="w-64 bg-black p-4">
                                                     <form onSubmit={(e) => { if (!selectedId.includes(item['_id'])) { addItem(item, e) } else { updateItem(item, e) } }} className='flex flex-row '>
                                                         <input name='quantity' defaultValue={1} placeholder='Quantity' className='w-full rounded p-3  text-[14px] flex-1' />
-                                                        <button type='submit' onClick={() => close()} className='bg-green-700 p-3 text-center rounded text-white my-auto ml-2'>Done</button>
+                                                        <button type='submit' onClick={() => { close(); setSelectedMenu('') }} className='bg-green-700 p-3 text-center rounded text-white my-auto ml-2'>Done</button>
                                                     </form>
                                                 </PopoverContent>
                                             </Popover>
@@ -256,22 +258,23 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                             <>
                                 {('all' == selectedTab.toLowerCase() && (item.itemName).toLowerCase().includes(search.toLowerCase())) && (
                                     <Tooltip key={index} color={"primary"} content={item.itemName} className="capitalize">
-                                        <div key={index} className="px-2 w-1/4 py-3">
-                                            <Popover showArrow placement="bottom">
-                                                <PopoverTrigger>
-                                                    <div className={!selectedId.includes(item['_id']) ? "p-3 w-full rounded-lg bg-slate-700 capitalize flex flex-col" : "p-3 w-full rounded-lg bg-green-700 capitalize flex flex-col"}>
+                                        <div key={index} className="px-2 w-1/3 py-1">
+                                            <Popover isOpen={item._id == selectedMenu} showArrow placement="bottom">
+                                                <PopoverTrigger onClick={() => setSelectedMenu(item._id)}>
+                                                    <div className={!selectedId.includes(item['_id']) ? "p-5 w-full rounded-lg bg-slate-700 capitalize flex flex-col" : "p-5 w-full rounded-lg bg-green-700 capitalize flex flex-col"}>
                                                         <div className="text-white font-thin truncate w-full">
                                                             {item.itemName}
                                                         </div>
                                                         <div className="text-white font-thin text-[12px]">
                                                             Rs.{item.price}
                                                         </div>
+
                                                     </div>
                                                 </PopoverTrigger>
                                                 <PopoverContent className="w-64 bg-black p-4">
                                                     <form onSubmit={(e) => { if (!selectedId.includes(item['_id'])) { addItem(item, e) } else { updateItem(item, e) } }} className='flex flex-row '>
                                                         <input name='quantity' defaultValue={1} placeholder='Quantity' className='w-full rounded p-3  text-[14px] flex-1' />
-                                                        <button type='submit' onClick={() => close()} className='bg-green-700 p-3 text-center rounded text-white my-auto ml-2'>Done</button>
+                                                        <button type='submit' onClick={() => { close(); setSelectedMenu('') }} className='bg-green-700 p-3 text-center rounded text-white my-auto ml-2'>Done</button>
                                                     </form>
                                                 </PopoverContent>
                                             </Popover>

@@ -25,6 +25,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
     const [search, setSearch] = useState<string>("")
     const [menu, setMenu] = useState(data.menu)
     const [serviceArray, setServiceArray] = useState<string[]>([])
+    const [selectedMenu, setSelectedMenu] = useState('')
     const category = data.categories
     function addItem(item: any, e: any) {
         e.preventDefault()
@@ -250,8 +251,8 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                 {(item.category == selectedTab.toLowerCase() && (item.itemName).toLowerCase().includes(search.toLowerCase())) && (
                                     <Tooltip key={index} color={"primary"} content={item.itemName} className="capitalize">
                                         <div key={index} className="px-2 w-1/4 py-3">
-                                            <Popover showArrow placement="bottom">
-                                                <PopoverTrigger>
+                                            <Popover isOpen={item._id == selectedMenu} showArrow placement="bottom">
+                                                <PopoverTrigger onClick={() => setSelectedMenu(item._id)}>
                                                     <div className={!selectedId.includes(item['_id']) ? "p-3 w-full rounded-lg bg-slate-700 capitalize flex flex-col" : "p-3 w-full rounded-lg bg-green-700 capitalize flex flex-col"}>
                                                         <div className="text-white font-thin truncate w-full">
                                                             {item.itemName}
@@ -266,16 +267,16 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                                         {item.fullBottle ?
                                                             <>
                                                                 <input name='quantity' defaultValue={1} placeholder='Quantity' className='w-full rounded p-3  text-[14px] flex-1' />
-                                                                <button type='submit' onClick={() => close()} className='bg-green-700 p-3 text-center rounded text-white my-auto ml-2'>Done</button>
+                                                                <button type='submit' onClick={() => { close(); setSelectedMenu('') }} className='bg-green-700 p-3 text-center rounded text-white my-auto ml-2'>Done</button>
                                                             </>
                                                             :
                                                             <div className='flex flex-row flex-wrap gap-3'>
-                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml30") }}>30 ml</button>
-                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml60") }}>60 ml</button>
-                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml90") }}>90 ml</button>
-                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml180") }}>180 ml</button>
-                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "half") }}>Half</button>
-                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "full") }}>Full</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml30"); setSelectedMenu('') }}>30 ml</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml60"); setSelectedMenu('') }}>60 ml</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml90"); setSelectedMenu('') }}>90 ml</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml180"); setSelectedMenu('') }}>180 ml</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "half"); setSelectedMenu('') }}>Half</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "full"); setSelectedMenu('') }}>Full</button>
                                                             </div>
                                                         }
                                                     </form>
@@ -292,8 +293,8 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                 {('all' == selectedTab.toLowerCase() && (item.itemName).toLowerCase().includes(search.toLowerCase())) && (
                                     <Tooltip key={index} color={"primary"} content={item.itemName} className="capitalize">
                                         <div key={index} className="px-2 w-1/4 py-3">
-                                            <Popover showArrow placement="bottom">
-                                                <PopoverTrigger>
+                                            <Popover isOpen={item._id == selectedMenu} showArrow placement="bottom">
+                                                <PopoverTrigger onClick={() => setSelectedMenu(item._id)}>
                                                     <div className={!selectedId.includes(item['_id']) ? "p-3 w-full rounded-lg bg-slate-700 capitalize flex flex-col" : "p-3 w-full rounded-lg bg-green-700 capitalize flex flex-col"}>
                                                         <div className="text-white font-thin truncate w-full">
                                                             {item.itemName}
@@ -303,21 +304,21 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                                         </div>
                                                     </div>
                                                 </PopoverTrigger>
-                                                <PopoverContent className="w-full bg-black p-4">
+                                                <PopoverContent className="w-64 bg-black p-4">
                                                     <form onSubmit={(e) => { if (!selectedId.includes(item['_id'])) { addItem(item, e) } else { updateItem(item, e) } }} className='flex flex-row '>
                                                         {item.fullBottle ?
                                                             <>
                                                                 <input name='quantity' defaultValue={1} placeholder='Quantity' className='w-full rounded p-3  text-[14px] flex-1' />
-                                                                <button type='submit' onClick={() => close()} className='bg-green-700 p-3 text-center rounded text-white my-auto ml-2'>Done</button>
+                                                                <button type='submit' onClick={() => { close(); setSelectedMenu('') }} className='bg-green-700 p-3 text-center rounded text-white my-auto ml-2'>Done</button>
                                                             </>
                                                             :
                                                             <div className='flex flex-row flex-wrap gap-3'>
-                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml30") }}>30 ml</button>
-                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml60") }}>60 ml</button>
-                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml90") }}>90 ml</button>
-                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml180") }}>180 ml</button>
-                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "half") }}>Half</button>
-                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "full") }}>Full</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml30"); setSelectedMenu('') }}>30 ml</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml60"); setSelectedMenu('') }}>60 ml</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml90"); setSelectedMenu('') }}>90 ml</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml180"); setSelectedMenu('') }}>180 ml</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "half"); setSelectedMenu('') }}>Half</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "full"); setSelectedMenu('') }}>Full</button>
                                                             </div>
                                                         }
                                                     </form>
@@ -360,7 +361,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                             </thead>
                             <tbody>
                                 {selectedItems.map((item, index) => {
-                                    
+
                                     return (
                                         <tr key={index} className=" bg-gray-300 border-b flex-1 ">
                                             <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px] capitalize">
