@@ -7,10 +7,10 @@ import React from "react";
 import { UserSidebarInfo } from "../data/SidebarInfo";
 
 const Sidebar = () => {
-  const routeUrl = "/user/"+usePathname()?.split("/")[2];
+  const routeUrl = "/user/" + usePathname()?.split("/")[2];
   return (
     <div
-      className="bg-blue-900 py-10 w-70"
+      className="bg-blue-900 py-10 w-40"
       style={{ display: "flex", flexDirection: "column" }}
     >
       <div className="flex flex-row w-full space-x-4 p-4">
@@ -18,7 +18,7 @@ const Sidebar = () => {
           src="/images/profile.jpg"
           width={55}
           height={55}
-          className="rounded-2xl"
+          className="rounded-2xl mx-auto"
           alt="Profile Picture"
         />
         <div className=" flex-col hidden">
@@ -39,15 +39,21 @@ const Sidebar = () => {
                 : "flex flex-row w-11/12 mx-auto p-4 rounded-lg space-x-5 my-1"
             }
           >
-            <div className="mx-auto">
-            {React.cloneElement(item.icon, {
-              size: item.size,
-              color: routeUrl == item.location ? item.color : "#cfcfcf",
-            })}
+            <div className="mr-auto">
+              {React.cloneElement(item.icon, {
+                size: item.size,
+                color: routeUrl == item.location ? item.color : "#cfcfcf",
+              })}
             </div>
-            <div className={"text-[13px] my-auto font-medium hidden"}>
-              {item.title}
-            </div>
+            {routeUrl == item.location ?
+              <div className={"text-[13px] my-auto font-normal text-left  flex-1"}>
+                {item.title}
+              </div>
+              :
+              <div className={"text-[13px] my-auto font-normal text-left  flex-1 text-white"}>
+                {item.title}
+              </div>
+            }
           </Link>
         ))}
       </div>

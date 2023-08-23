@@ -5,7 +5,7 @@ export const UserSidebarInfo = {
 
    0: {
       icon: <BiBed />,
-      title: 'Rooms',
+      title: 'Room',
       size: 24,
       color: '#2442F8',
       location: '/user/rooms'
@@ -26,7 +26,7 @@ export const UserSidebarInfo = {
    }
    , 3: {
       icon: <BiWine />,
-      title: 'Restaurant',
+      title: 'Bar',
       size: 24,
       color: '#2442F8',
       location: '/user/bar'
@@ -40,7 +40,7 @@ export const UserSidebarInfo = {
    }
    , 5: {
       icon: <BiMoneyWithdraw />,
-      title: 'Menu',
+      title: 'Finance',
       size: 24,
       color: '#2442F8',
       location: '/user/finance'
