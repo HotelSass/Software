@@ -49,16 +49,16 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
         }
     }
     function addItemSelect(item: any, quantity: any) {
-
+        const random = (Math.floor(Math.random() * 10000) + 1).toString()
         let tempIndex = [...selectedId]
-        tempIndex.push(item['_id'])
+        tempIndex.push(item['_id'] + random)
         setSelectedId([...tempIndex])
         if (quantity) {
             let selected = {
                 itemName: item.itemName,
                 price: item.distribution[quantity],
                 quantity: 1,
-                id: item._id,
+                id: item._id + random,
                 label: quantity,
                 serviceCharge: false,
                 distribution: item.distribution,
@@ -171,7 +171,6 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
             let temp2 = serviceArray
             temp2.push(id)
             setServiceArray([...temp2])
-            console.log(selectedItems)
         }
     }
     function removeServiceFromThis(id: any) {
@@ -198,8 +197,9 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
         for (let i = 0; i < temp.length; i++) {
 
             if (temp[i].serviceCharge) {
-                console.log(temp[i])
-                num = num + temp[i].quantity * (temp[i].price || 0) * 0.1
+
+                num = num + temp[i].quantity * (parseFloat(temp[i].price) || 0) * 0.1
+
             }
         }
         if (temp.length == 0) {
@@ -294,7 +294,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                     <Tooltip key={index} color={"primary"} content={item.itemName} className="capitalize">
                                         <div key={index} className="px-2 w-1/4 py-3">
                                             <Popover isOpen={item._id == selectedMenu} showArrow placement="bottom">
-                                                <PopoverTrigger onClick={() => setSelectedMenu(item._id)}>
+                                                <PopoverTrigger onClick={() => {setSelectedMenu(item._id)}}>
                                                     <div className={!selectedId.includes(item['_id']) ? "p-3 w-full rounded-lg bg-slate-700 capitalize flex flex-col" : "p-3 w-full rounded-lg bg-green-700 capitalize flex flex-col"}>
                                                         <div className="text-white font-thin truncate w-full">
                                                             {item.itemName}
