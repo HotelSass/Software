@@ -55,7 +55,7 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
     const router = useRouter()
     const [openSelectRoom, setOpenSelectRoom] = useState(false)
     const [availabeData, setAvailableData] = useState([])
-    const [selectedRooms, setSelectedRooms] = useState<number[]>([])
+    const [selectedRooms, setSelectedRooms] = useState<Object[]>([])
     const [error, setError] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
     const [value, setValue] = useState({
@@ -78,15 +78,17 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
     const selectData = (val: any) => {
 
         let temp = selectedRooms
-        if (selectedRooms.includes(val)) {
-            const index = selectedRooms.indexOf(val);
-            if (index > -1) { // only splice array when item is found
-                temp.splice(index, 1); // 2nd parameter means remove one item only
+        if (temp.includes(val)) {
+            const index = temp.indexOf(val)
+            if (index != -1) {
+                temp.splice(index, 1); // Remove one element at the found index
             }
+            setSelectedRooms([...temp])
+
         } else {
             temp.push(val)
+            setSelectedRooms([...temp])
         }
-        setSelectedRooms([...temp])
     }
     async function onSubmit(event: any) {
         event.preventDefault()
@@ -102,8 +104,21 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
             const phone = formData.get('phone');
             const advance = formData.get('advance');
             const roomRate = formData.get('roomRate');
-
+            const price = formData.getAll('price[]')
+            const roomArray:Object[] = []
+            selectedRooms.map((item: any, index: number) => {
+                roomArray.push({
+                    room: item.roomNumber,
+                    checkIn: value.startDate,
+                    checkOut: value.endDate,
+                    status: 'reserved',
+                    roomRate: price[index]
+                })
+            })
+           
+            
             try {
+
                 const response = await fetch(serverUrl + "/user/room/reserveRoom", {
                     method: 'POST',
                     headers: {
@@ -113,14 +128,11 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
                         name,
                         address,
                         phone,
-                        roomNumber: selectedRooms,
-                        duration: duration,
-                        checkIn: value.startDate,
-                        checkOut: value.endDate,
+                        rooms: roomArray,
                         status: 'reserved',
                         advance,
-                        roomRate
                     })
+
 
                 });
 
@@ -164,15 +176,15 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
                         </div>
                     </div>
                 }
-                <form onSubmit={(e) => onSubmit(e)} className='flex flex-col space-y-4'>
+                <form onSubmit={(e) => onSubmit(e)} className='flex flex-col space-y-4 '>
                     <Modal open={openSelectRoom} setOpen={setOpenSelectRoom} width={600} height={400}>
                         <div className=" flex flex-row flex-wrap">
                             {availabeData.map((item: any, index: number) => (
                                 <div key={index} className='my-2' >
                                     {selectedRooms.includes(item) ?
-                                        <button type='button' onClick={() => selectData(item)} className="p-4 border bg-green-700 text-[12px] items-center justify-center rounded-xl w-16 h-16 mx-2 text-white">{item}</button>
+                                        <button type='button' onClick={() => selectData(item)} className="p-4 border bg-green-700 text-[12px] items-center justify-center rounded-xl w-16 h-16 mx-2 text-white">{item.roomNumber}</button>
                                         :
-                                        <button type='button' onClick={() => selectData(item)} className="p-4 border border-gray-400 text-[12px] items-center justify-center rounded-xl w-16 h-16 mx-2">{item}</button>
+                                        <button type='button' onClick={() => selectData(item)} className="p-4 border border-gray-400 text-[12px] items-center justify-center rounded-xl w-16 h-16 mx-2">{item.roomNumber}</button>
                                     }
                                 </div>
                             ))}
@@ -257,20 +269,7 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
                                 className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
                             />
                         </div>
-                        <div className="flex flex-col flex-1">
-                            <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
-                                Room Rate
-                            </label>
-                            <input
-                                pattern="[0-9]*"
-                                name="roomRate"
-                                placeholder="Rs."
-                                type="text"
-                                id="roomRate"
-                                required
-                                className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
-                            />
-                        </div>
+                        <div className="flex-1"></div>
 
                     </div>
                     <div className="flex">
@@ -291,26 +290,65 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
                                                 <div className='flex flex-row flex-wrap overflow-x-scroll'>
 
                                                     {selectedRooms.map((item: any, index: number) => (
-                                                        <div key={index} className="text-white text-center mx-2 ">{item}</div>
+                                                        <div key={index} className="text-white text-center mx-2 ">{item.roomNumber}</div>
                                                     ))}
 
                                                 </div>
                                             </div>
                                         }
                                     </button>
+                                    {selectedRooms.length != 0 &&
+                                        <div className=" mt-8 h-[300px] overflow-y-scroll">
+                                            <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
+                                                Pricing
+                                            </label>
+                                            <div className="relative overflow-x-auto shadow-md sm:rounded-lg ">
+                                                <table className="text-sm text-left text-gray-500 dark:text-gray-400 w-full rounded-lg ">
+
+                                                    <thead className="text-[12px] uppercase bg-gray-800 text-gray-400">
+                                                        <tr>
+
+
+                                                            <th className="px-6 py-3 font-light text-center">
+                                                                Room
+                                                            </th>
+
+                                                            <th className="px-6 py-3 font-light text-center">
+                                                                Price
+                                                            </th>
+
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {selectedRooms.map((item: any, index: number) => (
+                                                            <tr key={index} className=" border-b bg-gray-700 border-gray-700 pb-4">
+                                                                <td className="px-2 py-1 text-center text-white">
+                                                                    {item.roomNumber}
+                                                                </td>
+
+                                                                <td className="px-2 py-1">
+                                                                    <input type="number" defaultValue={item.roomRate} required name='price[]' inputMode='numeric' placeholder='Rs.' className=' py-4 bg-gray-500 rounded px-3 w-full text-[12px] text-gray-100 font-thin' />
+                                                                </td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    }
                                 </div>
                             }
                         </div>
                     </div>
 
                     <div className="flex flex-row">
-                        {(value.startDate != null && value.endDate != null) &&
-                            <div className="text-[16px] font-thin tracking-tight p-3 bg-gray-700 text-white rounded-lg w-44 text-center">{duration} day</div>
-                        }
-                        <button  className="bg-orange-700 p-3 rounded space-x-3 ml-auto w-2/12 text-center text-white ">
+
+                        <button className="bg-orange-700 p-3 rounded space-x-3 ml-auto w-2/12 text-center text-white ">
                             Reserve
                         </button>
-                    
+
                     </div>
 
                 </form>

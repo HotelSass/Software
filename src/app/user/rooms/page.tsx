@@ -29,12 +29,13 @@ const Rooms = () => {
           <NewBookingServer />
         </div>
         <div className="flex-1 mt-10">
-
           {/* @ts-expect-error Async Server Component */}
+
           <InfoServer />
+
         </div>
         <div className="">
-         
+
         </div>
 
       </div>
@@ -43,3 +44,8 @@ const Rooms = () => {
 };
 
 export default Rooms;
+
+/*
+ <InfoServer />
+
+ */

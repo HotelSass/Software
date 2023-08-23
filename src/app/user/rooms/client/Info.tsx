@@ -8,6 +8,7 @@ import RoomCheckOut from './checkout/room/Page'
 import { Card, CardFooter, Image, Button } from "@nextui-org/react";
 import PasswordProtected from '../../component/PasswordProtected'
 import serverUrl from '@/config/config'
+import ReservationInfoModal from './modals/ReservationInfoModal'
 
 
 const Info = ({ data }: any) => {
@@ -65,11 +66,12 @@ const ReservationModal = ({ reservationData, open, setOpen }: any) => {
     const [open1, setOpen1] = useState(false)
     const [cancelOpen, setCancelOpen] = useState(false)
     const [secData, setSecData] = useState({})
+    const [infoModal, setInfoModal] = useState(false)
     const cancelReservation = (item: any) => {
         setCancelOpen(true)
     }
     const deleteRecord = async (reservationData: [Object]) => {
-        const data=reservationData[0]
+        const data = reservationData[0]
         try {
             const response = await fetch(serverUrl + "/user/room/cancelReservation", {
                 method: 'POST',
@@ -81,7 +83,6 @@ const ReservationModal = ({ reservationData, open, setOpen }: any) => {
                 })
 
             });
-
             if (response.ok) {
                 setCancelOpen(false)
                 setOpen(false)
@@ -93,6 +94,9 @@ const ReservationModal = ({ reservationData, open, setOpen }: any) => {
             console.log(err)
         }
 
+    }
+    function closeModal() {
+        setOpen(false)
     }
     return (
         <>
@@ -118,46 +122,63 @@ const ReservationModal = ({ reservationData, open, setOpen }: any) => {
                         </div>
                     </div>
                 </PasswordProtected>
-                <CheckInModal data={secData} open={open1} setOpen={setOpen1} />
+                <CheckInModal data={secData} open={open1} setOpen={setOpen1} closeModal={closeModal} />
+                <ReservationInfoModal data={secData} open={infoModal} setOpen={setInfoModal} />
 
                 <div className="p-4 pt-0 overflow-y-scroll">
-                    <div className="text-[24px] font-thin tracking-tight mb-6">Check In</div>
+                    <div className="text-[24px] font-thin tracking-tight mb-6">Reservations</div>
                     <div className="relative overflow-x-auto mt-8 flex flex-col p-4 h-[500px] overflow-y-scroll">
 
                         {reservationData.length == 0 &&
                             <div className="my-10 text-center font-thin text-[18px]">Nothing to show here</div>
                         }
-                        {reservationData.map((item: any, index: number) => (
-                            <div key={index} className="bg-gray-200 rounded-xl flex flex-row my-2">
-                                <div className="flex flex-col bg-gray-500 p-4 rounded-md flex-1">
-                                    <div className="text-[18px] text-white font-extralight">{item.name.toUpperCase()}</div>
-                                    <div className="text-[10px] text-white font-extralight">{item.address.toUpperCase()}</div>
-                                </div>
-                                <div className="flex flex-col px-10 py-4 flex-1">
-                                    <div className="text-[14px] font-extralight mb-auto">Phone No.</div>
-                                    <div className="text-[10px] font-extralight mb-auto">{item.phone.toUpperCase()}</div>
-
-                                </div>
-                                <div className="flex flex-col px-5 py-4 flex-1">
-                                    <div className="text-[14px] font-extralight mb-auto">Check In.</div>
-                                    <div className="text-[10px] font-extralight mb-auto">{item.checkIn.toUpperCase()}</div>
-                                </div>
-                                <div className="flex flex-col px-5 py-4 flex-1">
-                                    <div className="text-[14px] font-extralight mb-auto">Check Out.</div>
-                                    <div className="text-[10px] font-extralight mb-auto">{item.checkOut.toUpperCase()}</div>
-                                </div>
-                                <div className="flex flex-col w-44">
-                                    <button type='button' onClick={() => { setSecData(item); setOpen1(true) }} className='bg-red-900 items-center justify-center text-white flex-1 rounded-md text-[14px] font-light'>
-                                        Check In
+                        {reservationData.map((item: any, index: number) => {
+                            return (
+                                <div key={index} className="bg-gray-200 rounded-xl flex flex-row my-2">
+                                    <button type='button' onClick={() => { setSecData(item); setInfoModal(true) }} className="flex flex-col bg-gray-500 p-4 rounded-md flex-1">
+                                        <div className="text-[18px] text-white font-extralight">{item.name.toUpperCase()}</div>
+                                        <div className="text-[10px] text-white font-extralight">{item.address.toUpperCase()}</div>
                                     </button>
-                                    <button type='button' onClick={() => { setSecData(item); cancelReservation(item) }} className=' items-center justify-center text-red-800 underline flex-1 rounded-md text-[14px] font-light'>
-                                        Cancel reservation
-                                    </button>
+
+                                    <div className="flex flex-col px-10 py-4 flex-1">
+                                        <div className="text-[14px] font-extralight mb-auto">Phone No.</div>
+                                        <div className="text-[10px] font-extralight mb-auto">{item.phone.toUpperCase()}</div>
+
+                                    </div>
+                                    <div className="flex flex-col px-10 py-4 flex-1">
+                                        <div className="text-[14px] font-extralight mb-auto">Room No.</div>
+                                        <div className="text-[12px] font-extralight mb-auto flex flex-row">
+                                            {item.rooms &&
+                                                <>
+                                                    {(item.rooms).map((item: any, index: number) => {
+                                                        return (
+                                                            <>
+                                                                {item.status == 'reserved' &&
+                                                                    <p className='mr-2'>
+                                                                        {item.room}
+                                                                    </p>
+                                                                }
+                                                            </>
+                                                        )
+                                                    })}
+                                                </>}
+                                        </div>
+
+                                    </div>
+                                    <div className="flex flex-col w-44">
+                                        <button type='button' onClick={() => { setSecData(item); setOpen1(true) }} className='bg-red-900 items-center justify-center text-white flex-1 rounded-md text-[14px] font-light'>
+                                            Check In
+                                        </button>
+                                        <button type='button' onClick={() => { setSecData(item); cancelReservation(item) }} className=' items-center justify-center text-red-800 underline flex-1 rounded-md text-[14px] font-light'>
+                                            Cancel reservation
+                                        </button>
+                                    </div>
+
+
                                 </div>
 
-                            </div>
-
-                        ))}
+                            )
+                        })}
                     </div>
                 </div>
             </Modal>
@@ -195,14 +216,22 @@ const CheckOutModal = ({ reservationData, open, setOpen }: any) => {
                                     <div className="text-[10px] font-extralight mb-auto">{item.phone.toUpperCase()}</div>
 
                                 </div>
-                                <div className="flex flex-col px-5 py-4 flex-1">
-                                    <div className="text-[14px] font-extralight mb-auto">Check In.</div>
-                                    <div className="text-[10px] font-extralight mb-auto">{item.checkIn.toUpperCase()}</div>
+                                <div className="flex flex-col px-10 py-4 flex-1">
+                                    <div className="text-[14px] font-extralight mb-auto">Room No.</div>
+                                    <div className="text-[12px] font-extralight mb-auto flex flex-row">
+                                        {(item.rooms).map((item: any, index: number) => (
+                                            <>
+                                                {item.status == 'inhouse' &&
+                                                    <p className='mr-2'>
+                                                        {item.room}
+                                                    </p>
+                                                }
+                                            </>
+                                        ))}
+                                    </div>
+
                                 </div>
-                                <div className="flex flex-col px-5 py-4 flex-1">
-                                    <div className="text-[14px] font-extralight mb-auto">Check Out.</div>
-                                    <div className="text-[10px] font-extralight mb-auto">{item.checkOut.toUpperCase()}</div>
-                                </div>
+
                                 <button type='button' onClick={() => { setSecData(item); setOpenCheckout(true) }} className='bg-red-900 items-center justify-center text-white flex-1 rounded-md text-[14px] font-light'>
                                     Check Out
                                 </button>

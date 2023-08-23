@@ -1,12 +1,11 @@
 import Modal from '@/components/modal'
 import serverUrl from '@/config/config'
-import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
 const TransferModal = ({ bookingList, selectedItems, reload, data }: any) => {
     const [open, setOpen] = useState(false)
     const [openSecond, setOpenSecond] = useState(false)
-    const [selectedRoom, setSelectedRoom] = useState({id:null,roomNumber:null})
+    const [selectedRoom, setSelectedRoom] = useState({ id: null, roomNumber: null })
 
 
     async function orderToRoom() {
@@ -28,7 +27,7 @@ const TransferModal = ({ bookingList, selectedItems, reload, data }: any) => {
             if (response.ok) {
                 setOpen(false)
                 setOpenSecond(false)
-                setSelectedRoom({id:null,roomNumber:null})
+                setSelectedRoom({ id: null, roomNumber: null })
                 reload()
             } else {
             }
@@ -37,7 +36,6 @@ const TransferModal = ({ bookingList, selectedItems, reload, data }: any) => {
             console.log(err)
         }
     }
-    console.log(data)
 
     return (
         <>
@@ -48,18 +46,20 @@ const TransferModal = ({ bookingList, selectedItems, reload, data }: any) => {
 
                     {bookingList.val.map((item: any, index: any) => (
                         <>
-                            {item.roomNumber.map((item1: any,index1:number) => {
-                                return (
-                                    <button key={index+index1} type='button' onClick={() => { setSelectedRoom({ id: item._id, roomNumber: item1 }); setOpenSecond(true) }} className="p-5 rounded-xl m-2 bg-gray-300 flex flex-col w-1/6 hover:bg-gray-500">
-                                        <div className="font-light text-[24px] text-left text-gray-800">
-                                            {item1}
-                                        </div>
-                                        <div className="font-thin text-[12px] capitalize text-gray-600 text-left">
-                                            {item.name}
-                                        </div>
+                            {item.rooms.map((item1: any, index1: number) => {
+                                if (item1.status == 'inhouse') {
+                                    return (
+                                        <button key={index + index1} type='button' onClick={() => { setSelectedRoom({ id: item._id, roomNumber: item1.room }); setOpenSecond(true) }} className="p-5 rounded-xl m-2 bg-gray-300 flex flex-col w-1/6 hover:bg-gray-500">
+                                            <div className="font-light text-[24px] text-left text-gray-800">
+                                                {item1.room}
+                                            </div>
+                                            <div className="font-thin text-[12px] capitalize text-gray-600 text-left">
+                                                {item.name}
+                                            </div>
 
-                                    </button>
-                                )
+                                        </button>
+                                    )
+                                }
                             })}
                         </>
                     ))}

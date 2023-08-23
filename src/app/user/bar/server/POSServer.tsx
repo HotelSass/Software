@@ -3,7 +3,7 @@ import React from 'react'
 import POS from '../client/POS';
 
 async function getData() {
-    const res = await fetch(serverUrl + "/user/menu/getCategoryAndMenu", { cache: 'no-store' });
+    const res = await fetch(serverUrl + "/user/bar/getCategoryAndMenu", { cache: 'no-store' });
     const data = await res.json();
     const resRoomList = await fetch(serverUrl + "/user/menu/getAvailableRoom", { cache: 'no-store' })
     const bookingList = await resRoomList.json()
@@ -19,4 +19,4 @@ const POSServer = async () => {
 }
 
 export default POSServer
-//
+//        

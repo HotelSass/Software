@@ -44,7 +44,7 @@ function dateDifference(startDateStr: string, endDateStr: string) {
     return dateDifferenceDays;
 }
 
-const ShowInfo = ({ open, setOpen, data }: any) => {
+const ReservationInfoModal = ({ open, setOpen, data }: any) => {
     const router = useRouter()
     const today = new Date();
     const oneDayBefore = new Date(today);
@@ -58,99 +58,13 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
     });
     const [openSelectRoom, setOpenSelectRoom] = useState(false)
     const [availabeData, setAvailableData] = useState([])
-    const [selectedRooms, setSelectedRooms] = useState<number[]>([])
+    const [selectedRooms, setSelectedRooms] = useState<Object[]>([])
     const [error, setError] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
     const [duration, setDuration] = useState<number>(0)
     const [clientName, setClientName] = useState<string>("")
 
-    const onAddNewRoom = async (e: any) => {
-        e.preventDefault()
-        const form = new FormData(e.target)
-        const name = form.get('name')
-        const price = form.getAll('price[]')
-        let roomArray = [...data.rooms]
-        const submitType = (e.nativeEvent as any).submitter.getAttribute('value');
 
-        if (submitType == 'reserve') {
-            selectedRooms.map((item: any, index: number) => {
-                roomArray.push({
-                    room: item['roomNumber'],
-                    checkIn: value.startDate,
-                    checkOut: value.endDate,
-                    roomRate: price[index],
-                    status: 'reserved',
-                    name: name
-                })
-            })
-            try {
-                const response = await fetch(serverUrl + "/user/room/addNewRoom", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        data, roomArray
-                    })
-
-                });
-
-                if (response.ok) {
-                    setValue({
-                        startDate: null,
-                        endDate: null
-                    })
-                    setOpen(false)
-                    setSelectedRooms([])
-                    router.refresh()
-
-                } else {
-                }
-
-            } catch (err) {
-                console.log(err)
-            }
-
-        } else {
-            selectedRooms.map((item: any, index: number) => {
-                roomArray.push({
-                    room: item['roomNumber'],
-                    checkIn: value.startDate,
-                    checkOut: value.endDate,
-                    roomRate: price[index],
-                    status: 'inhouse',
-                    name: name
-                })
-            })
-            try {
-                const response = await fetch(serverUrl + "/user/room/addNewRoom", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        data, roomArray
-                    })
-
-                });
-
-                if (response.ok) {
-                    setValue({
-                        startDate: null,
-                        endDate: null
-                    })
-                    setOpen(false)
-                    setSelectedRooms([])
-                    router.refresh()
-
-                } else {
-                }
-
-            } catch (err) {
-                console.log(err)
-            }
-        }
-    }
     const handleValueChange = async (newValue: any) => {
         const differenceInDays = dateDifference(newValue.startDate, newValue.endDate);
         setDuration(differenceInDays)
@@ -160,20 +74,70 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
             setAvailableData(rooms)
         }
     }
-    const selectData = (val: number) => {
+    const selectData = (val: any) => {
+
         let temp = selectedRooms
-        if (selectedRooms.includes(val)) {
-            const index = selectedRooms.indexOf(val);
-            if (index > -1) { // only splice array when item is found
-                temp.splice(index, 1); // 2nd parameter means remove one item only
+
+
+        if (temp.includes(val)) {
+            const index = temp.indexOf(val)
+            if (index != -1) {
+                temp.splice(index, 1); // Remove one element at the found index
             }
+            setSelectedRooms([...temp])
+
         } else {
             temp.push(val)
+            setSelectedRooms([...temp])
         }
-        setSelectedRooms([...temp])
+    }
+    const onAddNewRoom = async (e: any) => {
+        e.preventDefault()
+        const form = new FormData(e.target)
+        const name = form.get('name')
+        const price = form.getAll('price[]')
+        const roomArray = data.rooms
+        selectedRooms.map((item: any, index: number) => {
+            roomArray.push({
+                room: item['roomNumber'],
+                checkIn: value.startDate,
+                checkOut: value.endDate,
+                roomRate: price[index],
+                status: 'reserved',
+                name: name
+            })
+        })
+        try {
+            const response = await fetch(serverUrl + "/user/room/addNewRoom", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name, value, selectedRooms, data,roomArray
+                })
+
+            });
+
+            if (response.ok) {
+                setValue({
+                    startDate: null,
+                    endDate: null
+                })
+                setOpen(false)
+                setSelectedRooms([])
+                router.refresh()
+
+            } else {
+            }
+
+        } catch (err) {
+            console.log(err)
+        }
+
     }
     return (
-        <Modal open={open} setOpen={setOpen} width={800} height={900}>
+        <Modal open={open} setOpen={setOpen} height={400} width={800}>
             <Modal open={newRoomModal} setOpen={setNewRoomModal} width={600} height={900}>
                 {error &&
 
@@ -205,7 +169,7 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
                         </div>
 
                     </Modal>
-                    <div className="text-[28px] font-thin tracking-tight">Add New Rooms</div>
+                    <div className="text-[28px] font-thin tracking-tight">Reserve New Rooms</div>
 
 
                     <div className="flex flex-row space-x-5">
@@ -307,19 +271,17 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
 
                     }
                     <div className="flex flex-row">
-
-                        <button type='submit' name='submitType' value="reserve" data-submitted="reserve" className="bg-green-700 p-3 rounded space-x-3 ml-auto w-2/12 text-center text-white ">
+                        <button type='submit' className="bg-green-700 p-3 rounded space-x-3 ml-auto w-2/12 text-center text-white ">
                             Reserve
                         </button>
-                        <button type='submit' name='submitType' value="checkin" data-submitted="checkin" className="bg-orange-700 p-3 rounded space-x-3 mx-2 w-2/12 text-center text-white ">
-                            Check In
-                        </button>
+
                     </div>
 
                 </form>
             </Modal>
             <form className='flex flex-col space-y-4'>
-                <div className="text-[28px] font-thin tracking-tight ml-4">Info</div>
+
+                <div className="text-[28px] font-thin tracking-tight">Reservation</div>
 
 
                 <div className="flex flex-row space-x-5">
@@ -328,7 +290,6 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
                             Client Name
                         </label>
                         <input
-                            disabled
                             defaultValue={data.name}
                             name="name"
                             placeholder="Client Name"
@@ -343,7 +304,6 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
                             Client Address
                         </label>
                         <input
-                            disabled
                             defaultValue={data.address}
                             name="address"
                             placeholder="Client Address"
@@ -360,8 +320,8 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
                             Client Phone
                         </label>
                         <input
-                            disabled
                             defaultValue={data.phone}
+                            pattern="[0-9+]*"
                             name="phone"
                             placeholder="Client Phone"
                             type="text"
@@ -375,8 +335,7 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
                             Check In - Check Out
                         </label>
                         <input
-
-                            defaultValue={data.rooms ? data.rooms[0].checkIn + " to " + data.rooms[0].checkOut : ""}
+                            defaultValue={data.rooms ? data.rooms[0]['checkIn'] + " to " + data.rooms[0]['checkOut'] : ""}
                             name="phone"
                             placeholder="Client Phone"
                             type="text"
@@ -387,122 +346,62 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
                     </div>
                 </div>
                 <div className="flex flex-row space-x-5">
+                    
                     <div className="flex flex-col flex-1">
                         <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
-                            Nationality
+                            Advance
                         </label>
                         <input
-                            disabled
-                            defaultValue={data.nationality}
-                            name="nationality"
-                            placeholder="Nationality"
-                            type="text"
-                            id="nationality"
-                            required
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
-                        />
-                    </div>
-                    <div className="flex flex-col flex-1">
-                        <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
-                            Client Email
-                        </label>
-                        <input
-                            disabled
-                            defaultValue={data.email}
-                            name="email"
-                            placeholder="Client Email"
-                            type="text"
-                            id="clientEmail"
-                            required
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
-                        />
-                    </div>
-                </div>
-
-                <div className="flex flex-row space-x-5">
-                    <div className="flex flex-col flex-1">
-                        <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
-                            Visiting From
-                        </label>
-                        <input
-                            disabled
-                            defaultValue={data.from}
-                            name="from"
-                            placeholder="Visting From"
-                            type="text"
-                            id="nationality"
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
-                        />
-                    </div>
-                    <div className="flex flex-col flex-1">
-                        <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
-                            Visiting To
-                        </label>
-                        <input
-                            disabled
-                            defaultValue={data.to}
-                            name="to"
-                            placeholder="Visiting To"
-                            type="text"
-                            id="clientEmail"
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
-                        />
-                    </div>
-                </div>
-                <div className="flex flex-row space-x-5">
-                    <div className="flex flex-col flex-1">
-                        <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
-                            Advance Payment
-                        </label>
-                        <input
-                            disabled
                             defaultValue={data.advance}
+
+                            pattern="[0-9]*"
                             name="advance"
-                            placeholder="Rs."
+                            placeholder="Rs. "
                             type="text"
-                            id="nationality"
+                            id="clientPhone"
                             className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                     <div className="flex flex-col flex-1">
-
+                        
                     </div>
-
                 </div>
-                <div className="flex flex-row space-x-5">
+                <div className="flex">
 
                     <div className="flex flex-col flex-1">
 
-                        <button disabled type='button' className='bg-gray-600 text-white p-4 rounded-xl text-[12px] items-center'>
+                        <div className="flex flex-col flex-1">
 
-                            <div className='flex flex-row flex-wrap overflow-x-scroll'>
-                                Selected Rooms:
+                            <button disabled type='button' className='bg-gray-600 text-white p-4 rounded-xl text-[12px] items-center'>
 
-                                {data.hasOwnProperty('rooms') &&
-                                    <>
-                                        {(data.rooms).map((item: any, index: number) => (
-                                            <>
+                                <div className='flex flex-row flex-wrap overflow-x-scroll'>
+                                    Selected Rooms:
+
+                                    {data.hasOwnProperty('rooms') &&
+                                        <>
+                                            {(data.rooms).map((item: any, index: any) => (
                                                 <div key={index} className="text-white text-center mx-2 ">{item.room}</div>
+                                            ))}
+                                        </>
+                                    }
 
-                                            </>
-                                        ))}
-                                    </>
-                                }
+                                </div>
 
-                            </div>
-
-                        </button>
+                            </button>
+                        </div>
 
                     </div>
-
                 </div>
-                <div className="flex flex-row">
-                    <button type='button' onClick={() => setNewRoomModal(true)} className="text-[16px] font-thin tracking-tight p-3 text-slate-800 rounded-lg w-44 text-center ml-auto underline">Add New Room</button>
-                </div>
+                <div className="flex">
 
+                    <div className="flex-1">
+                        <button type='button' onClick={() => setNewRoomModal(true)} className="text-[14px] font-thin tracking-tight p-3 text-slate-800 rounded-lg w-44 text-center underline">Add New Room</button>
+                    </div>
+                </div>
             </form>
+
         </Modal>
     )
 }
 
-export default ShowInfo
+export default ReservationInfoModal

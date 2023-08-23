@@ -10,11 +10,9 @@ const TableModal = ({ open, setOpen, data, bookingList }: any) => {
         let num = 0
         if (data.order) {
             const temp = data.order[0]
-            console.log(temp)
             for (let i = 0; i < temp.length; i++) {
 
                 if (temp[i].serviceCharge) {
-                    console.log(temp[i])
                     num = num + temp[i].quantity * (temp[i].price || 0) * 0.1
                 }
             }

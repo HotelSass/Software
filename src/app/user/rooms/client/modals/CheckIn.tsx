@@ -1,14 +1,14 @@
 import Modal from '@/components/modal'
 import serverUrl from '@/config/config';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react'
+import React from 'react'
 
-const CheckInModal = ({ open, setOpen, data }: any) => {
+const CheckInModal = ({ open, setOpen, data, closeModal }: any) => {
     const router = useRouter()
 
     async function onSubmit(event: any) {
         event.preventDefault()
-        if (data.roomNumber.length != 0) {
+        if (data.rooms.length != 0) {
             const formData = new FormData(event.target);
             const name = formData.get('name');
             const address = formData.get('address');
@@ -18,7 +18,10 @@ const CheckInModal = ({ open, setOpen, data }: any) => {
             const from = formData.get('from');
             const to = formData.get('to');
             const roomRate = formData.get('roomRate');
-            const advance = formData.get('advance');
+            const roomArray = data.rooms
+            roomArray.map((item: any, index: number) => {
+                roomArray[index].status = 'inhouse'
+            })
 
             try {
                 const response = await fetch(serverUrl + "/user/room/checkInRoom", {
@@ -34,21 +37,17 @@ const CheckInModal = ({ open, setOpen, data }: any) => {
                         email,
                         from,
                         to,
-                        roomRate,
-                        advance,
-                        roomNumber: data.roomNumber,
-                        duration: data.duration,
-                        checkIn: data.checkIn,
-                        checkOut: data.checkOut,
-                        status: 'inhouse',
+                        rooms: roomArray,
                         reservationId: data._id,
-                        reservationDate: data.date
+                        reservationDate: data.date,
+                        status: 'reserved'
                     })
 
                 });
 
                 if (response.ok) {
                     setOpen(false)
+                    closeModal()
                     router.refresh()
                     event.target.reset();
 
@@ -58,7 +57,6 @@ const CheckInModal = ({ open, setOpen, data }: any) => {
             } catch (err) {
                 console.log(err)
             }
-
 
         }
     }
@@ -118,7 +116,7 @@ const CheckInModal = ({ open, setOpen, data }: any) => {
                             Check In - Check Out
                         </label>
                         <input
-                            defaultValue={data.checkIn + " to " + data.checkOut}
+                            defaultValue={data.rooms ? data.rooms[0]['checkIn'] + " to " + data.rooms[0]['checkOut'] : ""}
                             name="phone"
                             placeholder="Client Phone"
                             type="text"
@@ -152,7 +150,7 @@ const CheckInModal = ({ open, setOpen, data }: any) => {
                             placeholder="Client Email"
                             type="text"
                             id="clientEmail"
-                            required
+                            defaultValue={data.email}
                             className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
@@ -168,6 +166,8 @@ const CheckInModal = ({ open, setOpen, data }: any) => {
                             placeholder="Visting From"
                             type="text"
                             id="nationality"
+                            defaultValue={data.from}
+
                             className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
@@ -180,38 +180,30 @@ const CheckInModal = ({ open, setOpen, data }: any) => {
                             placeholder="Visiting To"
                             type="text"
                             id="clientEmail"
+                            defaultValue={data.to}
+
                             className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                 </div>
                 <div className="flex flex-row space-x-5">
-                    <div className="flex flex-col flex-1">
-                        <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
-                            Room Rate
-                        </label>
-                        <input
-                        defaultValue={data.roomRate}
-                            name="roomRate"
-                            placeholder="Rs."
-                            type="text"
-                            id="nationality"
-                            required
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
-                        />
-                    </div>
+
                     <div className="flex flex-col flex-1">
                         <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
                             Advance Payment
                         </label>
                         <input
                             defaultValue={data.advance}
-                            name="advance"
+                            name="advances"
                             placeholder="Rs."
                             type="text"
                             id="nationality"
                             disabled
                             className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
                         />
+                    </div>
+                    <div className="flex flex-col flex-1">
+
                     </div>
                 </div>
                 <div className="flex flex-row space-x-5">
@@ -223,10 +215,14 @@ const CheckInModal = ({ open, setOpen, data }: any) => {
                             <div className='flex flex-row flex-wrap overflow-x-scroll'>
                                 Selected Rooms:
 
-                                {data.hasOwnProperty('roomNumber') &&
+                                {data.hasOwnProperty('rooms') &&
                                     <>
-                                        {(data.roomNumber).map((item: any,index:any) => (
-                                            <div key={index} className="text-white text-center mx-2 ">{item}</div>
+                                        {(data.rooms).map((item: any, index: any) => (
+                                            <>
+                                                {item.status == 'reserved' &&
+                                                    <div key={index} className="text-white text-center mx-2 ">{item.room}</div>
+                                                }
+                                            </>
                                         ))}
                                     </>
                                 }
@@ -234,13 +230,57 @@ const CheckInModal = ({ open, setOpen, data }: any) => {
                             </div>
 
                         </button>
+                        {data.hasOwnProperty('rooms') &&
+                            <>
+                                {data.rooms.length != 0 &&
+                                    <div className=" h-[150px] overflow-y-scroll mt-8">
 
+                                        <div className="relative overflow-x-auto shadow-md sm:rounded-lg ">
+                                            <table className="text-sm text-left text-gray-500 dark:text-gray-400 w-full rounded-lg ">
+
+                                                <thead className="text-[12px] uppercase bg-gray-800 text-gray-400">
+                                                    <tr>
+
+
+                                                        <th className="px-6 py-3 font-light text-center">
+                                                            Room
+                                                        </th>
+
+                                                        <th className="px-6 py-3 font-light text-center">
+                                                            Price
+                                                        </th>
+
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {data.rooms.map((item: any, index: number) => {
+                                                        if (item.status == 'reserved') {
+                                                            return (
+                                                                <tr key={index} className=" border-b bg-gray-700 border-gray-700 pb-4 border-b-slate-900">
+                                                                    <td className="px-2 py-2 text-center text-white">
+                                                                        {item.room}
+                                                                    </td>
+
+                                                                    <td className="px-2 py-2 text-center text-white">
+                                                                        Rs. {item.roomRate}
+                                                                    </td>
+                                                                </tr>
+                                                            )
+                                                        }
+                                                    })}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                }
+                            </>
+                        }
                     </div>
 
                 </div>
                 <div className="flex flex-row">
-                    <div className="text-[16px] font-thin tracking-tight p-3 bg-gray-700 text-white rounded-lg w-44 text-center">{data.duration} day</div>
-
                     <button className="bg-orange-700 p-3 rounded space-x-3 ml-auto w-2/12 text-center text-white ">
                         Check In
                     </button>

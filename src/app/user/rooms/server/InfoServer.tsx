@@ -13,7 +13,7 @@ async function getInfo() {
     }
     if(c_month.length==1){
         c_month="0"+c_month
-    }
+    } 
     const date=c_year+'-'+c_month+'-'+c_date
     const res = await fetch(serverUrl + "/user/room/getBookingList/"+date, { cache: 'no-store' });
     const data = await res.json();
@@ -23,6 +23,7 @@ async function getInfo() {
 
 async function InfoServer() {
     const data = await getInfo()
+
     return (
         <Info data={data} />
     )

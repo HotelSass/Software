@@ -104,7 +104,29 @@ const Booking = ({ open, setOpen, data }: any) => {
             const to = formData.get('to');
             const roomRate = formData.get('roomRate');
             const advance = formData.get('advance');
-
+            const price = formData.getAll('price[]')
+            const roomArray:Object[] = []
+            selectedRooms.map((item: any, index: number) => {
+                roomArray.push({
+                    room: item.roomNumber,
+                    checkIn: value.startDate,
+                    checkOut: value.endDate,
+                    status: 'inhouse',
+                    roomRate: price[index]
+                })
+            })
+            console.log({
+                name,
+                address,
+                phone,
+                nationality,
+                email,
+                from,
+                to,
+                advance,
+                rooms: roomArray,
+            })
+            
             try {
                 const response = await fetch(serverUrl + "/user/room/reserveRoom", {
                     method: 'POST',
@@ -119,13 +141,9 @@ const Booking = ({ open, setOpen, data }: any) => {
                         email,
                         from,
                         to,
-                        roomRate,
                         advance,
-                        roomNumber: selectedRooms,
-                        duration: duration,
-                        checkIn: value.startDate,
-                        checkOut: value.endDate,
-                        status: 'inhouse',
+                        rooms: roomArray,
+                        status:'inhouse'
                     })
 
                 });
@@ -146,6 +164,7 @@ const Booking = ({ open, setOpen, data }: any) => {
             } catch (err) {
                 console.log(err)
             }
+            
 
         } else {
             setError(true)
@@ -170,18 +189,19 @@ const Booking = ({ open, setOpen, data }: any) => {
                 </div>
             }
             <form onSubmit={(e) => onSubmit(e)} className='flex flex-col space-y-4'>
-                <Modal open={openSelectRoom} setOpen={setOpenSelectRoom} width={600} height={900}>
+                <Modal open={openSelectRoom} setOpen={setOpenSelectRoom} width={600} height={400}>
                     <div className=" flex flex-row flex-wrap">
                         {availabeData.map((item: any, index: number) => (
-                            <div key={index} className='my-2'>
+                            <div key={index} className='my-2' >
                                 {selectedRooms.includes(item) ?
-                                    <button type='button' onClick={() => selectData(item)} className="p-4 border bg-green-700 text-[12px] items-center justify-center rounded-xl w-16 h-16 mx-2 text-white">{item}</button>
+                                    <button type='button' onClick={() => selectData(item)} className="p-4 border bg-green-700 text-[12px] items-center justify-center rounded-xl w-16 h-16 mx-2 text-white">{item.roomNumber}</button>
                                     :
-                                    <button type='button' onClick={() => selectData(item)} className="p-4 border border-gray-400 text-[12px] items-center justify-center rounded-xl w-16 h-16 mx-2">{item}</button>
+                                    <button type='button' onClick={() => selectData(item)} className="p-4 border border-gray-400 text-[12px] items-center justify-center rounded-xl w-16 h-16 mx-2">{item.roomNumber}</button>
                                 }
                             </div>
                         ))}
                         <button type='button' onClick={() => setOpenSelectRoom(false)} className='bg-green-700 p-3 rounded-lg text-white px-5 ml-auto mr-4 mt-5'>Done</button>
+
                     </div>
 
                 </Modal>
@@ -304,20 +324,6 @@ const Booking = ({ open, setOpen, data }: any) => {
                 <div className="flex flex-row space-x-5">
                     <div className="flex flex-col flex-1">
                         <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
-                            Room Rate
-                        </label>
-                        <input
-                            pattern="[0-9]*"
-                            name="roomRate"
-                            placeholder="Rs."
-                            type="text"
-                            id="nationality"
-                            required
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
-                        />
-                    </div>
-                    <div className="flex flex-col flex-1">
-                        <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
                             Advance Payment
                         </label>
                         <input
@@ -329,6 +335,9 @@ const Booking = ({ open, setOpen, data }: any) => {
                             id="nationality"
                             className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
                         />
+                    </div>
+                    <div className="flex flex-col flex-1">
+
                     </div>
                 </div>
                 <div className="flex flex-row space-x-5">
@@ -346,7 +355,7 @@ const Booking = ({ open, setOpen, data }: any) => {
                                         <div className='flex flex-row flex-wrap overflow-x-scroll'>
 
                                             {selectedRooms.map((item: any, index: number) => (
-                                                <div key={index} className="text-white text-center mx-2 ">{item}</div>
+                                                <div key={index} className="text-white text-center mx-2 ">{item.roomNumber}</div>
                                             ))}
 
                                         </div>
@@ -354,13 +363,52 @@ const Booking = ({ open, setOpen, data }: any) => {
                                 }
                             </button>
                         }
+                        {selectedRooms.length != 0 &&
+                            <div className=" mt-8 h-[200px] overflow-y-scroll">
+                                <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
+                                    Pricing
+                                </label>
+                                <div className="relative overflow-x-auto shadow-md sm:rounded-lg ">
+                                    <table className="text-sm text-left text-gray-500 dark:text-gray-400 w-full rounded-lg ">
+
+                                        <thead className="text-[12px] uppercase bg-gray-800 text-gray-400">
+                                            <tr>
+
+
+                                                <th className="px-6 py-3 font-light text-center">
+                                                    Room
+                                                </th>
+
+                                                <th className="px-6 py-3 font-light text-center">
+                                                    Price
+                                                </th>
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {selectedRooms.map((item: any, index: number) => (
+                                                <tr key={index} className=" border-b bg-gray-700 border-gray-700 pb-4">
+                                                    <td className="px-2 py-1 text-center text-white">
+                                                        {item.roomNumber}
+                                                    </td>
+
+                                                    <td className="px-2 py-1">
+                                                        <input type="number" defaultValue={item.roomRate} required name='price[]' inputMode='numeric' placeholder='Rs.' className=' py-4 bg-gray-500 rounded px-3 w-full text-[12px] text-gray-100 font-thin' />
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        }
                     </div>
 
                 </div>
                 <div className="flex flex-row">
-                    {(value.startDate != null && value.endDate != null) &&
-                        <div className="text-[16px] font-thin tracking-tight p-3 bg-gray-700 text-white rounded-lg w-44 text-center">{duration} day</div>
-                    }
+
                     <button className="bg-orange-700 p-3 rounded space-x-3 ml-auto w-2/12 text-center text-white ">
                         Check In
                     </button>

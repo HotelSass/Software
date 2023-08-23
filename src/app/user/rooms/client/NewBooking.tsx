@@ -1,5 +1,4 @@
 'use client'
-import Modal from '@/components/modal'
 import React, { useState } from 'react'
 import { BiPlus } from 'react-icons/bi'
 import Booking from './modals/Booking'

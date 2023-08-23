@@ -8,6 +8,7 @@ async function getData() {
     const resRoomList=await fetch(serverUrl+"/user/menu/getAvailableRoom",{cache:'no-store'})
     const bookingList=await resRoomList.json()
     return { data ,bookingList}
+
 }
 const POSServer = async () => {
     const { data,bookingList } = await getData()

@@ -4,7 +4,17 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import { MdOutlineRoomService, MdRoomService } from "react-icons/md";
 import RoomModal from './RoomModal';
 import TableModal from './TableModal';
-import { Switch, Button, Input, Tooltip, Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
+import { Button, Input, Tooltip, Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
+
+
+const distribution = {
+    'ml30': '30 ml',
+    'ml60': '60 ml',
+    'ml90': '90 ml',
+    'ml180': '180 ml',
+    'half': 'Half',
+    'full': 'Full',
+}
 
 const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
     const [manualMenu, setManualMenu] = useState(false)
@@ -28,8 +38,32 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                 price: item.price,
                 quantity: parseInt(e.target.quantity.value),
                 id: item._id,
-                serviceCharge: false
+                serviceCharge: false,
+                fullBottle: true
             }
+
+            const temp = selectedItems
+            temp.push(selected)
+            setSelectedItems([...temp])
+        }
+    }
+    function addItemSelect(item: any, quantity: any) {
+
+        let tempIndex = [...selectedId]
+        tempIndex.push(item['_id'])
+        setSelectedId([...tempIndex])
+        if (quantity) {
+            let selected = {
+                itemName: item.itemName,
+                price: item.distribution[quantity],
+                quantity: 1,
+                id: item._id,
+                label: quantity,
+                serviceCharge: false,
+                distribution: item.distribution,
+                fullBottle: false
+            }
+
             const temp = selectedItems
             temp.push(selected)
             setSelectedItems([...temp])
@@ -47,18 +81,6 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
         }
     }
 
-    function changeValue(id: any, val: number) {
-        const temp = selectedItems
-        for (let i = 0; i < temp.length; i++) {
-            if (temp[i].id == id) {
-                const edit = temp[i]
-                edit.quantity = val
-                temp[i] = edit
-                setSelectedItems([...temp])
-                return
-            }
-        }
-    }
     function changePriceValue(id: any, val: number) {
         const temp = selectedItems
         for (let i = 0; i < temp.length; i++) {
@@ -235,14 +257,27 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                                             {item.itemName}
                                                         </div>
                                                         <div className="text-white font-thin text-[12px]">
-                                                            Rs.{item.price}
+                                                            Rs.{item.price || (item.distribution && item.distribution.full)}
                                                         </div>
                                                     </div>
                                                 </PopoverTrigger>
                                                 <PopoverContent className="w-64 bg-black p-4">
                                                     <form onSubmit={(e) => { if (!selectedId.includes(item['_id'])) { addItem(item, e) } else { updateItem(item, e) } }} className='flex flex-row '>
-                                                        <input name='quantity' defaultValue={1} placeholder='Quantity' className='w-full rounded p-3  text-[14px] flex-1' />
-                                                        <button type='submit' onClick={() => close()} className='bg-green-700 p-3 text-center rounded text-white my-auto ml-2'>Done</button>
+                                                        {item.fullBottle ?
+                                                            <>
+                                                                <input name='quantity' defaultValue={1} placeholder='Quantity' className='w-full rounded p-3  text-[14px] flex-1' />
+                                                                <button type='submit' onClick={() => close()} className='bg-green-700 p-3 text-center rounded text-white my-auto ml-2'>Done</button>
+                                                            </>
+                                                            :
+                                                            <div className='flex flex-row flex-wrap gap-3'>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml30") }}>30 ml</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml60") }}>60 ml</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml90") }}>90 ml</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml180") }}>180 ml</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "half") }}>Half</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "full") }}>Full</button>
+                                                            </div>
+                                                        }
                                                     </form>
                                                 </PopoverContent>
                                             </Popover>
@@ -264,14 +299,27 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                                             {item.itemName}
                                                         </div>
                                                         <div className="text-white font-thin text-[12px]">
-                                                            Rs.{item.price}
+                                                            Rs.{item.price || (item.distribution && item.distribution.full)}
                                                         </div>
                                                     </div>
                                                 </PopoverTrigger>
-                                                <PopoverContent className="w-64 bg-black p-4">
+                                                <PopoverContent className="w-full bg-black p-4">
                                                     <form onSubmit={(e) => { if (!selectedId.includes(item['_id'])) { addItem(item, e) } else { updateItem(item, e) } }} className='flex flex-row '>
-                                                        <input name='quantity' defaultValue={1} placeholder='Quantity' className='w-full rounded p-3  text-[14px] flex-1' />
-                                                        <button type='submit' onClick={() => close()} className='bg-green-700 p-3 text-center rounded text-white my-auto ml-2'>Done</button>
+                                                        {item.fullBottle ?
+                                                            <>
+                                                                <input name='quantity' defaultValue={1} placeholder='Quantity' className='w-full rounded p-3  text-[14px] flex-1' />
+                                                                <button type='submit' onClick={() => close()} className='bg-green-700 p-3 text-center rounded text-white my-auto ml-2'>Done</button>
+                                                            </>
+                                                            :
+                                                            <div className='flex flex-row flex-wrap gap-3'>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml30") }}>30 ml</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml60") }}>60 ml</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml90") }}>90 ml</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml180") }}>180 ml</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "half") }}>Half</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "full") }}>Full</button>
+                                                            </div>
+                                                        }
                                                     </form>
                                                 </PopoverContent>
                                             </Popover>
@@ -287,14 +335,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                 <div className="bg-gray-200 rounded-xl h-full p-8 flex flex-col">
                     <div className="text-[24px] font-thin tracking-tight flex ">
                         <p> Order</p>
-                        <div className="ml-auto bg-gray-600 flex px-3 py-2 rounded-xl">
-                            <Switch isSelected={manualMenu} color='danger' onChange={() => setManualMenu(!manualMenu)} className='ml-auto mr-5' />
-                            <p className='text-[14px] my-auto text-white'> Manual Menu</p>
-                        </div>
-                        <div className="ml-2 bg-gray-600 flex px-3 py-2 rounded-xl">
-                            <Switch isDisabled isSelected={freeMenu} color='danger' onChange={() => setFreeMenu(!freeMenu)} className='ml-auto mr-5' />
-                            <p className='text-[14px] my-auto text-white'> Free Menu</p>
-                        </div>
+
                     </div>
 
                     <div className="relative overflow-x-auto mt-8 flex-1 flex flex-col">
@@ -318,48 +359,51 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {selectedItems.map((item, index) => (
-                                    <tr key={index} className=" bg-gray-300 border-b flex-1 ">
-                                        <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px] capitalize">
-                                            {(item.manual) ?
-                                                <input type='text' onChange={(e) => changeValueName(item.id, e.target.value)} placeholder='Item Name' defaultValue={item.itemName} min={1} className='bg-slate-600 w-full py-3 rounded-lg text-left px-2 text-white text-[12px]' />
-                                                :
-                                                <>
-                                                    {item.itemName}
-                                                </>
-                                            }
-                                        </th>
-                                        <td className="px-6 text-gray-900 whitespace-nowrap font-light text-[14px]">
-                                            <div className='bg-gray-300 w-full text-center py-3' >{item.quantity}  </div>
-                                        </td>
-                                        <td className="px-6 text-gray-900 whitespace-nowrap font-light text-[14px]">
-                                            <div className='bg-gray-300 w-full text-center py-3' >Rs.{item.price}  </div>
-                                        </td>
-                                        <td className="px-6 text-gray-900 whitespace-nowrap font-light text-[14px]">
-                                            {item.manual ?
-                                                <input type='number' onChange={(e) => changePriceValue(item.id, parseInt(e.target.value))} defaultValue={item.price} min={1} className='bg-gray-300 text-center py-3 ' />
-                                                :
-                                                <p className='w-full text-center '>
-                                                    {item.price * item.quantity}
-                                                </p>
-                                            }
-                                        </td>
-                                        <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px] justify-center">
+                                {selectedItems.map((item, index) => {
+                                    
+                                    return (
+                                        <tr key={index} className=" bg-gray-300 border-b flex-1 ">
+                                            <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px] capitalize">
+                                                {(item.manual) ?
+                                                    <input type='text' onChange={(e) => changeValueName(item.id, e.target.value)} placeholder='Item Name' defaultValue={item.itemName} min={1} className='bg-slate-600 w-full py-3 rounded-lg text-left px-2 text-white text-[12px]' />
+                                                    :
+                                                    <>
+                                                        {item.itemName}
+                                                    </>
+                                                }
+                                            </th>
+                                            <td className="px-6 text-gray-900 whitespace-nowrap font-light text-[14px]">
+                                                <div className='bg-gray-300 w-full text-center py-3' >{item.fullBottle ? item.quantity : distribution[item.label as keyof typeof distribution]}  </div>
+                                            </td>
+                                            <td className="px-6 text-gray-900 whitespace-nowrap font-light text-[14px]">
+                                                <div className='bg-gray-300 w-full text-center py-3' >Rs.{item.fullBottle ? item.price : item.distribution[item.label]}  </div>
+                                            </td>
+                                            <td className="px-6 text-gray-900 whitespace-nowrap font-light text-[14px]">
+                                                {item.manual ?
+                                                    <input type='number' onChange={(e) => changePriceValue(item.id, parseInt(e.target.value))} defaultValue={item.price} min={1} className='bg-gray-300 text-center py-3 ' />
+                                                    :
+                                                    <p className='w-full text-center '>
+                                                        {item.price * item.quantity}
+                                                    </p>
+                                                }
+                                            </td>
+                                            <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px] justify-center">
 
-                                            {serviceArray.includes(item.id) ? (
-                                                <button onClick={() => removeServiceFromThis(item.id)} type='button' className='my-auto bg-green-600 rounded p-2 ml-5'>
-                                                    <MdRoomService color='#fff' size={20} style={{ marginTop: 'auto', marginBottom: 'auto' }} />
-                                                </button>)
-                                                : (<button onClick={() => addServiceToThis(item.id)} type='button' className='my-auto bg-gray-500 ml-5 p-2 rounded'>
-                                                    <MdOutlineRoomService color='#fff' size={20} style={{ marginTop: 'auto', marginBottom: 'auto' }} />
+                                                {serviceArray.includes(item.id) ? (
+                                                    <button onClick={() => removeServiceFromThis(item.id)} type='button' className='my-auto bg-green-600 rounded p-2 ml-5'>
+                                                        <MdRoomService color='#fff' size={20} style={{ marginTop: 'auto', marginBottom: 'auto' }} />
+                                                    </button>)
+                                                    : (<button onClick={() => addServiceToThis(item.id)} type='button' className='my-auto bg-gray-500 ml-5 p-2 rounded'>
+                                                        <MdOutlineRoomService color='#fff' size={20} style={{ marginTop: 'auto', marginBottom: 'auto' }} />
+                                                    </button>
+                                                    )}
+                                                <button onClick={() => removeItem(item.id)} type='button' className='my-auto'>
+                                                    <AiOutlineCloseCircle size={16} style={{ marginLeft: 10, marginTop: 'auto', marginBottom: 'auto' }} />
                                                 </button>
-                                                )}
-                                            <button onClick={() => removeItem(item.id)} type='button' className='my-auto'>
-                                                <AiOutlineCloseCircle size={16} style={{ marginLeft: 10, marginTop: 'auto', marginBottom: 'auto' }} />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
+                                            </td>
+                                        </tr>
+                                    )
+                                })}
                             </tbody>
                             <tfoot>
                                 {getServiceCharge() != 0 &&
