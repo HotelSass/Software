@@ -85,6 +85,8 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
   const [partialCheckOut, setPartialCheckout] = useState(false)
   const [openPartialPaymentSlip, setOpenPartialPaymentSlip] = useState(false)
   const [cash, setCash] = useState(true)
+  const [showCredit, setShowCredit] = useState(false)
+  const [searchForCredit, setSearchForCredit] = useState('')
   const [selectedPartialCheckout, setSelectedPartialCheckout] = useState({ room: Number, checkIn: String, roomRate: String, checkOut: String, status: String })
   const [platform, setPlatform] = useState('fonepay')
   const totalPayment = getFullTotal()
@@ -118,6 +120,29 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
           paymentType: "cash",
           account: null,
           total: getFullTotal()
+        })
+
+      });
+      if (response.ok) {
+        setOpen(false)
+        reload()
+      } else {
+      }
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  async function onTransferCredit() {
+    try {
+      const response = await fetch(serverUrl + "/user/checkout/transferCredit", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ...data, discount, total: getFullTotal()
+
         })
 
       });
@@ -352,6 +377,13 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
   function showRoom() {
     setShowRoomModal(true)
   }
+
+  function toggleShowCredit() {
+    setShowCredit(true)
+  }
+
+
+
   function seeIfExists() {
     const inhouse = [];
     if (data.rooms) {
@@ -827,6 +859,13 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
             </div>}
         </div>
       </Modal>
+      <Modal open={showCredit} setOpen={setShowCredit} width={500} height={500}>
+        <div className="py-10 overflow-y-scroll flex flex-col">
+
+          <button onClick={() => onTransferCredit()} type='button' className='p-3 bg-green-700 text-white text-center text-sm w-full rounded-md mt-auto'>Add Current Transaction To Credit</button>
+          <p className='text-[14px] text-gray-700 text-light mt-2'>* Credit is added in reference to phone number</p>
+        </div>
+      </Modal>
       <div className=' h-full'>
         <div className="flex flex-row h-full">
           <div className="flex-1 px-10 h-full">
@@ -968,6 +1007,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
                   <button type='button' onClick={() => { showRoom() }} className='bg-blue-800 text-white rounded p-3 px-6 flex-1'>Partial Checkout</button>
                 }
 
+                <button type='button' onClick={() => { toggleShowCredit() }} className='bg-orange-700 text-white rounded p-3 px-6 flex-1'>Checkout On Credit</button>
                 <button type='button' onClick={() => { showCalculator() }} className='bg-red-700 text-white rounded p-3 px-6 flex-1'>Checkout</button>
               </div>
             </form>

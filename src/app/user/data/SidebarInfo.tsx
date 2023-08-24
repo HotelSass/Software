@@ -1,4 +1,4 @@
-import { BiBed, BiBowlHot, BiWine, BiBuildingHouse, BiCabinet, BiChart, BiFork, BiMoneyWithdraw, BiHistory, BiUserCheck, BiReceipt } from "react-icons/bi";
+import { BiBed, BiBowlHot, BiWine, BiBuildingHouse, BiCabinet, BiChart, BiFork, BiMoneyWithdraw, BiHistory, BiUserCheck, BiReceipt,BiCreditCardFront } from "react-icons/bi";
 import { MdFoodBank } from "react-icons/md"
 
 export const UserSidebarInfo = {
@@ -19,7 +19,7 @@ export const UserSidebarInfo = {
    }
    , 2: {
       icon: <BiFork />,
-      title: 'Restaurant',
+      title: 'KOT',
       size: 24,
       color: '#2442F8',
       location: '/user/restaurant'
@@ -46,13 +46,20 @@ export const UserSidebarInfo = {
       location: '/user/finance'
    }
    , 6: {
+      icon: <BiCreditCardFront />,
+      title: 'Credit',
+      size: 24,
+      color: '#2442F8',
+      location: '/user/credit'
+   }
+   , 7: {
       icon: <BiReceipt />,
       title: 'Purchase',
       size: 24,
       color: '#2442F8',
       location: '/user/purchase'
    }
-   , 7: {
+   , 8: {
       icon: <BiHistory />,
       title: 'History',
       size: 24,
