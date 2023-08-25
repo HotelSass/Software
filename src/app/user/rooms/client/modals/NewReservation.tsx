@@ -105,7 +105,7 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
             const advance = formData.get('advance');
             const roomRate = formData.get('roomRate');
             const price = formData.getAll('price[]')
-            const roomArray:Object[] = []
+            const roomArray: Object[] = []
             selectedRooms.map((item: any, index: number) => {
                 roomArray.push({
                     room: item.roomNumber,
@@ -115,8 +115,8 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
                     roomRate: price[index]
                 })
             })
-           
-            
+
+
             try {
 
                 const response = await fetch(serverUrl + "/user/room/reserveRoom", {
@@ -155,7 +155,7 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
 
         } else {
             setError(true)
-            setErrorMessage("Select Rooms")
+            setErrorMessage("Please Select Rooms To Reserve")
             return
         }
     }
@@ -163,15 +163,14 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
         <>
             <Modal open={openReservation} setOpen={setOpenReservation} width={800} height={900}>
                 {error &&
-
                     <div role="alert" className=" absolute top-5 right-5">
-                        <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2 text-left flex flex-row">
-                            <p>Error</p>
+                        <div className="bg-red-500 text-white font-bold rounded-t px-4 py-4 text-left flex flex-row w-72 ">
+                            <p>Enter All Data</p>
                             <button type='button' onClick={() => { setError(false); setErrorMessage('') }} className='ml-auto'>
                                 <svg className="fill-current h-6 w-6 text-red-100" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
                             </button>
                         </div>
-                        <div className="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+                        <div className="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-6 text-red-700">
                             <p className='capitalize'>{errorMessage}</p>
                         </div>
                     </div>
@@ -201,7 +200,7 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
                             <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
                                 Client Name
                             </label>
-                            <input
+                            <input autoComplete='off'
                                 name="name"
                                 placeholder="Client Name"
                                 type="text"
@@ -214,7 +213,7 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
                             <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
                                 Client Address
                             </label>
-                            <input
+                            <input autoComplete='off'
                                 name="address"
                                 placeholder="Client Address"
                                 type="text"
@@ -229,7 +228,7 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
                             <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
                                 Client Phone
                             </label>
-                            <input
+                            <input autoComplete='off'
                                 pattern="[0-9+]*"
                                 name="phone"
                                 placeholder="Client Phone"
@@ -260,7 +259,7 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
                             <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
                                 Advance
                             </label>
-                            <input
+                            <input autoComplete='off'
                                 pattern="[0-9]*"
                                 name="advance"
                                 placeholder="Rs. "
@@ -269,7 +268,11 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
                                 className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
                             />
                         </div>
-                        <div className="flex-1"></div>
+                        <div className="flex-1">
+                            <button className="bg-orange-700 p-3 rounded space-x-3 ml-auto w-full mt-5 text-center text-white ">
+                                Reserve
+                            </button>
+                        </div>
 
                     </div>
                     <div className="flex">
@@ -298,7 +301,7 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
                                         }
                                     </button>
                                     {selectedRooms.length != 0 &&
-                                        <div className=" mt-8 h-[300px] overflow-y-scroll">
+                                        <div className=" mt-8 max-h-[300px] overflow-y-scroll">
                                             <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
                                                 Pricing
                                             </label>
@@ -328,7 +331,7 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
                                                                 </td>
 
                                                                 <td className="px-2 py-1">
-                                                                    <input type="number" defaultValue={item.roomRate} required name='price[]' inputMode='numeric' placeholder='Rs.' className=' py-4 bg-gray-500 rounded px-3 w-full text-[12px] text-gray-100 font-thin' />
+                                                                    <input autoComplete='off' type="number" defaultValue={item.roomRate} required name='price[]' inputMode='numeric' placeholder='Rs.' className=' py-4 bg-gray-500 rounded px-3 w-full text-[12px] text-gray-100 font-thin' />
                                                                 </td>
                                                             </tr>
                                                         ))}
@@ -343,13 +346,7 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
                         </div>
                     </div>
 
-                    <div className="flex flex-row">
 
-                        <button className="bg-orange-700 p-3 rounded space-x-3 ml-auto w-2/12 text-center text-white ">
-                            Reserve
-                        </button>
-
-                    </div>
 
                 </form>
             </Modal>

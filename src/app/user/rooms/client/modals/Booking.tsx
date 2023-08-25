@@ -168,22 +168,21 @@ const Booking = ({ open, setOpen, data }: any) => {
 
         } else {
             setError(true)
-            setErrorMessage("Select Rooms")
+            setErrorMessage("Select Rooms To Check in")
             return
         }
     }
     return (
         <Modal open={open} setOpen={setOpen} width={800} height={900}>
             {error &&
-
                 <div role="alert" className=" absolute top-5 right-5">
-                    <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2 text-left flex flex-row">
-                        <p>Error</p>
+                    <div className="bg-red-500 text-white font-bold rounded-t px-4 py-4 text-left flex flex-row w-72 ">
+                        <p>Enter All Data</p>
                         <button type='button' onClick={() => { setError(false); setErrorMessage('') }} className='ml-auto'>
                             <svg className="fill-current h-6 w-6 text-red-100" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
                         </button>
                     </div>
-                    <div className="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+                    <div className="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-6 text-red-700">
                         <p className='capitalize'>{errorMessage}</p>
                     </div>
                 </div>
@@ -194,13 +193,13 @@ const Booking = ({ open, setOpen, data }: any) => {
                         {availabeData.map((item: any, index: number) => (
                             <div key={index} className='my-2' >
                                 {selectedRooms.includes(item) ?
-                                    <button type='button' onClick={() => selectData(item)} className="p-4 border bg-green-700 text-[12px] items-center justify-center rounded-xl w-16 h-16 mx-2 text-white">{item.roomNumber}</button>
+                                    <button type='button' onClick={() => selectData(item)} className="p-4 border bg-green-700 text-[12px] items-center justify-center rounded-sm w-16 h-16 mx-2 text-white">{item.roomNumber}</button>
                                     :
-                                    <button type='button' onClick={() => selectData(item)} className="p-4 border border-gray-400 text-[12px] items-center justify-center rounded-xl w-16 h-16 mx-2">{item.roomNumber}</button>
+                                    <button type='button' onClick={() => selectData(item)} className="p-4 border border-gray-400 text-[12px] items-center justify-center rounded-sm w-16 h-16 mx-2">{item.roomNumber}</button>
                                 }
                             </div>
                         ))}
-                        <button type='button' onClick={() => setOpenSelectRoom(false)} className='bg-green-700 p-3 rounded-lg text-white px-5 ml-auto mr-4 mt-5'>Done</button>
+                        <button type='button' onClick={() => setOpenSelectRoom(false)} className='bg-green-700 p-3 rounded-sm text-white px-5 ml-auto mr-4 mt-5'>Done</button>
 
                     </div>
 
@@ -214,12 +213,13 @@ const Booking = ({ open, setOpen, data }: any) => {
                             Client Name
                         </label>
                         <input
+                            autoComplete='off'
                             name="name"
                             placeholder="Client Name"
                             type="text"
                             id="clientName"
                             required
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-sm bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                     <div className="flex flex-col flex-1">
@@ -227,12 +227,13 @@ const Booking = ({ open, setOpen, data }: any) => {
                             Client Address
                         </label>
                         <input
+                            autoComplete='off'
                             name="address"
                             placeholder="Client Address"
                             type="text"
                             id="clientAddress"
                             required
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-sm bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                 </div>
@@ -242,13 +243,15 @@ const Booking = ({ open, setOpen, data }: any) => {
                             Client Phone
                         </label>
                         <input
+                            autoComplete='off'
+
                             pattern="[0-9+]*"
                             name="phone"
                             placeholder="Client Phone"
                             type="text"
                             id="clientPhone"
                             required
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-sm bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                     <div className="flex flex-col flex-1">
@@ -256,7 +259,7 @@ const Booking = ({ open, setOpen, data }: any) => {
                             Check In - Check Out
                         </label>
                         <Datepicker
-                            inputClassName=' border border-gray-300 rounded-lg bg-gray-50 text-gray-700 p-4 rounded-xl text-[12px] w-full'
+                            inputClassName=' border border-gray-300 rounded-sm bg-gray-50 text-gray-700 p-4 rounded-sm text-[12px] w-full'
                             separator='   to   '
                             placeholder='Check In - Check Out'
                             primaryColor={"indigo"}
@@ -272,13 +275,14 @@ const Booking = ({ open, setOpen, data }: any) => {
                             Nationality
                         </label>
                         <input
+                            autoComplete='off'
                             defaultValue={"Nepali"}
                             name="nationality"
                             placeholder="Nationality"
                             type="text"
                             id="nationality"
                             required
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-sm bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                     <div className="flex flex-col flex-1">
@@ -286,11 +290,12 @@ const Booking = ({ open, setOpen, data }: any) => {
                             Client Email
                         </label>
                         <input
+                            autoComplete='off'
                             name="email"
                             placeholder="Client Email"
                             type="text"
                             id="clientEmail"
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-sm bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                 </div>
@@ -301,11 +306,12 @@ const Booking = ({ open, setOpen, data }: any) => {
                             Visiting From
                         </label>
                         <input
+                            autoComplete='off'
                             name="from"
                             placeholder="Visting From"
                             type="text"
                             id="nationality"
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-sm bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                     <div className="flex flex-col flex-1">
@@ -313,11 +319,12 @@ const Booking = ({ open, setOpen, data }: any) => {
                             Visiting To
                         </label>
                         <input
+                            autoComplete='off'
                             name="to"
                             placeholder="Visiting To"
                             type="text"
                             id="clientEmail"
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-sm bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                 </div>
@@ -328,12 +335,12 @@ const Booking = ({ open, setOpen, data }: any) => {
                         </label>
                         <input
                             pattern="[0-9]*"
-                            defaultValue={0}
+                            defaultValue={""}
                             name="advance"
                             placeholder="Rs."
                             type="text"
                             id="nationality"
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-sm bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                     <div className="flex flex-col flex-1">
@@ -349,7 +356,7 @@ const Booking = ({ open, setOpen, data }: any) => {
                     <div className="flex flex-col flex-1">
 
                         {value.startDate != null && value.endDate != null &&
-                            <button type='button' onClick={() => setOpenSelectRoom(true)} className='bg-gray-600 text-white p-4 rounded-xl text-[12px] items-center'>
+                            <button type='button' onClick={() => setOpenSelectRoom(true)} className='bg-gray-600 text-white p-4 rounded-sm text-[12px] items-center'>
                                 {selectedRooms.length == 0 ?
                                     "Select Room" :
                                     <div className='flex flex-row flex-wrap'>
@@ -368,12 +375,12 @@ const Booking = ({ open, setOpen, data }: any) => {
                             </button>
                         }
                         {selectedRooms.length != 0 &&
-                            <div className=" mt-8 h-[200px] overflow-y-scroll">
+                            <div className=" mt-4 max-h-[200px] overflow-y-scroll">
                                 <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
                                     Pricing
                                 </label>
-                                <div className="relative overflow-x-auto shadow-md sm:rounded-lg ">
-                                    <table className="text-sm text-left text-gray-500 dark:text-gray-400 w-full rounded-lg ">
+                                <div className="relative overflow-x-auto shadow-md sm:rounded-sm ">
+                                    <table className="text-sm text-left text-gray-500 dark:text-gray-400 w-full rounded-sm ">
 
                                         <thead className="text-[12px] uppercase bg-gray-800 text-gray-400">
                                             <tr>

@@ -78,7 +78,7 @@ const CheckInModal = ({ open, setOpen, data, closeModal }: any) => {
                             type="text"
                             id="clientName"
                             required
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-sm bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                     <div className="flex flex-col flex-1">
@@ -92,7 +92,7 @@ const CheckInModal = ({ open, setOpen, data, closeModal }: any) => {
                             type="text"
                             id="clientAddress"
                             required
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-sm bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                 </div>
@@ -108,7 +108,7 @@ const CheckInModal = ({ open, setOpen, data, closeModal }: any) => {
                             type="text"
                             id="clientPhone"
                             required
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-sm bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                     <div className="flex flex-col flex-1">
@@ -122,7 +122,7 @@ const CheckInModal = ({ open, setOpen, data, closeModal }: any) => {
                             type="text"
                             id="clientPhone"
                             disabled
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-sm bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                 </div>
@@ -138,7 +138,7 @@ const CheckInModal = ({ open, setOpen, data, closeModal }: any) => {
                             type="text"
                             id="nationality"
                             required
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-sm bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                     <div className="flex flex-col flex-1">
@@ -151,7 +151,7 @@ const CheckInModal = ({ open, setOpen, data, closeModal }: any) => {
                             type="text"
                             id="clientEmail"
                             defaultValue={data.email}
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-sm bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                 </div>
@@ -168,7 +168,7 @@ const CheckInModal = ({ open, setOpen, data, closeModal }: any) => {
                             id="nationality"
                             defaultValue={data.from}
 
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-sm bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                     <div className="flex flex-col flex-1">
@@ -182,7 +182,7 @@ const CheckInModal = ({ open, setOpen, data, closeModal }: any) => {
                             id="clientEmail"
                             defaultValue={data.to}
 
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-sm bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                 </div>
@@ -199,18 +199,20 @@ const CheckInModal = ({ open, setOpen, data, closeModal }: any) => {
                             type="text"
                             id="nationality"
                             disabled
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-sm bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                     <div className="flex flex-col flex-1">
-
+                        <button className="bg-orange-700 p-3 rounded space-x-3 ml-auto w-full mt-5 text-center text-white ">
+                            Check In
+                        </button>
                     </div>
                 </div>
                 <div className="flex flex-row space-x-5">
 
                     <div className="flex flex-col flex-1">
 
-                        <button disabled type='button' className='bg-gray-600 text-white p-4 rounded-xl text-[12px] items-center'>
+                        <button disabled type='button' className='bg-gray-600 text-white p-4 rounded-sm text-[12px] items-center'>
 
                             <div className='flex flex-row flex-wrap overflow-x-scroll'>
                                 Selected Rooms:
@@ -235,8 +237,8 @@ const CheckInModal = ({ open, setOpen, data, closeModal }: any) => {
                                 {data.rooms.length != 0 &&
                                     <div className=" h-[150px] overflow-y-scroll mt-8">
 
-                                        <div className="relative overflow-x-auto shadow-md sm:rounded-lg ">
-                                            <table className="text-sm text-left text-gray-500 dark:text-gray-400 w-full rounded-lg ">
+                                        <div className="relative overflow-x-auto shadow-md sm:rounded-sm ">
+                                            <table className="text-sm text-left text-gray-500 dark:text-gray-400 w-full rounded-sm ">
 
                                                 <thead className="text-[12px] uppercase bg-gray-800 text-gray-400">
                                                     <tr>
@@ -280,11 +282,7 @@ const CheckInModal = ({ open, setOpen, data, closeModal }: any) => {
                     </div>
 
                 </div>
-                <div className="flex flex-row">
-                    <button className="bg-orange-700 p-3 rounded space-x-3 ml-auto w-2/12 text-center text-white ">
-                        Check In
-                    </button>
-                </div>
+
 
             </form>
         </Modal>

@@ -234,7 +234,7 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
                                 primaryColor={"indigo"}
                                 value={value}
                                 onChange={handleValueChange}
-                                minDate={new Date(prevDate)}
+                                minDate={new Date(today)}
                             />
                         </div>
                     </div>
@@ -497,7 +497,7 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
 
                 </div>
                 <div className="flex flex-row">
-                    <button type='button' onClick={() => setNewRoomModal(true)} className="text-[16px] font-thin tracking-tight p-3 text-slate-800 rounded-lg w-44 text-center ml-auto underline">Add New Room</button>
+                    <button type='button' onClick={() => setNewRoomModal(true)} className="text-[14px] font-thin tracking-tight p-3 text-white rounded-sm w-44 text-center bg-blue-600 hover:bg-blue-700 ml-auto">Add New Room</button>
                 </div>
 
             </form>
