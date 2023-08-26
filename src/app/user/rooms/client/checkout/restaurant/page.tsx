@@ -121,7 +121,7 @@ const TableCheckOut = ({ data, reload }: any) => {
                 Total Payment:
               </p>
               <p className='p-4 text-[30px] text-white ml-auto'>
-                Rs. {getTotal() && getTotal().total}
+                Rs. {getFullTotal()}
               </p>
             </div>
             <div className="flex flex-row mt-8">
