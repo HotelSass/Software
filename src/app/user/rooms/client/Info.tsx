@@ -132,77 +132,82 @@ const ReservationModal = ({ reservationData, open, setOpen }: any) => {
                     <div className="relative overflow-x-auto mt- flex flex-col p-0 max-h-[500px] overflow-y-scroll">
 
                         <div className="relative overflow-x-auto shadow-md sm:rounded-sm">
-                            <table className="w-full text-sm text-left text-gray-400">
-                                <caption className="p-5 text-[28px] font-semibold text-left text-white bg-gray-800">
-                                    Reservation
-                                    <p className="mt-1 text-sm font-light text-gray-400 text-[14px]">All reservations scheduled for today</p>
-                                </caption>
-                                <thead className="text-xs bg-gray-700 text-gray-400 font-light">
-                                    <tr>
-                                        <th scope="col" className="px-6 py-5 text-[14px] font-light">
-                                            Client Name
-                                        </th>
-                                        <th scope="col" className="px-6 py-5 text-[14px] font-light">
-                                            Address
-                                        </th>
-                                        <th scope="col" className="px-6 py-5 text-[14px] font-light">
-                                            Phone No.
-                                        </th>
-                                        <th scope="col" className="px-6 py-5 text-[14px] font-light">
-                                            Rooms
-                                        </th>
-                                        <th scope="col" className="px-6 py-5 text-[14px]">
-                                            <span className="sr-only">Check Out</span>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    {reservationData.map((item: any, index: number) => (
-                                        <tr key={index} className=" border-b bg-gray-800 border-gray-700 text-[14px]">
-                                            <th scope="row" className="px-6 py-4 font-light whitespace-nowrap text-white text-[14px]">
-                                                {item.name.toUpperCase()}
-                                            </th>
-                                            <td className="px-6 py-4">
-                                                {item.address.toUpperCase()}
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                {item.phone.toUpperCase()}
-                                            </td>
-                                            <td className="px-6 py-4 ">
-                                                <div className="flex text-ellipsis w-28 flex-wrap">
-                                                    {item.rooms &&
-                                                        <>
-                                                            {(item.rooms).map((item: any, index: number) => {
-                                                                return (
-                                                                    <>
-                                                                        {item.status == 'reserved' &&
-                                                                            <p className='mr-2 font-light text-[12px]'>
-                                                                                {item.room}
-                                                                            </p>
-                                                                        }
-                                                                    </>
-                                                                )
-                                                            })}
-                                                        </>}
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 text-right flex flex-row gap-2">
-                                                <a onClick={() => { setSecData(item); cancelReservation(item) }} className="font-medium bg-red-500 hover:bg-red-600 text-white p-3 rounded-sm cursor-pointer ml-auto">
-                                                    <BiTrash size={18} color='#fff' />
-                                                </a>
-                                                <a onClick={() => { setSecData(item); setInfoModal(true) }} className="font-medium bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-sm cursor-pointer">Info</a>
-
-                                                <a onClick={() => { setSecData(item); setOpen1(true) }} className="font-medium bg-green-600 hover:bg-green-700 text-white p-3 rounded-sm cursor-pointer">Check in</a>
-                                            </td>
-                                        </tr>
-
-                                    ))}
-
-                                </tbody>
-                            </table>
-                            {reservationData.length == 0 &&
+                            {reservationData.length == 0 ?
                                 <div className="my-10 text-center font-thin text-[18px]">Nothing to show here</div>
+                                :
+                                <>
+                                    <table className="w-full text-sm text-left text-gray-400">
+                                        <caption className="p-5 text-[28px] font-semibold text-left text-white bg-gray-800">
+                                            Reservation
+                                            <p className="mt-1 text-sm font-light text-gray-400 text-[14px]">All reservations scheduled for today</p>
+                                        </caption>
+                                        <thead className="text-xs bg-gray-700 text-gray-400 font-light">
+                                            <tr>
+                                                <th scope="col" className="px-6 py-5 text-[14px] font-light">
+                                                    Client Name
+                                                </th>
+                                                <th scope="col" className="px-6 py-5 text-[14px] font-light">
+                                                    Address
+                                                </th>
+                                                <th scope="col" className="px-6 py-5 text-[14px] font-light">
+                                                    Phone No.
+                                                </th>
+                                                <th scope="col" className="px-6 py-5 text-[14px] font-light">
+                                                    Rooms
+                                                </th>
+                                                <th scope="col" className="px-6 py-5 text-[14px]">
+                                                    <span className="sr-only">Check Out</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            {reservationData.map((item: any, index: number) => (
+                                                <tr key={index} className=" border-b bg-gray-800 border-gray-700 text-[14px]">
+                                                    <th scope="row" className="px-6 py-4 font-light whitespace-nowrap text-white text-[14px]">
+                                                        {item.name.toUpperCase()}
+                                                    </th>
+                                                    <td className="px-6 py-4">
+                                                        {item.address.toUpperCase()}
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        {item.phone.toUpperCase()}
+                                                    </td>
+                                                    <td className="px-6 py-4 ">
+                                                        <div className="flex text-ellipsis w-28 flex-wrap">
+                                                            {item.rooms &&
+                                                                <>
+                                                                    {(item.rooms).map((item: any, index: number) => {
+                                                                        return (
+                                                                            <>
+                                                                                {item.status == 'reserved' &&
+                                                                                    <p className='mr-2 font-light text-[12px]'>
+                                                                                        {item.room}
+                                                                                    </p>
+                                                                                }
+                                                                            </>
+                                                                        )
+                                                                    })}
+                                                                </>}
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-4 text-right flex flex-row gap-2">
+                                                        <a onClick={() => { setSecData(item); cancelReservation(item) }} className="font-medium bg-red-500 hover:bg-red-600 text-white p-3 rounded-sm cursor-pointer ml-auto">
+                                                            <BiTrash size={18} color='#fff' />
+                                                        </a>
+                                                        <a onClick={() => { setSecData(item); setInfoModal(true) }} className="font-medium bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-sm cursor-pointer">Info</a>
+
+                                                        <a onClick={() => { setSecData(item); setOpen1(true) }} className="font-medium bg-green-600 hover:bg-green-700 text-white p-3 rounded-sm cursor-pointer">Check in</a>
+                                                    </td>
+                                                </tr>
+
+                                            ))}
+
+                                        </tbody>
+                                    </table>
+
+
+                                </>
                             }
 
                         </div>

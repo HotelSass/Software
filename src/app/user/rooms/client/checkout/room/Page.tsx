@@ -149,6 +149,8 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
   }
   async function onTransferCredit() {
     try {
+      console.log({ ...data, discount, total: getFullTotal() })
+
       const response = await fetch(serverUrl + "/user/checkout/transferCredit", {
         method: 'POST',
         headers: {
@@ -665,7 +667,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
         {data.orders &&
           <>
             {data.orders.length > 0 &&
-              <div className="flex-1 px-10 overflow-y-scroll h-[600px]">
+              <div className="flex-1 px-10 overflow-y-scroll max-h-[600px]">
                 <div className="text-[24px] font-thin tracking-tight ml-4 mb-5">Restaurant & Room Order</div>
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 text-[10px] rounded">
                   <thead className=" text-[14px] = uppercase bg-gray-100 dark:bg-gray-700 text-gray-200">
@@ -734,7 +736,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
         }
       </Modal>
       <Modal open={openRoomDetail} setOpen={setOpenRoomDetail} width={800} height={700}>
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 text-[10px] rounded">
+        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 text-[10px] rounded h-max-[500px] overflow-y-scroll">
           <thead className=" text-[14px] = uppercase bg-gray-100 dark:bg-gray-700 text-gray-200">
             <tr className='bg-slate-800'>
               <th scope="col" className="px-6 py-5 rounded-l-lg">
@@ -940,7 +942,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
               <div className="text-[20px] font-thin tracking-tight ml-2 my-5 border-t border-t-gray-400 pt-7">Room Order</div>
 
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 text-[10px] rounded">
-                <thead className=" text-[14px] = uppercase bg-gray-100 dark:bg-gray-700 text-gray-200">
+                <thead className=" text-[14px] uppercase bg-gray-100 dark:bg-gray-700 text-gray-200">
                   <tr className='bg-slate-800'>
                     <th scope="col" className="px-6 py-5 rounded-l-lg">
                       Name
