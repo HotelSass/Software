@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
 const RoomModal = ({ bookingList, selectedItems, reload }: any) => {
+    const router = useRouter()
     const [open, setOpen] = useState(false)
     const [openSecond, setOpenSecond] = useState(false)
     const [selectedRoom, setSelectedRoom] = useState({ id: null, roomNumber: null })
@@ -26,6 +27,7 @@ const RoomModal = ({ bookingList, selectedItems, reload }: any) => {
 
             });
             if (response.ok) {
+                router.refresh()
                 setOpen(false)
                 setOpenSecond(false)
                 setSelectedRoom({ id: null, roomNumber: null })
@@ -43,7 +45,12 @@ const RoomModal = ({ bookingList, selectedItems, reload }: any) => {
 
             <Modal open={open} setOpen={setOpen} width={700} height={500}>
                 <div className=" flex flex-row flex-wrap ">
+                    {bookingList.val.length == 0 &&
+                        <div className="w-full">
+                            <div className="text-[16px] font-thin tracking-tight text-center pb-8">No Rooms Checked In</div>
+                        </div>
 
+                    }
                     {bookingList.val.map((item: any, index: any) => (
                         <>
                             {item.rooms.map((item1: any, index2: number) => {

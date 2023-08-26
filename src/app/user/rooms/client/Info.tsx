@@ -257,8 +257,10 @@ const CheckOutModal = ({ reservationData, open, setOpen }: any) => {
 
                                     {reservationData.map((item: any, index: number) => (
                                         <tr key={index} className=" border-b bg-gray-800 border-gray-700 text-[14px]">
-                                            <th scope="row" className="px-6 py-4 font-light whitespace-nowrap text-white text-[14px]">
-                                                {item.name.toUpperCase()}
+                                            <th scope="row" className="px-6 py-4 font-light whitespace-nowrap text-white text-[14px] ">
+                                                <div className="w-32">
+                                                    {item.name.toUpperCase()}
+                                                </div>
                                             </th>
                                             <td className="px-6 py-4">
                                                 {item.address.toUpperCase()}

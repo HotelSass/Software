@@ -44,7 +44,7 @@ const POS = ({ data, bookingList }: any) => {
                         <div className="flex flex-row flex-wrap ">
                             {occupiedRoom.map((item: any, index: number) => {
                                 return (
-                                    <button key={index} type='button' onClick={() => { setSelectedRoom({ item }); setOpenRoom(true) }} className="p-3 w-24 h-24 rounded bg-slate-700 capitalize flex flex-col items-center justify-center m-2">
+                                    <button key={index} type='button' onClick={() => { setSelectedRoom({ item }); setOpenRoom(true) }} className={"p-3 w-24 h-24 rounded bg-slate-700 capitalize flex flex-col items-center justify-center m-2"}>
                                         <div className="text-white font-thin">
                                             {item.room}
                                         </div>

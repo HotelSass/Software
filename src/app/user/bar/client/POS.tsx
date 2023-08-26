@@ -211,7 +211,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
         <div className='flex-1 flex flex-row h-full w-full '>
             <div className="w-1/2 py-10 flex flex-col h-full ">
                 <div className="w-full">
-                    <div className=" p-3 rounded-xl bg-gray-200 mb-5 flex flex-row overflow-x-scroll no-scrollbar">
+                    <div className=" p-3 rounded-sm bg-gray-200 mb-5 flex flex-row overflow-x-scroll no-scrollbar">
                         <div key={999} className='w-56 my-auto pr-4'>
 
                             {('all' != selectedTab.toLowerCase()) ? (
@@ -219,7 +219,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                     All
                                 </Button>
                             ) : (
-                                <Button className='p-2 px-5 border border-orange-500 bg-white rounded-md text-[12px] capitalize text-orange-500 mx-2 font-medium w-full'>
+                                <Button className='p-2 px-5 border border-orange-500 bg-white rounded-sm text-[12px] capitalize text-orange-500 mx-2 font-medium w-full'>
                                     All
                                 </Button>
                             )}
@@ -232,7 +232,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                         {item.category}
                                     </Button>
                                 ) : (
-                                    <Button className='p-2 px-5 border border-orange-500 bg-white rounded-md text-[12px] capitalize text-orange-500 mx-2 font-medium w-full'>
+                                    <Button className='p-2 px-5 border border-orange-500 bg-white rounded-sm text-[12px] capitalize text-orange-500 mx-2 font-medium w-full'>
                                         {item.category}
                                     </Button>
                                 )}
@@ -241,19 +241,19 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                     </div>
                 </div>
 
-                <div className="w-full h-full p-3 py-6 rounded-xl bg-gray-200 overflow-y-scroll flex flex-col ">
+                <div className="w-full h-full p-3 py-6 rounded-sm bg-gray-200 overflow-y-scroll flex flex-col ">
                     <div className="px-3">
-                        <Input value={search} onValueChange={(val) => setSearch(val ? val.toString() : "")} label="Search" className='border border-gray-400 rounded-xl' />
+                        <Input value={search} onValueChange={(val) => setSearch(val ? val.toString() : "")} label="Search" className='border border-gray-400 rounded-sm' />
                     </div>
                     <div className="flex w-full flex-wrap mt-5">
                         {menu.map((item: any, index: number) => (
                             <>
                                 {(item.category == selectedTab.toLowerCase() && (item.itemName).toLowerCase().includes(search.toLowerCase())) && (
                                     <Tooltip key={index} color={"primary"} content={item.itemName} className="capitalize">
-                                        <div key={index} className="px-2 w-1/4 py-3">
+                                        <div key={index} className="px-2 w-1/3 py-1">
                                             <Popover isOpen={item._id == selectedMenu} showArrow placement="bottom">
                                                 <PopoverTrigger onClick={() => setSelectedMenu(item._id)}>
-                                                    <div className={!selectedId.includes(item['_id']) ? "p-3 w-full rounded-lg bg-slate-700 capitalize flex flex-col" : "p-3 w-full rounded-lg bg-green-700 capitalize flex flex-col"}>
+                                                    <div className={!selectedId.includes(item['_id']) ? "p-4 py-5 w-full rounded-sm bg-slate-700 capitalize flex flex-col" : "p-4 py-5 w-full rounded-sm bg-green-700 capitalize flex flex-col"}>
                                                         <div className="text-white font-thin truncate w-full">
                                                             {item.itemName}
                                                         </div>
@@ -271,12 +271,12 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                                             </>
                                                             :
                                                             <div className='flex flex-row flex-wrap gap-3'>
-                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml30"); setSelectedMenu('') }}>30 ml</button>
-                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml60"); setSelectedMenu('') }}>60 ml</button>
-                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml90"); setSelectedMenu('') }}>90 ml</button>
-                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml180"); setSelectedMenu('') }}>180 ml</button>
-                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "half"); setSelectedMenu('') }}>Half</button>
-                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "full"); setSelectedMenu('') }}>Full</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-sm text-white w-24' onClick={() => { addItemSelect(item, "ml30"); setSelectedMenu('') }}>30 ml</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-sm text-white w-24' onClick={() => { addItemSelect(item, "ml60"); setSelectedMenu('') }}>60 ml</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-sm text-white w-24' onClick={() => { addItemSelect(item, "ml90"); setSelectedMenu('') }}>90 ml</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-sm text-white w-24' onClick={() => { addItemSelect(item, "ml180"); setSelectedMenu('') }}>180 ml</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-sm text-white w-24' onClick={() => { addItemSelect(item, "half"); setSelectedMenu('') }}>Half</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-sm text-white w-24' onClick={() => { addItemSelect(item, "full"); setSelectedMenu('') }}>Full</button>
                                                             </div>
                                                         }
                                                     </form>
@@ -292,10 +292,10 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                             <>
                                 {('all' == selectedTab.toLowerCase() && (item.itemName).toLowerCase().includes(search.toLowerCase())) && (
                                     <Tooltip key={index} color={"primary"} content={item.itemName} className="capitalize">
-                                        <div key={index} className="px-2 w-1/4 py-3">
+                                        <div key={index} className="px-2 w-1/3 py-1">
                                             <Popover isOpen={item._id == selectedMenu} showArrow placement="bottom">
-                                                <PopoverTrigger onClick={() => {setSelectedMenu(item._id)}}>
-                                                    <div className={!selectedId.includes(item['_id']) ? "p-3 w-full rounded-lg bg-slate-700 capitalize flex flex-col" : "p-3 w-full rounded-lg bg-green-700 capitalize flex flex-col"}>
+                                                <PopoverTrigger onClick={() => { setSelectedMenu(item._id) }}>
+                                                    <div className={!selectedId.includes(item['_id']) ? "p-4 py-5 w-full rounded-sm bg-slate-700 capitalize flex flex-col" : "p-4 py-5 w-full rounded-sm bg-green-700 capitalize flex flex-col"}>
                                                         <div className="text-white font-thin truncate w-full">
                                                             {item.itemName}
                                                         </div>
@@ -313,12 +313,12 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                                             </>
                                                             :
                                                             <div className='flex flex-row flex-wrap gap-3'>
-                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml30"); setSelectedMenu('') }}>30 ml</button>
-                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml60"); setSelectedMenu('') }}>60 ml</button>
-                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml90"); setSelectedMenu('') }}>90 ml</button>
-                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "ml180"); setSelectedMenu('') }}>180 ml</button>
-                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "half"); setSelectedMenu('') }}>Half</button>
-                                                                <button type='button' className='bg-blue-700 p-3 rounded-lg text-white w-24' onClick={() => { addItemSelect(item, "full"); setSelectedMenu('') }}>Full</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-sm text-white w-24' onClick={() => { addItemSelect(item, "ml30"); setSelectedMenu('') }}>30 ml</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-sm text-white w-24' onClick={() => { addItemSelect(item, "ml60"); setSelectedMenu('') }}>60 ml</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-sm text-white w-24' onClick={() => { addItemSelect(item, "ml90"); setSelectedMenu('') }}>90 ml</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-sm text-white w-24' onClick={() => { addItemSelect(item, "ml180"); setSelectedMenu('') }}>180 ml</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-sm text-white w-24' onClick={() => { addItemSelect(item, "half"); setSelectedMenu('') }}>Half</button>
+                                                                <button type='button' className='bg-blue-700 p-3 rounded-sm text-white w-24' onClick={() => { addItemSelect(item, "full"); setSelectedMenu('') }}>Full</button>
                                                             </div>
                                                         }
                                                     </form>
@@ -333,7 +333,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                 </div>
             </div>
             <div className="w-1/2 py-10 px-3">
-                <div className="bg-gray-200 rounded-xl h-full p-8 flex flex-col">
+                <div className="bg-gray-200 rounded-sm h-full p-8 flex flex-col">
                     <div className="text-[24px] font-thin tracking-tight flex ">
                         <p> Order</p>
 
@@ -366,7 +366,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                         <tr key={index} className=" bg-gray-300 border-b flex-1 ">
                                             <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px] capitalize">
                                                 {(item.manual) ?
-                                                    <input type='text' onChange={(e) => changeValueName(item.id, e.target.value)} placeholder='Item Name' defaultValue={item.itemName} min={1} className='bg-slate-600 w-full py-3 rounded-lg text-left px-2 text-white text-[12px]' />
+                                                    <input type='text' onChange={(e) => changeValueName(item.id, e.target.value)} placeholder='Item Name' defaultValue={item.itemName} min={1} className='bg-slate-600 w-full py-3 rounded-sm text-left px-2 text-white text-[12px]' />
                                                     :
                                                     <>
                                                         {item.itemName}
@@ -430,18 +430,14 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                     <th scope="row" className="px-6 py-3 text-base">Total</th>
                                     <td className="px-6 py-3 text-center">
                                         <p className='w-full'>
-                                            {getTotalQuantity()}
                                         </p>
                                     </td>
                                     <td className="px-6 py-3 text-center">
                                         <p className='w-full'>
-                                            {getTotalQuantity()}
                                         </p>
                                     </td>
-                                    <td className="px-6 py-3 text-center  ">
-                                        <p className='w-full'>
-                                            Rs. {getTotalAmount()}
-                                        </p>
+                                    <td className="px-6 py-3 text-center w32 ">
+                                        Rs.{getTotalAmount()}
                                     </td>
                                     <td className="px-6 py-3"></td>
                                 </tr>

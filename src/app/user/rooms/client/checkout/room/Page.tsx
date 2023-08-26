@@ -3,7 +3,14 @@ import Modal from '@/components/modal'
 import serverUrl from '@/config/config';
 import Image from 'next/image';
 import React, { use, useState } from 'react'
-
+const distribution = {
+  'ml30': '30 ml',
+  'ml60': '60 ml',
+  'ml90': '90 ml',
+  'ml180': '180 ml',
+  'half': 'Half',
+  'full': 'Full',
+}
 function dateDifference(startDateStr: string, endDateStr: string) {
   // Convert the date strings to Date objects
   const startDate = new Date(startDateStr);
@@ -660,7 +667,10 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
                         Name
                       </th>
                       <th scope="col" className="px-6 py-5">
-                        Qty
+                        Quantity
+                      </th>
+                      <th scope="col" className="px-6 py-5 rounded-r-lg">
+                        Rate
                       </th>
                       <th scope="col" className="px-6 py-5 rounded-r-lg">
                         Price
@@ -679,10 +689,14 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
                                   {index + 1}. {index1 + 1 + " "}{item1.itemName}
                                 </th>
                                 <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
-                                  {item1.quantity}
+                                  {item1.label ? distribution[item1.label as keyof typeof distribution] : item1.quantity}
+
                                 </td>
                                 <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
-                                  {item1.price}
+                                  Rs.{item1.price}
+                                </td>
+                                <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
+                                  Rs.{item1.price*item1.quantity}
                                 </td>
                               </tr>
                             ))}
@@ -694,14 +708,16 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
                     <tr className="font-semibold text-gray-100 bg-slate-800">
                       <th scope="row" className="px-6 py-3 text-[14px]">Service Charge</th>
                       <td className="px-6 py-3 text-[14px]"></td>
+                      <td className="px-6 py-3 text-[14px]"></td>
 
-                      <td className="px-6 py-3 text-[14px]">{getServiceCharge(data)}</td>
+                      <td className="px-6 py-3 text-[14px]">Rs.{getServiceCharge(data)}</td>
                     </tr>
                     <tr className="font-semibold text-gray-100 bg-slate-800">
                       <th scope="row" className="px-6 py-3 text-[14px]">Total</th>
-                      <td className="px-6 py-3 text-[14px]">{getTotal(data).quantity}</td>
+                      <td className="px-6 py-3 text-[14px]"></td>
+                      <td className="px-6 py-3 text-[14px]"></td>
 
-                      <td className="px-6 py-3 text-[14px]">{getTotal(data).total}</td>
+                      <td className="px-6 py-3 text-[14px]">Rs.{getTotal(data).total}</td>
                     </tr>
                   </tfoot>
                 </table>

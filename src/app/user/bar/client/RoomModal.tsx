@@ -7,7 +7,7 @@ const RoomModal = ({ bookingList, selectedItems, reload }: any) => {
     const [open, setOpen] = useState(false)
     const [openSecond, setOpenSecond] = useState(false)
     const [selectedRoom, setSelectedRoom] = useState({ id: null, roomNumber: null })
-
+    const router=useRouter()
 
     async function orderToRoom() {
 
@@ -26,6 +26,7 @@ const RoomModal = ({ bookingList, selectedItems, reload }: any) => {
 
             });
             if (response.ok) {
+                router.refresh()
                 setOpen(false)
                 setOpenSecond(false)
                 setSelectedRoom({ id: null, roomNumber: null })

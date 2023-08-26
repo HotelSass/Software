@@ -1,11 +1,14 @@
 import Modal from '@/components/modal'
 import serverUrl from '@/config/config'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
 const TableModal = ({ tableList, selectedItems, reload }: any) => {
     const [open, setOpen] = useState(false)
     const [openSecond, setOpenSecond] = useState(false)
     const [selectedTable, setSelectedTable] = useState({ tableNumber: null })
+    const router = useRouter()
+
     async function orderToTable() {
 
         try {
@@ -22,6 +25,7 @@ const TableModal = ({ tableList, selectedItems, reload }: any) => {
 
             });
             if (response.ok) {
+                router.refresh()
                 setOpen(false)
                 setOpenSecond(false)
                 setSelectedTable({ tableNumber: null })

@@ -12,7 +12,7 @@ export const UserSidebarInfo = {
    }
    , 1: {
       icon: <MdFoodBank />,
-      title: 'Table',
+      title: 'Orders',
       size: 24,
       color: '#2442F8',
       location: '/user/table'

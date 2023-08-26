@@ -266,7 +266,7 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
 
                     </div>
                     {selectedRooms.length != 0 &&
-                        <div className=" mt-8 h-[300px] overflow-y-scroll">
+                        <div className=" mt-8 max-h-[300px] overflow-y-scroll">
                             <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
                                 Pricing
                             </label>
