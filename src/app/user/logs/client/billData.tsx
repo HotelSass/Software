@@ -46,8 +46,8 @@ const BillData = ({ data }: any) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {res.data.map((item: any) => (
-                                <tr className="border-b bg-gray-500 font-thin text-ssm">
+                            {res.data.map((item: any,index:number) => (
+                                <tr key={index} className="border-b bg-gray-500 font-thin text-ssm">
                                     <th scope="row" className="px-6 py-4 text-gray-100 whitespace-nowrap font-light text-[14px] flex flex-row">
                                         <div className=''>
                                             {item.message}
