@@ -99,8 +99,15 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
   const totalPayment = getFullTotal()
 
   function getFullTotal() {
-    let fullTotal = getTotalRoomPrice() - parseFloat(data.advance) - discount + getTotal(data).total
-    return fullTotal
+    if (data.advance) {
+      console.log(getTotalRoomPrice(), parseFloat(data.advance), discount, getTotal(data).total)
+      let fullTotal = getTotalRoomPrice() - parseFloat(data.advance) - discount + getTotal(data).total
+      return fullTotal
+    } else {
+      let fullTotal = getTotalRoomPrice() - discount + getTotal(data).total
+      return fullTotal
+    }
+
   }
   function getTotalRoomPrice() {
     let value = 0
@@ -696,7 +703,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
                                   Rs.{item1.price}
                                 </td>
                                 <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
-                                  Rs.{item1.price*item1.quantity}
+                                  Rs.{item1.price * item1.quantity}
                                 </td>
                               </tr>
                             ))}
@@ -998,7 +1005,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
                     <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
                     </td>
                     <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
-                      Rs. {data.advance}
+                      Rs. {data.advance ? data.advance : 0}
                     </td>
                     <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
                     </td>

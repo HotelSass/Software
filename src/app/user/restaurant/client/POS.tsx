@@ -219,9 +219,9 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                     </div>
                 </div>
 
-                <div className="w-full h-full p-3 py-6 rounded-lg bg-gray-200 overflow-y-scroll flex flex-col ">
+                <div className="w-full h-full p-3 py-6 rounded-sm bg-gray-200 overflow-y-scroll flex flex-col ">
                     <div className="px-3">
-                        <Input value={search} onValueChange={(val) => setSearch(val ? val.toString() : "")} label="Search" className='border border-gray-400 rounded-md' />
+                        <Input value={search} onValueChange={(val) => setSearch(val ? val.toString() : "")} label="Search" className='border border-gray-400 rounded-sm' />
                     </div>
                     <div className="flex w-full flex-wrap mt-5">
                         {menu.map((item: any, index: number) => (
@@ -231,7 +231,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                         <div key={index} className="px-2 w-1/3 py-1">
                                             <Popover isOpen={item._id == selectedMenu} showArrow placement="bottom">
                                                 <PopoverTrigger onClick={() => setSelectedMenu(item._id)}>
-                                                    <div className={!selectedId.includes(item['_id']) ? "p-5 w-full rounded-lg bg-slate-700 capitalize flex flex-col" : "p-5 w-full rounded-lg bg-green-700 capitalize flex flex-col"}>
+                                                    <div className={!selectedId.includes(item['_id']) ? "p-5 w-full rounded-sm bg-slate-700 capitalize flex flex-col" : "p-5 w-full rounded-sm bg-green-700 capitalize flex flex-col"}>
                                                         <div className="text-white font-thin truncate w-full">
                                                             {item.itemName}
                                                         </div>
@@ -261,7 +261,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                         <div key={index} className="px-2 w-1/3 py-1">
                                             <Popover isOpen={item._id == selectedMenu} showArrow placement="bottom">
                                                 <PopoverTrigger onClick={() => setSelectedMenu(item._id)}>
-                                                    <div className={!selectedId.includes(item['_id']) ? "p-5 w-full rounded-lg bg-slate-700 capitalize flex flex-col" : "p-5 w-full rounded-lg bg-green-700 capitalize flex flex-col"}>
+                                                    <div className={!selectedId.includes(item['_id']) ? "p-5 w-full rounded-sm bg-slate-700 capitalize flex flex-col" : "p-5 w-full rounded-sm bg-green-700 capitalize flex flex-col"}>
                                                         <div className="text-white font-thin truncate w-full">
                                                             {item.itemName}
                                                         </div>
@@ -287,14 +287,14 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                 </div>
             </div>
             <div className="w-1/2 py-10 px-3">
-                <div className="bg-gray-200 rounded-xl h-full p-8 flex flex-col">
+                <div className="bg-gray-200 rounded-sm h-full p-8 flex flex-col">
                     <div className="text-[24px] font-thin tracking-tight flex ">
                         <p> Order</p>
-                        <div className="ml-auto bg-gray-600 flex px-3 py-2 rounded-xl">
+                        <div className="ml-auto bg-gray-600 flex px-3 py-2 rounded-sm">
                             <Switch isSelected={manualMenu} color='danger' onChange={() => setManualMenu(!manualMenu)} className='ml-auto mr-5' />
                             <p className='text-[14px] my-auto text-white'> Manual Menu</p>
                         </div>
-                        <div className="ml-2 bg-gray-600 flex px-3 py-2 rounded-xl">
+                        <div className="ml-2 bg-gray-600 flex px-3 py-2 rounded-sm">
                             <Switch isDisabled isSelected={freeMenu} color='danger' onChange={() => setFreeMenu(!freeMenu)} className='ml-auto mr-5' />
                             <p className='text-[14px] my-auto text-white'> Free Menu</p>
                         </div>
@@ -325,7 +325,7 @@ const POS = ({ data, bookingList, unOccupiedTableList }: any) => {
                                     <tr key={index} className=" bg-gray-300 border-b flex-1 ">
                                         <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px] capitalize">
                                             {(item.manual) ?
-                                                <input type='text' onChange={(e) => changeValueName(item.id, e.target.value)} placeholder='Item Name' defaultValue={item.itemName} min={1} className='bg-slate-600 w-full py-3 rounded-lg text-left px-2 text-white text-[12px]' />
+                                                <input type='text' onChange={(e) => changeValueName(item.id, e.target.value)} placeholder='Item Name' defaultValue={item.itemName} min={1} className='bg-slate-600 w-full py-3 rounded-sm text-left px-2 text-white text-[12px]' />
                                                 :
                                                 <>
                                                     {item.itemName}

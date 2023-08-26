@@ -206,7 +206,7 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
                                 type="text"
                                 id="clientName"
                                 required
-                                className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                                className=" placeholder:text-ssm capitalize placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
                             />
                         </div>
                         <div className="flex flex-col flex-1">
@@ -219,7 +219,7 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
                                 type="text"
                                 id="clientAddress"
                                 required
-                                className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                                className=" placeholder:text-ssm capitalize placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
                             />
                         </div>
                     </div>

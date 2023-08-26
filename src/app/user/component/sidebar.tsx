@@ -35,8 +35,8 @@ const Sidebar = () => {
             key={key}
             className={
               routeUrl == item.location
-                ? "flex flex-row bg-[#F1F6FE] w-11/12 mx-auto p-4 rounded-lg space-x-5 border border-blue-100 ring-blue-600 my-1"
-                : "flex flex-row w-11/12 mx-auto p-4 rounded-lg space-x-5 my-1"
+                ? "flex flex-row bg-[#F1F6FE] w-11/12 mx-auto p-3 py-3 rounded-lg space-x-5 border border-blue-100 ring-blue-600"
+                : "flex flex-row w-11/12 mx-auto p-3 py-3 rounded-lg space-x-5 border border-blue-900 "
             }
           >
             <div className="mr-auto">
@@ -46,11 +46,11 @@ const Sidebar = () => {
               })}
             </div>
             {routeUrl == item.location ?
-              <div className={"text-[13px] my-auto font-normal text-left  flex-1"}>
+              <div className={"text-[12px] my-auto font-normal text-left  flex-1"}>
                 {item.title}
               </div>
               :
-              <div className={"text-[13px] my-auto font-normal text-left  flex-1 text-white"}>
+              <div className={"text-[12px] my-auto font-normal text-left  flex-1 text-white"}>
                 {item.title}
               </div>
             }

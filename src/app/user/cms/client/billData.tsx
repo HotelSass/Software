@@ -71,15 +71,12 @@ const BillData = ({ data }: any) => {
                                     </td>
                                     <td className="px-6 py-4 text-white">
                                         <div className=' flex flex-row mx-auto'>
-                                            {item.roomNumber &&
-                                                <p className='px-3'>Room: </p>
-                                            }
 
-                                            {item.roomNumber &&
+                                            {item.rooms &&
                                                 <>
-                                                    {item.roomNumber.map((room: any, index: number) =>
+                                                    {item.rooms.map((item: any, index: number) =>
                                                         <p key={index} className='mx-1'>
-                                                            {room}
+                                                            {item.room}
                                                         </p>
                                                     )}
 

@@ -220,7 +220,7 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
                                 id="clientName"
                                 required
                                 onChange={(e) => setClientName(e.target.value)}
-                                className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                                className=" placeholder:text-ssm capitalize placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
                             />
                         </div>
                         <div className="flex flex-col flex-1">
@@ -335,7 +335,7 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
                             type="text"
                             id="clientName"
                             required
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                            className=" placeholder:text-ssm capitalize placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                     <div className="flex flex-col flex-1">
@@ -350,7 +350,7 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
                             type="text"
                             id="clientAddress"
                             required
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                            className=" placeholder:text-ssm capitalize placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                 </div>
@@ -382,7 +382,7 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
                             type="text"
                             id="clientPhone"
                             disabled
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                            className=" placeholder:text-ssm capitalize placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                 </div>
@@ -399,7 +399,7 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
                             type="text"
                             id="nationality"
                             required
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                            className=" placeholder:text-ssm capitalize placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                     <div className="flex flex-col flex-1">
@@ -414,7 +414,7 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
                             type="text"
                             id="clientEmail"
                             required
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                            className=" placeholder:text-ssm capitalize placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                 </div>
@@ -431,7 +431,7 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
                             placeholder="Visting From"
                             type="text"
                             id="nationality"
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                            className=" placeholder:text-ssm capitalize placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                     <div className="flex flex-col flex-1">
@@ -445,7 +445,7 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
                             placeholder="Visiting To"
                             type="text"
                             id="clientEmail"
-                            className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
+                            className=" placeholder:text-ssm capitalize placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>
                 </div>

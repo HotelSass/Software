@@ -46,12 +46,12 @@ const BillData = ({ data }: any) => {
                                 {selectedData.map((item: any, index: number) => {
                                     const time = new Date(item.date)
                                     return (
-                                        <tr className='bg-slate-300 border-b' key={index}>
+                                        <tr className='bg-slate-600 border-b' key={index}>
 
-                                            <td className='p-4 text-gray-800 font-light text-[12px]'>
+                                            <td className='p-4 text-white font-light text-[12px]'>
                                                 {time.toDateString()}
                                             </td>
-                                            <td className=' text-right pr-5 p-4 text-gray-800 font-light text-[12px]'>
+                                            <td className=' text-right pr-5 p-4 text-white font-light text-[12px]'>
                                                 Rs. {item.total}
                                             </td>
                                         </tr>
@@ -97,15 +97,16 @@ const BillData = ({ data }: any) => {
                         <tbody>
                             {Object.keys(res).map((phone: any, index: number) => {
                                 return (
-                                    <tr className='bg-slate-300 border-b' key={index}>
+                                    <tr className='bg-slate-600 border-b' key={index}>
 
-                                        <td className='p-4 text-gray-800 font-light text-[12px]'>
+                                        <td className='p-4 text-white font-light text-[12px]'>
                                             {res[phone][0].name}
                                         </td>
-                                        <td className='p-4 text-gray-800 font-light text-[12px]'>
+                                        <td className='p-4 text-white font-light text-[12px]'>
                                             {phone}</td>
-                                        <td className=''>
-                                            <button type='button' onClick={() => { setOpenDetail(true); setSelectedData(res[phone]) }} className='underline font-light text-[14px] text-white bg-green-600 py-2 px-4 text-center rounded-lg mx-auto'>See More</button>
+                                        <td className='flex flex-row'>
+                                            <div className="flex-1"></div>
+                                            <button type='button' onClick={() => { setOpenDetail(true); setSelectedData(res[phone]) }} className='font-light text-[14px] text-white bg-green-600 py-3 px-8 text-center rounded-lg mx-auto my-3 mr-4 hover:bg-green-700'>See More</button>
                                         </td>
                                     </tr>
                                 )
