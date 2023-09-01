@@ -42,8 +42,8 @@ const Client = ({ metrics }: any) => {
                 <p className='text-[20px] font-semibold mb-2'>Measure Unit</p>
                 <p className='text-[12px] text-gray-500 '>It typically refer to units like kilograms, pieces, dozens, and bottles. These metrics help track and manage physical inventory and quantities within the hotel.</p>
                 <div className="rounded border border-gray-300 bg-gray-100 w-1/2 mt-5 h-max-[300px]">
-                    {metrics.map((item: any) => (
-                        <div className='capitalize border-b border-b-gray-200 p-3 flex flex-row items-center'>
+                    {metrics.map((item: any,index:number) => (
+                        <div key={index} className='capitalize border-b border-b-gray-200 p-3 flex flex-row items-center'>
                             <p className='my-auto text-[14px]'>
                                 {item.measurement}
                             </p>
