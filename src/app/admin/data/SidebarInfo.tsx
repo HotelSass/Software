@@ -36,9 +36,13 @@ export const  SidebarInfo={
     color:'#2442F8',
     location:'/admin/inventory'
    }
-   ,5:{
+   
+};
+export const  SettingSidebarInfo={
+   
+   0:{
     icon:<BiCog/>,
-    title:'Setting',
+    title:'Settings',
     size:24,
     color:'#2442F8',
     location:'/admin/setting'
