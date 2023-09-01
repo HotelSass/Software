@@ -6,49 +6,39 @@ import { usePathname } from "next/navigation";
 import React from "react";
 
 const Sidebar = () => {
-  const routeUrl = "/admin/"+usePathname()?.split("/")[2];
+  const routeUrl = "/admin/" + usePathname()?.split("/")[2];
   return (
     <div
-      className="bg-blue-900 py-10 w-70 h-screen "
+      className="bg-[#F7F7FF] py-4 w-56 border-r px-4"
       style={{ display: "flex", flexDirection: "column" }}
     >
-      <div className="flex flex-row w-full space-x-4 p-4">
-        <Image
-          src="/images/profile.jpg"
-          width={55}
-          height={55}
-          className="rounded-2xl"
-          alt="Profile Picture"
-        />
-        <div className=" flex-col hidden">
-          <div className="text-[18px] font-normal">Sid</div>
-          <div className="text-[13px] font-light text-gray-400">
-            Hotel Manager
-          </div>
-        </div>
+      <div className="flex flex-row w-full px-4 text-[28px] font-extrabold text-purple-600">
+        nyano
       </div>
       <div className="flex flex-col mt-10">
+        <p className="text-[12px] font-bold ml-2">Setup</p>
         {Object.entries(SidebarInfo).map(([key, item]) => (
           <Link
             href={item.location}
             key={key}
             className={
-              routeUrl == item.location
-                ? "flex flex-row bg-[#F1F6FE] w-11/12 mx-auto p-4 rounded-lg space-x-5 border border-blue-100 ring-blue-600 my-1"
-                : "flex flex-row w-11/12 mx-auto p-4 rounded-lg space-x-5 my-1"
+              "flex flex-row w-11/12 mx-auto py-3 rounded-lg space-x-5 "
             }
           >
-            <div className="mx-auto">
-            {React.cloneElement(item.icon, {
-              size: item.size,
-              color: routeUrl == item.location ? item.color : "#cfcfcf",
-            })}
+            <div className="mr-auto">
+              {React.cloneElement(item.icon, {
+                size: item.size,
+                color: "#9957cf",
+              })}
             </div>
-            <div className={"text-[13px] my-auto font-medium hidden"}>
+
+            <div className={"text-[12px] my-auto font-normal text-left  flex-1 text-gray-700"}>
               {item.title}
             </div>
+
           </Link>
         ))}
+
       </div>
     </div>
   );
