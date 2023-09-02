@@ -1,7 +1,7 @@
 import Layout from "@/app/admin/components/layout";
 import React from "react";
 import FutureUpdate from "@/components/futureUpdate";
-import { Server } from "./server/server";
+import Client from "./client/client";
 
 const page = () => {
   return (
@@ -31,8 +31,7 @@ const page = () => {
             </div>
           </div>
         </div>
-        {/* @ts-expect-error Async Server Component */}
-        <Server />
+        <Client />
 
       </div>
     </Layout>

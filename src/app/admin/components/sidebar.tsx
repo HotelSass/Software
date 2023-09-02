@@ -16,13 +16,13 @@ const Sidebar = () => {
     >
       <div className="flex flex-row w-full px-8 mt-8">
         <BiHotel className="my-auto" size={30} color="#6b02c9" />
-        <p className="my-auto ml-2 text-[28px] font-extrabold text-purple-500">
+        <p className="my-auto ml-2 text-[28px] font-extrabold text-[#504499]">
           nyano
         </p>
       </div>
       <p className="text-[12px] font-bold ml-2 text-gray-600 mt-10 px-4 mb-1">Setup</p>
 
-      <div className="flex flex-col">
+      <div className="flex flex-col border-b pb-4">
         {Object.entries(SidebarInfo).map(([key, item]) => (
           <Link
             href={item.location}
@@ -38,7 +38,7 @@ const Sidebar = () => {
               })}
             </div>
 
-            <div className={"text-[12px] my-auto font-normal text-left  flex-1 text-purple-500"}>
+            <div className={"text-[12px] my-auto font-normal text-left  flex-1 text-gray-700"}>
               {item.title}
             </div>
 
@@ -49,7 +49,7 @@ const Sidebar = () => {
       <p className="text-[12px] font-bold ml-2 text-gray-600 mt-7 mb-1 px-4">Setting</p>
       
 
-      <div className="flex flex-col">
+      <div className="flex flex-col border-b pb-4">
         {Object.entries(SettingSidebarInfo).map(([key, item]) => (
           <Link
             href={item.location}
@@ -65,7 +65,7 @@ const Sidebar = () => {
               })}
             </div>
 
-            <div className={"text-[12px] my-auto font-normal text-left  flex-1 text-purple-500"}>
+            <div className={"text-[12px] my-auto font-normal text-left  flex-1 text-gray-700"}>
               {item.title}
             </div>
 

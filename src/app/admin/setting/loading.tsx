@@ -1,7 +1,6 @@
 import Layout from "@/app/admin/components/layout";
 import React from "react";
 import FutureUpdate from "@/components/futureUpdate";
-import { Server } from "./server/server";
 
 const page = () => {
     return (
@@ -33,15 +32,20 @@ const page = () => {
                 </div>
                 <div className='p-6 px-8 flex flex-row h-full'>
                     <div className="w-48 border-r border-gray-300 h-3/4 flex flex-col">
-                        <a href="" className='text-[14px]'>
-                            Measurement Metrics
-                        </a>
+
+                        <div className="w-48 border-r border-gray-300 h-3/4 flex flex-col">
+                            <button type='button' className='text-[14px] font-thin text-gray-700 hover:bg-gray-100 p-2 py-3 cursor-pointer border-b border-b-gray-100 mr-2 text-left'>
+                                Measurement Metrics
+                            </button>
+                            <button type='button' className='text-[14px] font-thin text-gray-700 hover:bg-gray-100 p-2 py-3 cursor-pointer border-b border-b-gray-100 mr-2 text-left'>
+                                Vendors
+                            </button>
+                        </div>
+
                     </div>
                     <div className="flex-1 px-4 flex flex-col pl-16">
-                        <p className='text-[20px] font-semibold mb-2'>Measure Unit</p>
-                        <p className='text-[12px] text-gray-500 '>It typically refer to units like kilograms, pieces, dozens, and bottles. These metrics help track and manage physical inventory and quantities within the hotel.</p>
 
-                        <div role="status" className="max-w-md p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700 mt-7">
+                        <div role="status" className="max-w-full p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700 w-full">
                             <div className="flex items-center justify-between">
                                 <div>
                                     <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>

@@ -1,4 +1,4 @@
-import { BiBed, BiWine, BiFork, BiMoneyWithdraw, BiHistory, BiUserCheck, BiReceipt, BiCreditCardFront,BiListCheck } from "react-icons/bi";
+import { BiBed, BiWine, BiFork, BiMoneyWithdraw, BiHistory, BiUserCheck, BiReceipt, BiCreditCardFront, BiListCheck } from "react-icons/bi";
 import { MdFoodBank } from "react-icons/md"
 
 export const UserSidebarInfo = {
@@ -10,7 +10,11 @@ export const UserSidebarInfo = {
       color: '#2442F8',
       location: '/user/rooms'
    }
-   , 1: {
+   
+};
+export const UserRestaurantInfo = {
+
+   1: {
       icon: <MdFoodBank />,
       title: 'Orders',
       size: 22,
@@ -31,7 +35,12 @@ export const UserSidebarInfo = {
       color: '#2442F8',
       location: '/user/bar'
    }
-   , 4: {
+   
+};
+export const UserClientInfo = {
+
+
+   4: {
       icon: <BiUserCheck />,
       title: 'CMS',
       size: 22,
@@ -45,6 +54,11 @@ export const UserSidebarInfo = {
       color: '#2442F8',
       location: '/user/credit'
    },
+
+};
+export const UserFinanceInfo = {
+
+
    6: {
       icon: <BiMoneyWithdraw />,
       title: 'Day Book',
@@ -60,7 +74,13 @@ export const UserSidebarInfo = {
       color: '#2442F8',
       location: '/user/purchase'
    }
-   , 8: {
+
+
+};
+export const UserPastInfo = {
+
+
+   8: {
       icon: <BiHistory />,
       title: 'History',
       size: 22,
@@ -74,4 +94,6 @@ export const UserSidebarInfo = {
       color: '#2442F8',
       location: '/user/logs'
    }
+
 };
+

@@ -1,5 +1,4 @@
 import serverUrl from '@/config/config';
-import React from 'react'
 
 export async function addNewMeasurement(measurement: string) {
     console.log(measurement)
@@ -26,6 +25,29 @@ export async function addNewMeasurement(measurement: string) {
         console.log(err)
     }
 }
+export async function addNewVendor({name, address, phone, account}:any) {
+    try {
+        const response = await fetch(serverUrl + "/setting/addNewVendor", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name, address, phone, accountNumber: account
+            })
+
+        });
+        if (response.ok) {
+            return true
+
+        } else {
+            return false
+        }
+
+    } catch (err) {
+        console.log(err)
+    }
+}
 export async function deleteMeasurement(measurement: string) {
     console.log(measurement)
     try {
@@ -37,6 +59,29 @@ export async function deleteMeasurement(measurement: string) {
             body: JSON.stringify({
 
                 measurement: measurement.toLowerCase()
+            })
+
+        });
+        if (response.ok) {
+            return true
+
+        } else {
+            return false
+        }
+
+    } catch (err) {
+        console.log(err)
+    }
+}
+export async function deleteVendor(id: string) {
+    try {
+        const response = await fetch(serverUrl + "/setting/deleteVendor", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id
             })
 
         });

@@ -1,17 +1,16 @@
 import React from 'react'
-import Client from '../client/client'
 import serverUrl from '@/config/config';
+import Measurement from '../components/Measurement';
 export async function getAllItem() {
   const res = await fetch(serverUrl + "/setting/getAllMeasurementList", { cache: 'no-store' });
   const data = await res.json();
-  console.log(data)
   return data
 }
-export async function Server() {
+export async function MeasurementServer() {
   const value = await getAllItem()
 
   return (
-    <Client metrics={value} />
+    <Measurement metrics={value} />
   )
 }
 
