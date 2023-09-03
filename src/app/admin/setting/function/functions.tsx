@@ -25,7 +25,30 @@ export async function addNewMeasurement(measurement: string) {
         console.log(err)
     }
 }
-export async function addNewVendor({name, address, phone, account}:any) {
+export async function addNewLocation(location: any) {
+    try {
+        const response = await fetch(serverUrl + "/setting/addNewStorage", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                location: location.toLowerCase()
+            })
+
+        });
+        if (response.ok) {
+            return true
+
+        } else {
+            return false
+        }
+
+    } catch (err) {
+        console.log(err)
+    }
+}
+export async function addNewVendor({ name, address, phone, account }: any) {
     try {
         const response = await fetch(serverUrl + "/setting/addNewVendor", {
             method: 'POST',
@@ -73,6 +96,7 @@ export async function deleteMeasurement(measurement: string) {
         console.log(err)
     }
 }
+
 export async function deleteVendor(id: string) {
     try {
         const response = await fetch(serverUrl + "/setting/deleteVendor", {
@@ -95,4 +119,30 @@ export async function deleteVendor(id: string) {
     } catch (err) {
         console.log(err)
     }
+}
+
+export async function deleteLocation(id: string) {
+
+    try {
+        const response = await fetch(serverUrl + "/setting/deleteLocation", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id
+            })
+
+        });
+        if (response.ok) {
+            return true
+
+        } else {
+            return false
+        }
+
+    } catch (err) {
+        console.log(err)
+    }
+
 }

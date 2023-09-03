@@ -1,6 +1,7 @@
 'use client'
 import React from 'react'
 import { useRouter } from 'next/navigation';
+import PurchaseServer from '../server/PurchaseServer';
 
 const Client = () => {
     const router = useRouter()
@@ -14,8 +15,9 @@ const Client = () => {
                     Bank Transfer
                 </a>
             </div>
-            <div className="flex-1 px-4 flex flex-col pl-16">
-                
+            <div className="flex-1 px-4 flex flex-col pl-4">
+                {/* @ts-expect-error Async Server Component */}
+                <PurchaseServer />
 
             </div>
 
