@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { MeasurementServer } from '../server/Measurement';
 import { VendorServer } from '../server/Vendor';
 import { StorageServer } from '../server/Storage';
+import { BankDetailServer } from '../server/BankDetail';
 
 const Client = () => {
     const [selection, setSelection] = useState('Measurement')
@@ -18,6 +19,9 @@ const Client = () => {
                 </button>
                 <button type='button' onClick={()=>setSelection("StorageLocation")} className='text-[14px] font-thin text-gray-700 hover:bg-gray-100 p-2 py-3 cursor-pointer border-b border-b-gray-100 mr-2 text-left'>
                     Storage Location
+                </button>
+                <button type='button' onClick={()=>setSelection("BankDetail")} className='text-[14px] font-thin text-gray-700 hover:bg-gray-100 p-2 py-3 cursor-pointer border-b border-b-gray-100 mr-2 text-left'>
+                    Bank Detail
                 </button>
             </div>
 
@@ -37,6 +41,12 @@ const Client = () => {
                 <>
                     {/* @ts-expect-error Async Server Component */}
                     <StorageServer />
+                </>
+            }
+            {selection == "BankDetail" &&
+                <>
+                    {/* @ts-expect-error Async Server Component */}
+                    <BankDetailServer />
                 </>
             }
 

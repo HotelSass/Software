@@ -1,7 +1,6 @@
 import React from 'react'
-import Client from '../client/client'
-import PurchaseBill from '../components/PurchaseBill'
 import serverUrl from '@/config/config';
+import BankTransfer from '../components/BankTransfer';
 
 export async function getAllItem() {
   const res = await fetch(serverUrl + "/setting/getAllVendorList", { cache: 'no-store' });
@@ -13,12 +12,12 @@ export async function getAllItem() {
   return {vendorList,data2,data3}
 }
 
-const PurchaseServer = async() => {
+const BankTransferServer = async() => {
   const {vendorList,data2,data3} = await getAllItem()
 
   return (
-    <PurchaseBill vendorList={vendorList} location={data2} unit={data3} />
+    <BankTransfer vendorList={vendorList} location={data2} unit={data3} />
   )
 }
 
-export default PurchaseServer
+export default BankTransferServer

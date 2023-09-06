@@ -4,8 +4,8 @@ import { MdClose } from 'react-icons/md';
 
 const PurchaseBill = ({ vendorList, location, unit }: any) => {
   const [defaultDate, setDefaultDate] = useState('');
-  const [rows, setRows] = useState([{ key: Date.now().toString(), itemName: "", location: "", quantity: "", unit: '', price: '' }]);
-
+  const [rows, setRows] = useState([{ key: Date.now() }]);
+  const [formData, setFormData] = useState(new FormData());
 
 
   const getCurrentDate = () => {
@@ -22,26 +22,25 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
 
   async function onSubmit(e: any) {
     e.preventDefault()
-    const formData = new FormData(e.target)
     const vendorId = formData.get("name")
     const billNo = formData.get("billNo")
     const date = formData.get("date")
     const paymentType = formData.get("paymentType")
+    const itemName = formData.getAll("itemName[]")
+    const location = formData.getAll("storageLocation[]")
+    const quantity = formData.getAll("quantity[]")
+    const unit = formData.getAll("unit[]")
+    const price = formData.getAll("price[]")
 
+    console.log(formData)
   }
 
-  function deleteRows(id: any) {
-    let temp = rows
-    const updatedRows = temp.filter(row => row.key !== id);
-    setRows([...updatedRows])
-  }
-  function updateValue(e: any, key: string, index: number) {
-    const temp = [...rows];
-    if (temp[index].hasOwnProperty(key.toString())) {
-      temp[index][key as keyof typeof temp[0]] = e.target.value;
-      setRows([...temp])
-    }
-  }
+  const removeRow = (keyToRemove: any) => {
+    console.log(keyToRemove)
+    setRows((prevRows) => prevRows.filter((row) => row.key !== keyToRemove));
+
+  };
+
 
   return (
     <div className="flex-1 flex flex-col">
@@ -102,10 +101,10 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
                   return (
                     <tr key={index} className='m-3 p-4 '>
                       <td className='p-3'>
-                        <input name='itemName[]' value={rows[index].itemName} onChange={(e) => { updateValue(e, 'itemName', index) }} required className="appearance-none bg-transparent border-b w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none placeholder:text-[12px] text-[12px]" type="text" placeholder="Item Name" aria-label="Full name" />
+                        <input name='itemName[]' required className="appearance-none bg-transparent border-b w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none placeholder:text-[12px] text-[12px]" type="text" placeholder="Item Name" aria-label="Full name" />
                       </td>
                       <td className='p-3'>
-                        <select required name='storageLocation[]' value={rows[index].location} onChange={(e) => { updateValue(e, 'location', index) }} className="capitalize border-b border-gray-200 w-full py-2 rounded px-3 text-gray-700 placeholder:text-[12px] text-[12px] bg-white" id="username" placeholder="Vendor Name" >
+                        <select required name='storageLocation[]' className="capitalize border-b border-gray-200 w-full py-2 rounded px-3 text-gray-700 placeholder:text-[12px] text-[12px] bg-white" id="username" placeholder="Vendor Name" >
                           {location.map((item: any, index: number) => (
                             <option key={index} className='capitalize' value={item.location}>{item.location}</option>
                           ))}
@@ -113,11 +112,11 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
                         </select>
                       </td>
                       <td className='p-3'>
-                        <input name='quantity[]' value={rows[index].quantity} onChange={(e) => { updateValue(e, 'quantity', index) }} required className="appearance-none bg-transparent border-b w-24 text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none placeholder:text-[12px] text-[12px]" type="text" placeholder="Quantity" aria-label="Quantity" />
+                        <input name='quantity[]' required className="appearance-none bg-transparent border-b w-24 text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none placeholder:text-[12px] text-[12px]" type="text" placeholder="Quantity" aria-label="Quantity" />
                       </td>
 
                       <td className='p-3'>
-                        <select required name='unit[]' value={rows[index].unit} onChange={(e) => { updateValue(e, 'unit', index) }} className="capitalize border-b border-gray-200 w-full py-2 rounded px-3 text-gray-700 placeholder:text-[12px] text-[12px] bg-white " id="username" placeholder="Vendor Name" >
+                        <select required name='unit[]' className="capitalize border-b border-gray-200 w-full py-2 rounded px-3 text-gray-700 placeholder:text-[12px] text-[12px] bg-white " id="username" placeholder="Vendor Name" >
                           {unit.map((item: any, index: number) => (
                             <option key={index} className='capitalize' value={item.measurement}>{item.measurement}</option>
                           ))}
@@ -125,11 +124,12 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
                         </select>
                       </td>
                       <td className='p-3'>
-                        <input name='price[]' value={rows[index].price} onChange={(e) => { updateValue(e, 'price', index) }} required className="appearance-none bg-transparent border-b w-28 text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none placeholder:text-[12px] text-[12px]" type="text" placeholder="Purchase Price" aria-label="Purchase Price" />
+                        <input name='price[]' required className="appearance-none bg-transparent border-b w-28 text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none placeholder:text-[12px] text-[12px]" type="text" placeholder="Purchase Price" aria-label="Purchase Price" />
                       </td>
                       <td className='p-3'>
-                        <button type='button' onClick={() => { deleteRows(item1.key) }}  >
+                        <button type='button' onClick={() => removeRow(item1.key)}  >
                           <MdClose />
+                          {item1.key}
                         </button>
                       </td>
                     </tr>
@@ -138,9 +138,7 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
                 <tr>
                   <td className='flex pl-2 pt-6'>
                     <button type='button' className='flex' onClick={() => {
-                      let temp = rows
-                      temp.push({ key: Date.now().toString(), itemName: "", location: "", quantity: "", unit: '', price: '' })
-                      setRows([...temp]);
+                      setRows([...rows, { key: Date.now() }]);
                     }}>
                       <BiPlus className='my-auto' color='#7f7f7f' size={16} />
                       <p className='my-auto text-light text-[12px] text-gray-500'>Add New</p>

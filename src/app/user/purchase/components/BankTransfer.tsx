@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { BiPlus } from 'react-icons/bi';
 import { MdClose } from 'react-icons/md';
 
-const PurchaseBill = ({ vendorList, location, unit }: any) => {
+const BankTransfer = ({ vendorList, location, unit }: any) => {
   const [defaultDate, setDefaultDate] = useState('');
   const [rows, setRows] = useState([{ key: Date.now().toString(), itemName: "", location: "", quantity: "", unit: '', price: '' }]);
 
@@ -45,8 +45,8 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
 
   return (
     <div className="flex-1 flex flex-col">
-      <p className='text-[20px] font-semibold mb-2'>Purchase Bill</p>
-      <p className='text-[12px] text-gray-500 '>Enter the Purchase Bill Obtained From The Market</p>
+      <p className='text-[20px] font-semibold mb-2'>Bank Transfer</p>
+      <p className='text-[12px] text-gray-500 '>Enter the Bank Transfer Record</p>
       <form onSubmit={(e) => { onSubmit(e) }} className='flex flex-col mt-8 bg-gray-200 py-8 rounded-md px-4' action="">
         <div className="flex flex-row ">
           <div className="flex-1 px-2">
@@ -165,4 +165,4 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
   )
 }
 
-export default PurchaseBill
+export default BankTransfer

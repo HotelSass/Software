@@ -71,6 +71,29 @@ export async function addNewVendor({ name, address, phone, account }: any) {
         console.log(err)
     }
 }
+export async function addNewBankDetail({ bankName, bankAddress, accountName, accountNumber }: any) {
+    try {
+        const response = await fetch(serverUrl + "/setting/addNewBankDetail", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                bankName, bankAddress, accountName, accountNumber
+            })
+
+        });
+        if (response.ok) {
+            return true
+
+        } else {
+            return false
+        }
+
+    } catch (err) {
+        console.log(err)
+    }
+}
 export async function deleteMeasurement(measurement: string) {
     console.log(measurement)
     try {
@@ -100,6 +123,29 @@ export async function deleteMeasurement(measurement: string) {
 export async function deleteVendor(id: string) {
     try {
         const response = await fetch(serverUrl + "/setting/deleteVendor", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id
+            })
+
+        });
+        if (response.ok) {
+            return true
+
+        } else {
+            return false
+        }
+
+    } catch (err) {
+        console.log(err)
+    }
+}
+export async function deleteBankDetail(id: string) {
+    try {
+        const response = await fetch(serverUrl + "/setting/deleteBankDetail", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
