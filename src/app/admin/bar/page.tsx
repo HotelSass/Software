@@ -9,12 +9,14 @@ import Server from './server/server'
 const server = () => {
   return (
     <Layout>
-      <div className="flex flex-col p-6 px-8">
-        <div className=" pt-8  text-[30px] font-bold text-gray-600">Bar</div>
+      <div className="flex flex-col p-6">
+        <div className="text-[44px] font-bold text-gray-700 my-auto">
+          Bar
+        </div>
         <div className="flex flex-row">
-                    {/* @ts-expect-error Async Server Component */}
+          {/* @ts-expect-error Async Server Component */}
 
-          <Server/>
+          <Server />
         </div>
         <div className="flex">
           <div className=" text-[20px] my-auto font-bold text-gray-600">
@@ -22,7 +24,7 @@ const server = () => {
           </div>
           <NewCategory />
         </div>
-        <div className="flex flex-row p-8 flex-wrap">
+        <div className="flex flex-row p-8 px-0 flex-wrap">
           {/* @ts-expect-error Async Server Component */}
           <NewCategoryServer />
 
@@ -33,7 +35,7 @@ const server = () => {
           </div>
           {/* @ts-expect-error Async Server Component */}
           <NewMenuServer />
-                    {/* @ts-expect-error Async Server Component */}
+          {/* @ts-expect-error Async Server Component */}
 
           <MenuTableServer />
         </div>

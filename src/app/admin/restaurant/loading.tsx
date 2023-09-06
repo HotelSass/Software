@@ -1,7 +1,6 @@
 import Layout from "@/app/admin/components/layout";
 import React from "react";
-import RoomCard from "./server/RoomCard";
-import RoomTableServer from "./server/RoomTable";
+
 
 export default async function Page() {
   return (
@@ -9,11 +8,9 @@ export default async function Page() {
       <div className="flex flex-col">
         <div className="flex">
           <div className=" pt-6 pl-6 text-[44px] font-bold text-gray-700 my-auto">
-            Rooms
+            Restaturant
           </div>
         </div>
-
-
         <div role="status" className="w-56 p-4 border border-gray-200 rounded shadow animate-pulse mx-8 dark:border-gray-700">
           <div className="flex items-center justify-center h-32 mb-4 bg-gray-300 rounded dark:bg-gray-700">
             <svg className="w-8 h-8 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">

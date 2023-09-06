@@ -16,13 +16,15 @@ const Rooms = () => {
 
   return (
     <Layout>
-      <div className="w-full p-8 flex flex-col">
-        <div className="text-[20px] font-thin tracking-tight">Booking</div>
+      <div className="w-full flex flex-col px-6">
+        <div className=" pt-6 text-[44px] font-bold text-gray-700 my-auto">
+          Rooms
+        </div>
         <div className="flex flex-row">
-          <div className="flex flex-row space-x-4 flex-1">
-            <div className="text-[36px] font-thin">{c_date}</div>
-            <div className="text-[36px] font-thin">{c_month_name}</div>
-            <div className="text-[36px] font-thin">{c_year}</div>
+          <div className="flex flex-row space-x-1 flex-1">
+            <div className="text-[28px] font-thin">{c_date}</div>
+            <div className="text-[28px] font-thin">{c_month_name}</div>
+            <div className="text-[28px] font-thin">{c_year}</div>
           </div>
 
           {/* @ts-expect-error Async Server Component */}
