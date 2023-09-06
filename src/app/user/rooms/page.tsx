@@ -2,7 +2,6 @@ import React from "react";
 import Layout from "../component/layout";
 import NewBookingServer from "./server/NewBookingServer";
 import InfoServer from "./server/InfoServer";
-import CalenderServer from "./server/CalenderServer";
 
 const Rooms = () => {
   const currentDate = new Date();
@@ -18,10 +17,10 @@ const Rooms = () => {
     <Layout>
       <div className="w-full flex flex-col px-6">
         <div className=" pt-6 text-[44px] font-bold text-gray-700 my-auto">
-          Rooms
+          Bookings
         </div>
         <div className="flex flex-row">
-          <div className="flex flex-row space-x-1 flex-1">
+          <div className="flex flex-row space-x-2 flex-1">
             <div className="text-[28px] font-thin">{c_date}</div>
             <div className="text-[28px] font-thin">{c_month_name}</div>
             <div className="text-[28px] font-thin">{c_year}</div>

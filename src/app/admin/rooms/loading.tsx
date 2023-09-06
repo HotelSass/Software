@@ -1,7 +1,5 @@
 import Layout from "@/app/admin/components/layout";
 import React from "react";
-import RoomCard from "./server/RoomCard";
-import RoomTableServer from "./server/RoomTable";
 
 export default async function Page() {
   return (
