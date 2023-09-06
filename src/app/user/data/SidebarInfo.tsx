@@ -1,5 +1,5 @@
 import { BiBed, BiWine, BiFork, BiMoneyWithdraw, BiHistory, BiUserCheck, BiReceipt, BiCreditCardFront, BiListCheck } from "react-icons/bi";
-import { MdFoodBank } from "react-icons/md"
+import { MdCleaningServices, MdFoodBank } from "react-icons/md"
 
 export const UserSidebarInfo = {
 
@@ -9,6 +9,13 @@ export const UserSidebarInfo = {
       size: 22,
       color: '#2442F8',
       location: '/user/rooms'
+   },
+   1: {
+      icon: <MdCleaningServices />,
+      title: 'Laundry',
+      size: 22,
+      color: '#2442F8',
+      location: '/user/housekeeping'
    }
    
 };
@@ -66,7 +73,6 @@ export const UserFinanceInfo = {
       color: '#2442F8',
       location: '/user/finance'
    }
-
    , 7: {
       icon: <BiReceipt />,
       title: 'Purchase',
