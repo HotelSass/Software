@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import PurchaseBill from '../components/PurchaseBill';
 import BankTransfer from '../components/BankTransfer';
 
-const Client = ({ vendorList, location, unit }: any) => {
+const Client = ({ vendorList, location, unit, bankDetail }: any) => {
     const [selected, setSelected] = useState('purchaseBill')
 
     return (
@@ -26,7 +26,7 @@ const Client = ({ vendorList, location, unit }: any) => {
                 }
                 {selected == 'bankTransfer' &&
                     <>
-                        <BankTransfer vendorList={vendorList} location={location} unit={unit} />
+                        <BankTransfer vendorList={vendorList} location={location} unit={unit} bankDetail={bankDetail} />
                     </>
 
                 }
