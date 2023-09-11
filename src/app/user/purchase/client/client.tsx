@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import PurchaseBill from '../components/PurchaseBill';
 import BankTransfer from '../components/BankTransfer';
+import AdvancePayment from '../components/AdvancePayment';
 
 const Client = ({ vendorList, location, unit, bankDetail }: any) => {
     const [selected, setSelected] = useState('purchaseBill')
@@ -15,6 +16,9 @@ const Client = ({ vendorList, location, unit, bankDetail }: any) => {
                 <button type='button' onClick={() => { console.log("bankTransfer"); setSelected('bankTransfer') }} className='text-[14px] font-thin text-gray-700 hover:bg-gray-100 p-2 py-3 cursor-pointer border-b border-b-gray-100 mr-2 text-left'>
                     Bank Transfer
                 </button>
+                <button type='button' onClick={() => { console.log("bankTransfer"); setSelected('advancePayment') }} className='text-[14px] font-thin text-gray-700 hover:bg-gray-100 p-2 py-3 cursor-pointer border-b border-b-gray-100 mr-2 text-left'>
+                    Advance
+                </button>
             </div>
             <div className="flex-1 px-4 flex flex-col pl-4">
 
@@ -27,6 +31,12 @@ const Client = ({ vendorList, location, unit, bankDetail }: any) => {
                 {selected == 'bankTransfer' &&
                     <>
                         <BankTransfer vendorList={vendorList} location={location} unit={unit} bankDetail={bankDetail} />
+                    </>
+
+                }
+                {selected == 'advancePayment' &&
+                    <>
+                        <AdvancePayment vendorList={vendorList} location={location} unit={unit} bankDetail={bankDetail} />
                     </>
 
                 }

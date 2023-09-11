@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { BiPlus } from 'react-icons/bi';
 import { MdClose } from 'react-icons/md';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
+import serverUrl from '@/config/config';
+import { useRouter } from 'next/navigation';
 
 const PurchaseBill = ({ vendorList, location, unit }: any) => {
+  const router = useRouter()
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [defaultDate, setDefaultDate] = useState('');
   const [rows, setRows] = useState([{ key: Date.now().toString(), itemName: "", quantity: "" }]);
@@ -27,9 +30,39 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
     const formData = new FormData(e.target)
     const vendorId = formData.get("name")
     const billNo = formData.get("billNo")
-    const date = formData.get("date")
-    const paymentType = formData.get("paymentType")
+    const billDate = formData.get("billDate")
+    const itemList: Object[] = []
+    rows.map((item: any) => {
+      itemList.push({ itemName: item.itemName, quantity: parseInt(item.quantity) })
+    })
+    let vendorName = ''
+    for (let item of vendorList) {
+      if (item._id === vendorId) {
+        vendorName = item.name;
+        break;
+      }
+    }
+    try {
+      const response = await fetch(serverUrl + "/user/laundry/addLaundryRecord", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          vendorId, billNo, billDate, itemList, vendorName
+        })
 
+      });
+      if (response.ok) {
+        setRows([{ key: Date.now().toString(), itemName: "", quantity: "" }])
+        onOpenChange()
+        router.refresh()
+      } else {
+      }
+
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   function deleteRows(id: any) {
@@ -137,7 +170,7 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
                 </form >
               </ModalBody>
               <ModalFooter>
-                
+
               </ModalFooter>
             </>
           )}

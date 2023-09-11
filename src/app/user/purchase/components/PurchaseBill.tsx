@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { BiPlus } from 'react-icons/bi';
 import { MdClose } from 'react-icons/md';
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 
 const PurchaseBill = ({ vendorList, location, unit }: any) => {
   const [defaultDate, setDefaultDate] = useState('');
   const [rows, setRows] = useState([{ key: Date.now().toString(), itemName: "", location: "", quantity: "", unit: '', price: '' }]);
-
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
 
   const getCurrentDate = () => {
@@ -25,9 +26,9 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
     const formData = new FormData(e.target)
     const vendorId = formData.get("name")
     const billNo = formData.get("billNo")
-    const date = formData.get("date")
+    const billDate = formData.get("billDate")
     const paymentType = formData.get("paymentType")
-
+    console.log(vendorId, billNo, billDate, rows)
   }
 
   function deleteRows(id: any) {
@@ -45,6 +46,7 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
 
   return (
     <div className="flex-1 flex flex-col">
+
       <p className='text-[20px] font-semibold mb-2'>Purchase Bill</p>
       <p className='text-[12px] text-gray-500 '>Enter the Purchase Bill Obtained From The Market</p>
       <form onSubmit={(e) => { onSubmit(e) }} className='flex flex-col mt-8 bg-gray-200 py-8 rounded-md px-4' action="">
@@ -66,10 +68,10 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
           </div>
           <div className="flex-1 px-2">
             <label className="block mb-1 text-[12px] text-gray-500 dark:text-white font-normal ml-1">Bill Date.</label>
-            <input required type='date' value={defaultDate} name='billDate' className="capitalize border border-gray-400 w-full py-4 rounded px-3 text-gray-700 placeholder:text-[12px] text-[12px] bg-white" id="username" placeholder="Enter Bill Number" />
+            <input required type='billDate' value={defaultDate} name='billDate' className="capitalize border border-gray-400 w-full py-4 rounded px-3 text-gray-700 placeholder:text-[12px] text-[12px] bg-white" id="username" placeholder="Enter Bill Number" />
           </div>
         </div>
-        <div className="flex flex-row mt-3">
+        <div className="flex flex-row py-4">
           <div className="flex-1 px-2">
             <label className="block mb-1 text-[12px] text-gray-500 dark:text-white font-normal ml-1">Purchase Type</label>
             <select required name='paymentType' className="capitalize border border-gray-400 w-full py-4 rounded px-3 text-gray-700 placeholder:text-[12px] text-[12px] bg-white" id="username" placeholder="Purchase Type" >
@@ -78,10 +80,12 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
               <option className='text-[12px] text-gray-400' value={"online"}>Online</option>
             </select>
           </div>
-          <div className="flex-1"></div>
-          <div className="flex-1"></div>
-
+          <div className="flex-1 px-2">
+          </div>
+          <div className="flex-1 px-2">
+          </div>
         </div>
+
         <div className="">
           <p className='text-[14px] font-normal px-4 py-6 text-gray-600'>Bill Items</p>
 

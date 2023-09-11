@@ -55,6 +55,23 @@ const Info = ({ data }: any) => {
                         </Button>
                     </CardFooter>
                 </Card>
+                <Card
+                    isFooterBlurred
+                    radius="md"
+                    className="border-none bg-gray-800"
+                >
+                    <div className="z-20 w-48 h-36 ">
+                        <p className='font-black text-[44px] text-center text-white mt-7'>
+                            {data.reservations.length}
+                        </p>
+                    </div>
+                    <CardFooter className="justify-between before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-sm rounded-large bottom-1 w-[calc(100%_-_14px)] shadow-small ml-2 mb-2 z-20">
+                        <p className="text-tiny text-white/80">Dirty Room</p>
+                        <Button onClick={() => { setReservationOpen(true) }} className="text-tiny text-white bg-black/20" variant="flat" color="default" radius="lg" size="sm">
+                            View
+                        </Button>
+                    </CardFooter>
+                </Card>
 
 
             </div>
