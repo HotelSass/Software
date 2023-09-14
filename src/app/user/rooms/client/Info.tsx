@@ -10,15 +10,26 @@ import PasswordProtected from '../../component/PasswordProtected'
 import serverUrl from '@/config/config'
 import ReservationInfoModal from './modals/ReservationInfoModal'
 import { BiTrash } from 'react-icons/bi'
+import Booking from './modals/Booking'
 
+function getRoomLength(data: any) {
+    let length = 0
+    data.map((item: any) => {
+        length = length + item.rooms.length
+    })
+    return length
+}
 
-const Info = ({ data }: any) => {
+const Info = ({ data, availableRooms }: any) => {
     const [reservationOpen, setReservationOpen] = useState(false)
     const [checkOutModal, setCheckOutModal] = useState(false)
+    const [selected, setSelected] = useState()
+
     return (
         <>
             <ReservationModal open={reservationOpen} setOpen={setReservationOpen} reservationData={data.reservations} />
             <CheckOutModal open={checkOutModal} setOpen={setCheckOutModal} reservationData={data.inhouse} />
+
             <div className="flex flex-row space-x-4">
                 <Card
                     isFooterBlurred
@@ -27,7 +38,7 @@ const Info = ({ data }: any) => {
                 >
                     <div className="z-20 w-48 h-36 ">
                         <p className='font-black text-[44px] text-center text-white mt-7'>
-                            {data.inhouse.length}
+                            {getRoomLength(data.inhouse)}
                         </p>
                     </div>
 
@@ -45,7 +56,7 @@ const Info = ({ data }: any) => {
                 >
                     <div className="z-20 w-48 h-36 ">
                         <p className='font-black text-[44px] text-center text-white mt-7'>
-                            {data.reservations.length}
+                            {getRoomLength(data.reservations)}
                         </p>
                     </div>
                     <CardFooter className="justify-between before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-sm rounded-large bottom-1 w-[calc(100%_-_14px)] shadow-small ml-2 mb-2 z-20">
@@ -62,8 +73,7 @@ const Info = ({ data }: any) => {
                 >
                     <div className="z-20 w-48 h-36 ">
                         <p className='font-black text-[44px] text-center text-white mt-7'>
-                            {data.reservations.length}
-                        </p>
+                            0                        </p>
                     </div>
                     <CardFooter className="justify-between before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-sm rounded-large bottom-1 w-[calc(100%_-_14px)] shadow-small ml-2 mb-2 z-20">
                         <p className="text-tiny text-white/80">Dirty Room</p>
@@ -75,6 +85,51 @@ const Info = ({ data }: any) => {
 
 
             </div>
+            <div className="font-bold pl-2 text-[24px] text-gray-600 mt-10 mb-4">
+                Available Rooms ( {availableRooms.length} )
+            </div>
+            <div className="relative overflow-x-auto shadow-md  rounded">
+                <table className="w-full text-sm text-left text-gray-400">
+
+                    <thead className="text-xs uppercase bg-gray-700 text-gray-400">
+                        <tr>
+                            <th scope="col" className="px-6 py-4 font-normal text-[13px]">
+                                Room number
+                            </th>
+                            <th scope="col" className="px-6 py-4 font-normal text-[13px]">
+                                Room Rate
+                            </th>
+                            <th scope="col" className="px-6 py-4 font-normal text-[13px]">
+                                Capacity
+                            </th>
+                            <th scope="col" className="px-6 py-4 font-normal text-[13px]">
+                                Room Type
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {availableRooms.map((item: any,index:number) => (
+                            <tr key={index} className="bg-gray-800">
+                                <th scope="row" className="px-6 py-4 font-normal text-[12px] whitespace-nowrap text-white">
+                                    {item.roomNumber}
+                                </th>
+                                <th scope="row" className="px-6 py-4 font-normal text-[12px] whitespace-nowrap text-white">
+                                    {item.roomRate}
+                                </th>
+                                <th scope="row" className="px-6 py-4 font-normal text-[12px] whitespace-nowrap text-white">
+                                    {item.capacity}
+                                </th>
+                                <th scope="row" className="px-6 py-4 font-normal text-[12px] whitespace-nowrap text-white capitalize">
+                                    {item.type}
+                                </th>
+
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+
         </>
     )
 }

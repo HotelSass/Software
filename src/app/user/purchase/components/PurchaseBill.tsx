@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { BiPlus } from 'react-icons/bi';
 import { MdClose } from 'react-icons/md';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
+import serverUrl from '@/config/config';
+import { useRouter } from 'next/navigation';
 
 const PurchaseBill = ({ vendorList, location, unit }: any) => {
+  const formRef = useRef(null);
   const [defaultDate, setDefaultDate] = useState('');
   const [rows, setRows] = useState([{ key: Date.now().toString(), itemName: "", location: "", quantity: "", unit: '', price: '' }]);
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const router = useRouter()
 
 
   const getCurrentDate = () => {
@@ -28,7 +31,38 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
     const billNo = formData.get("billNo")
     const billDate = formData.get("billDate")
     const paymentType = formData.get("paymentType")
-    console.log(vendorId, billNo, billDate, rows)
+    if (formRef.current) {
+      // @ts-ignore
+      formRef.current.reset(); // Reset the form
+    }
+    let vendorName;
+    for (let i = 0; i < vendorList.length; i++) {
+      if (vendorList[i]._id == vendorId) {
+        vendorName = vendorList[i].name
+        break
+      }
+    }
+    try {
+      const response = await fetch(serverUrl + "/user/finance/addPurchaseRecord", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          vendorId, vendorName, billNo, billDate, itemArray: rows, paymentType
+        })
+
+      });
+      if (response.ok) {
+        setRows([{ key: Date.now().toString(), itemName: "", location: "", quantity: "", unit: '', price: '' }])
+        router.refresh()
+
+      } else {
+      }
+
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   function deleteRows(id: any) {
@@ -49,7 +83,7 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
 
       <p className='text-[20px] font-semibold mb-2'>Purchase Bill</p>
       <p className='text-[12px] text-gray-500 '>Enter the Purchase Bill Obtained From The Market</p>
-      <form onSubmit={(e) => { onSubmit(e) }} className='flex flex-col mt-8 bg-gray-200 py-8 rounded-md px-4' action="">
+      <form ref={formRef} id='table' onSubmit={(e) => { onSubmit(e) }} className='flex flex-col mt-8 bg-gray-200 py-8 rounded-md px-4' action="">
         <div className="flex flex-row ">
           <div className="flex-1 px-2">
             <label className="block mb-1 text-[12px] text-gray-500 dark:text-white font-normal ml-1">Vendor Name</label>

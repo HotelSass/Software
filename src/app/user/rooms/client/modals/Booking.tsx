@@ -1,5 +1,6 @@
 import Modal from '@/components/modal'
 import serverUrl from '@/config/config';
+import { m } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import Datepicker from "react-tailwindcss-datepicker";
@@ -46,7 +47,8 @@ function dateDifference(startDateStr: string, endDateStr: string) {
 }
 
 
-const Booking = ({ open, setOpen, data }: any) => {
+const Booking = ({ open, setOpen, data,selected=[] }: any) => {
+    console.log([selected])
     const today = new Date();
     const oneDayBefore = new Date(today);
     oneDayBefore.setDate(today.getDate() - 1);
@@ -55,7 +57,7 @@ const Booking = ({ open, setOpen, data }: any) => {
     const router = useRouter()
     const [openSelectRoom, setOpenSelectRoom] = useState(false)
     const [availabeData, setAvailableData] = useState([])
-    const [selectedRooms, setSelectedRooms] = useState<number[]>([])
+    const [selectedRooms, setSelectedRooms] = useState<number[]>([selected])
     const [error, setError] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
     const [value, setValue] = useState({
@@ -65,7 +67,6 @@ const Booking = ({ open, setOpen, data }: any) => {
     const [duration, setDuration] = useState<number>(0)
 
     const handleValueChange = async (newValue: any) => {
-        console.log("newValue:", newValue);
         const differenceInDays = dateDifference(newValue.startDate, newValue.endDate);
         setDuration(differenceInDays)
         setValue(newValue);
@@ -84,6 +85,7 @@ const Booking = ({ open, setOpen, data }: any) => {
         } else {
             temp.push(val)
         }
+        console.log(temp)
         setSelectedRooms([...temp])
     }
     async function onSubmit(event: any) {
@@ -98,12 +100,12 @@ const Booking = ({ open, setOpen, data }: any) => {
             const name = formData.get('name');
             const address = formData.get('address');
             const phone = formData.get('phone');
-            const nationality = formData.get('nationality');
+            const governmentId = formData.get('govId');
             const email = formData.get('email');
             const from = formData.get('from');
             const to = formData.get('to');
-            const roomRate = formData.get('roomRate');
             const advance = formData.get('advance');
+            const nationality=formData.get('nationality');
             const price = formData.getAll('price[]')
             const roomArray: Object[] = []
             selectedRooms.map((item: any, index: number) => {
@@ -115,17 +117,9 @@ const Booking = ({ open, setOpen, data }: any) => {
                     roomRate: price[index]
                 })
             })
-            console.log({
-                name,
-                address,
-                phone,
-                nationality,
-                email,
-                from,
-                to,
-                advance,
-                rooms: roomArray,
-            })
+            console.log(
+                governmentId
+            )
 
             try {
                 const response = await fetch(serverUrl + "/user/room/reserveRoom", {
@@ -137,13 +131,14 @@ const Booking = ({ open, setOpen, data }: any) => {
                         name,
                         address,
                         phone,
-                        nationality,
+                        governmentId,
                         email,
                         from,
                         to,
                         advance,
                         rooms: roomArray,
-                        status: 'inhouse'
+                        status: 'inhouse',
+                        nationality
                     })
 
                 });
@@ -287,14 +282,14 @@ const Booking = ({ open, setOpen, data }: any) => {
                     </div>
                     <div className="flex flex-col flex-1">
                         <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
-                            Client Email
+                            Government Id
                         </label>
                         <input
                             autoComplete='off'
-                            name="email"
-                            placeholder="Client Email"
+                            name="govId"
+                            placeholder="Id."
                             type="text"
-                            id="clientEmail"
+                            id="govId"
                             className=" placeholder:text-ssm  placeholder:text-gray-500 align-middle block flex-1 p-3  border border-gray-300 rounded-sm bg-gray-50 text-sm text-gray-700 w-full"
                         />
                     </div>

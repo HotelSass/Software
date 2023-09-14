@@ -35,10 +35,6 @@ const Rooms = () => {
           <InfoServer />
 
         </div>
-        <div className="">
-
-        </div>
-
       </div>
     </Layout>
   );

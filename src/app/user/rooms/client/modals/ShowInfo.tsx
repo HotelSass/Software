@@ -45,6 +45,7 @@ function dateDifference(startDateStr: string, endDateStr: string) {
 }
 
 const ShowInfo = ({ open, setOpen, data }: any) => {
+    console.log(data)
     const router = useRouter()
     const today = new Date();
     const oneDayBefore = new Date(today);
@@ -404,13 +405,13 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
                     </div>
                     <div className="flex flex-col flex-1">
                         <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
-                            Client Email
+                            Client Id
                         </label>
                         <input
                             disabled
-                            defaultValue={data.email}
+                            defaultValue={data.governmentId}
                             name="email"
-                            placeholder="Client Email"
+                            placeholder="Client Id"
                             type="text"
                             id="clientEmail"
                             required

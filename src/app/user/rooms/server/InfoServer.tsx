@@ -17,15 +17,16 @@ async function getInfo() {
     const date=c_year+'-'+c_month+'-'+c_date
     const res = await fetch(serverUrl + "/user/room/getBookingList/"+date, { cache: 'no-store' });
     const data = await res.json();
-    return data
+    const res2 = await fetch(serverUrl + "/user/room/getRoomList", { cache: 'no-store' });
+    const data2 = await res2.json();
+    return {data,data2}
 }
 
 
 async function InfoServer() {
-    const data = await getInfo()
-
+    const {data,data2} = await getInfo()
     return (
-        <Info data={data} />
+        <Info data={data} availableRooms={data2.empty} />
     )
 }
 
