@@ -53,7 +53,7 @@ const BillData = ({ data, outgoing }: any) => {
     function getTotal() {
         let temp = 0
         for (let i = 0; i < res.length; i++) {
-            if (res[i].status != 'advance') {
+            if (res[i].type != 'advance') {
                 temp = temp + parseInt(res[i]['total'])
             } else {
                 temp = temp + parseInt(res[i]['advance'])
@@ -110,6 +110,9 @@ const BillData = ({ data, outgoing }: any) => {
                                 <th scope="col" className="px-6 py-3 tracking-widest font-thin">
 
                                 </th>
+                                <th scope="col" className="px-6 py-3 tracking-widest font-thin">
+
+                                </th>
                                 <th scope="col" className="px-6 py-3 tracking-widest font-thin text-white">
                                     Price
                                 </th>
@@ -118,68 +121,87 @@ const BillData = ({ data, outgoing }: any) => {
                         <tbody>
                             {res.map((item: any, index: number) => (
                                 <tr key={index} className="border-b bg-gray-500 font-thin text-ssm">
-                                    <th scope="row" className="px-6 py-4 text-gray-100 whitespace-nowrap font-light text-ssm flex flex-row">
-                                        {item.status == 'advance' ? (
+                                    <th scope="row" className="px-6 py-4 text-gray-100 whitespace-nowrap font-light text-ssm flex flex-row capitalize">
+                                        {item.type == 'room' && (
+                                            <div>
+                                                <p>Payment From Room</p>
+                                                <p>{item.name}</p>
+                                            </div>
+                                        )}
+                                        {item.type == 'restaurant' && (
                                             <>
-                                                Advance from {item.name || "Restaurant"}
+                                                Payment from Restaurant
                                             </>
-                                        ) :
-                                            <>
-                                                Checkout Payment from {item.name || "Restaurant"}
-                                                {item.paymentType &&
-                                                    <>
-                                                        {item.paymentType == "cash" ?
-                                                            <>
-                                                            ( Cash Payment )
-                                                            </>
-                                                            :
-                                                            <>
-                                                            ( Payment made using {item.account} )
-                                                            </>
-                                                        }
-                                                    </>}
-                                            </>
-                                        }
+                                        )}
+                                        {item.type == 'advance' && (
+                                            <div>
+                                                <p>Advance From Room</p>
+                                                <p>{item.name}</p>
+                                            </div>
+                                        )}
+                                    </th>
+                                    <th>
+                                        {item.paymentType == 'cash' && (
+                                            <p className='bg-green-600 p-1 rounded-full text-white w-16 text-center font-thin'>Cash</p>
+                                        )}
+                                        {item.paymentType == 'online' && (
+                                            <p className='bg-orange-600 p-1 rounded-full text-white w-16 text-center font-thin'>Online</p>
+                                        )}
                                     </th>
                                     <td className="px-6 py-4 text-white">
                                         <div className=' ml-4 flex flex-row'>
-                                            {item.roomNumber &&
-                                                <p className='px-3'>Room: </p>
-                                            }
-                                            {item.tableNumber &&
-                                                <p className='px-3'>Table: </p>
-                                            }
-                                            {item.roomNumber &&
+                                            {item.type == 'room' &&
                                                 <>
-                                                    {item.roomNumber.map((room: any, index: number) =>
+                                                    <p className='px-3'>Room: </p>
+                                                    {item.rooms.map((room: any, index: number) =>
                                                         <p key={index} className='mx-1'>
-                                                            {room}
+                                                            {room.room}
                                                         </p>
                                                     )}
-
                                                 </>
                                             }
-                                            {item.tableNumber &&
+                                            {item.type == 'advance' &&
                                                 <>
+                                                    <p className='px-3'>Room: </p>
+                                                    {item.rooms.map((room: any, index: number) =>
+                                                        <p key={index} className='mx-1'>
+                                                            {room.room}
+                                                        </p>
+                                                    )}
+                                                </>
+                                            }
+                                            {item.type == 'restaurant' &&
+                                                <>
+                                                    <p className='px-3'>Table: </p>
                                                     <p className='px-2'>
                                                         {item.tableNumber}
                                                     </p>
-
                                                 </>
                                             }
+
                                         </div>
                                     </td>
 
-                                    <td className="px-6 py-4 text-white">
-                                        {item.status == 'advance' ? (
+
+                                    <td className="px-6 py-4 text-white gap-x">
+                                        {item.type == 'advance' && (
                                             <>
                                                 Rs. {item.advance}
                                             </>
-                                        ) :
+                                        )}
+
+                                        {item.type == 'restaurant' && (
                                             <>
                                                 Rs. {item.total}
                                             </>
-                                        }
+                                        )}
+
+                                        {item.type == 'room' && (
+                                            <>
+                                                Rs. {item.total}
+                                            </>
+                                        )}
+
                                     </td>
                                 </tr>
                             ))}
@@ -187,6 +209,9 @@ const BillData = ({ data, outgoing }: any) => {
                                 <th scope="row" className="px-6 py-6 text-gray-100 whitespace-nowrap font-light text-ssm flex flex-row">
                                     Total
                                 </th>
+                                <td className="px-6 py-4 text-white">
+
+                                </td>
                                 <td className="px-6 py-4 text-white">
 
                                 </td>

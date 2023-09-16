@@ -93,21 +93,19 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
   const [openPartialPaymentSlip, setOpenPartialPaymentSlip] = useState(false)
   const [cash, setCash] = useState(true)
   const [showCredit, setShowCredit] = useState(false)
-  const [searchForCredit, setSearchForCredit] = useState('')
   const [selectedPartialCheckout, setSelectedPartialCheckout] = useState({ room: Number, checkIn: String, roomRate: String, checkOut: String, status: String })
   const [platform, setPlatform] = useState('fonepay')
   const totalPayment = getFullTotal()
 
   function getFullTotal() {
-    if (data.advance) {
-      console.log(getTotalRoomPrice(), parseFloat(data.advance), discount, getTotal(data).total)
-      let fullTotal = getTotalRoomPrice() - parseFloat(data.advance) - discount + getTotal(data).total
-      return fullTotal
-    } else {
-      let fullTotal = getTotalRoomPrice() - discount + getTotal(data).total
-      return fullTotal
-    }
-
+      if (data.advance) {
+        let fullTotal = getTotalRoomPrice() - parseFloat(data.advance) - discount + getTotal(data).total
+        return fullTotal
+      } else {
+        let fullTotal = getTotalRoomPrice() - discount + getTotal(data).total
+        return fullTotal
+      }
+    
   }
   function getTotalRoomPrice() {
     let value = 0
@@ -995,7 +993,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
                     </td>
                     <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
                       Rs.
-                      <input min={0} type="number" className='bg-gray-400 rounded-lg ml-2 py-2 px-2 w-28' defaultValue={discount} onChange={(e) => { if (getFullTotal() - parseInt(e.target.value) >= 0 && parseInt(e.target.value) >= 0) setDiscount(parseInt(e.target.value)) }} placeholder='Discount ' />
+                      <input min={0} type="number" className='bg-gray-400 rounded-lg ml-2 py-2 px-2 w-28' defaultValue={discount} onChange={(e) => { if(e.target.value==""){setDiscount(0)};if (getFullTotal() - parseInt(e.target.value) >= 0 && parseInt(e.target.value) >= 0) setDiscount(parseInt(e.target.value)) }} placeholder='Discount ' />
                     </td>
                     <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
                     </td>

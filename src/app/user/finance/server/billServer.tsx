@@ -14,7 +14,6 @@ async function getAllRoomList() {
     const data = await res.json();
     const res2 = await fetch(serverUrl + "/user/finance/getOutgoingdata/" + formattedDate + "/date/" + formattedDate, { cache: 'no-store' });
     const data2 = await res2.json();
-    console.log(data)
 
     return { data, data2 }
 }

@@ -14,7 +14,7 @@ const CheckInModal = ({ open, setOpen, data, closeModal }: any) => {
             const address = formData.get('address');
             const phone = formData.get('phone');
             const nationality = formData.get('nationality');
-            const email = formData.get('email');
+            const governmentId = formData.get('governmentId');
             const from = formData.get('from');
             const to = formData.get('to');
             const roomRate = formData.get('roomRate');
@@ -34,7 +34,7 @@ const CheckInModal = ({ open, setOpen, data, closeModal }: any) => {
                         address,
                         phone,
                         nationality,
-                        email,
+                        governmentId,
                         from,
                         to,
                         rooms: roomArray,
@@ -143,11 +143,11 @@ const CheckInModal = ({ open, setOpen, data, closeModal }: any) => {
                     </div>
                     <div className="flex flex-col flex-1">
                         <label className="font-medium text-ssm ml-2" htmlFor="roomNumber">
-                            Client Email
+                            Government Id
                         </label>
                         <input
-                            name="email"
-                            placeholder="Client Email"
+                            name="governmentId"
+                            placeholder="Gov. Id"
                             type="text"
                             id="clientEmail"
                             defaultValue={data.email}
