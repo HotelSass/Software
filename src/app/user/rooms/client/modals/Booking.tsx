@@ -47,8 +47,7 @@ function dateDifference(startDateStr: string, endDateStr: string) {
 }
 
 
-const Booking = ({ open, setOpen, data,selected=[] }: any) => {
-    console.log([selected])
+const Booking = ({ open, setOpen, data}: any) => {
     const today = new Date();
     const oneDayBefore = new Date(today);
     oneDayBefore.setDate(today.getDate() - 1);
@@ -57,7 +56,7 @@ const Booking = ({ open, setOpen, data,selected=[] }: any) => {
     const router = useRouter()
     const [openSelectRoom, setOpenSelectRoom] = useState(false)
     const [availabeData, setAvailableData] = useState([])
-    const [selectedRooms, setSelectedRooms] = useState<number[]>([selected])
+    const [selectedRooms, setSelectedRooms] = useState<number[]>([])
     const [error, setError] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
     const [value, setValue] = useState({
