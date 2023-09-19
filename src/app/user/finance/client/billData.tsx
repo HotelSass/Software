@@ -10,10 +10,20 @@ const BillData = ({ data, outgoing }: any) => {
         startDate: null,
         endDate: null
     });
+    const currentDate = new Date();
+    const c_date = currentDate.getDate();
+    const c_month = currentDate.getMonth();
+    const c_year = currentDate.getFullYear();
+
+    const c_month_name = currentDate.toLocaleDateString("en-US", {
+        month: "short",
+    });
     const handleValueChange = async (newValue: any) => {
         setValue(newValue);
-        getAllRoomList(newValue)
-        getAllPurchaseList(newValue)
+        const val1=getAllRoomList(newValue)
+        setRes(val1)
+        const val2=getAllPurchaseList(newValue)
+        setRes2(val2)
     }
     async function getAllRoomList(dateValue: any) {
         if (!dateValue.startDate && !dateValue.endDate) {
@@ -25,11 +35,11 @@ const BillData = ({ data, outgoing }: any) => {
             const res = await fetch(serverUrl + "/user/finance/getFinanceData/" + formattedDate + "/date/" + formattedDate, { cache: 'no-store' });
             const resdata = await res.json();
 
-            setRes(resdata)
+            return resdata
         } else {
             const res = await fetch(serverUrl + "/user/finance/getFinanceData/" + dateValue.startDate + "/date/" + dateValue.endDate, { cache: 'no-store' });
             const resdata = await res.json();
-            setRes(resdata)
+            return resdata
         }
     }
     async function getAllPurchaseList(dateValue: any) {
@@ -42,22 +52,42 @@ const BillData = ({ data, outgoing }: any) => {
             const res2 = await fetch(serverUrl + "/user/finance/getOutgoingdata/" + formattedDate + "/date/" + formattedDate, { cache: 'no-store' });
             const data2 = await res2.json();
 
-            setRes2(data2)
+            return data2
         } else {
             const res = await fetch(serverUrl + "/user/finance/getOutgoingdata/" + dateValue.startDate + "/date/" + dateValue.endDate, { cache: 'no-store' });
             const resdata = await res.json();
-            setRes2(resdata)
+            return resdata
         }
+    }
+
+    function getOpeningBalance() {
+        return 0
+    }
+    function getClosingBalance() {
+        return getOpeningBalance() + getTotal() + getFullPurchaseTotal()
     }
 
     function getTotal() {
         let temp = 0
         for (let i = 0; i < res.length; i++) {
             if (res[i].type != 'advance') {
-                temp = temp + parseInt(res[i]['total'])
+                if (res[i].paymentType == 'cash') {
+                    temp = temp + parseInt(res[i]['total'])
+                }
             } else {
                 temp = temp + parseInt(res[i]['advance'])
 
+            }
+        }
+        return temp
+    }
+    function getTotalOnline() {
+        let temp = 0
+        for (let i = 0; i < res.length; i++) {
+            if (res[i].type != 'advance') {
+                if (res[i].paymentType == 'online') {
+                    temp = temp + parseInt(res[i]['total'])
+                }
             }
         }
         return temp
@@ -73,32 +103,102 @@ const BillData = ({ data, outgoing }: any) => {
     function getFullPurchaseTotal() {
         let total = 0
         for (let i = 0; i < res2.length; i++) {
+
             if (res2[i].itemArray) {
-                for (let j = 0; j < res2[i].itemArray.length; j++) {
-                    total = total + Math.abs(res2[i].itemArray[j].quantity * res2[i].itemArray[j].price)
+                if (res2[i].paymentType == "cash") {
+                    for (let j = 0; j < res2[i].itemArray.length; j++) {
+                        total = total + Math.abs(res2[i].itemArray[j].quantity * res2[i].itemArray[j].price)
+                    }
                 }
             }
-            if (res2[i].bankData) {
-                total = total + Math.abs(parseInt(res2[i].bankData[0].amount))
+            if (res2[i].transferDate) {
+                total = total + Math.abs(parseInt(res2[i].amount))
             }
+        }
+        return total
+    }
+    function getFullOnlinePurchaseTotal() {
+        let total = 0
+        for (let i = 0; i < res2.length; i++) {
+
+            if (res2[i].itemArray) {
+                if (res2[i].paymentType != "cash") {
+                    for (let j = 0; j < res2[i].itemArray.length; j++) {
+                        total = total + Math.abs(res2[i].itemArray[j].quantity * res2[i].itemArray[j].price)
+                    }
+                }
+            }
+
         }
         return total
     }
     return (
         <div className='w-full'>
-            <div className='w-1/3'>
-                <Datepicker
-                    inputClassName=' border border-gray-300 rounded-lg bg-gray-50 text-gray-700 p-4 rounded-xl text-[12px] w-full'
-                    separator='   to   '
-                    placeholder='From - To'
-                    primaryColor={"indigo"}
-                    value={value}
-                    onChange={handleValueChange}
-                />
+            <div className='flex flex-row'>
+                <div className='flex flex-col'>
+                    <div className="text-[44px] font-bold text-gray-700 my-auto">
+                        Accounts
+                    </div>
+                    <div className="flex flex-row">
+                        <div className="flex flex-row space-x-2 flex-1">
+                            <div className="text-[36px] font-thin">{c_date}</div>
+                            <div className="text-[36px] font-thin">{c_month_name}</div>
+                            <div className="text-[36px] font-thin">{c_year}</div>
+                        </div>
+
+                    </div>
+                </div>
+                <div className="ml-auto pt-5">
+                    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <tbody>
+                                <tr className=" bg-gray-800">
+                                    <th scope="row" className="px-6 py-4 font-medium text-white">
+                                        Opening Balance
+                                    </th>
+                                    <td className="px-6 py-4">
+                                    </td>
+                                    <td className="px-6 py-4">
+                                    </td>
+                                    <td className="px-6 py-4 text-gray-100">
+                                        Rs. {getOpeningBalance()}
+                                    </td>
+                                </tr>
+                                <tr className=" bg-gray-800 border-t border-t-gray-600">
+                                    <th scope="row" className="px-6 py-4 font-medium text-white">
+                                        Closing Balance
+                                    </th>
+                                    <td className="px-6 py-4">
+                                    </td>
+                                    <td className="px-6 py-4">
+                                    </td>
+                                    <td className="px-6 py-4 text-gray-100">
+                                        Rs. {getClosingBalance()}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
+            <div className='w-full flex flex-row'>
+                <div className='w-1/3'>
+                    <Datepicker
+                        asSingle={true}
+                        inputClassName=' border border-gray-300 rounded-lg bg-gray-50 text-gray-700 p-4 rounded-xl text-[12px] w-full'
+                        placeholder='Date'
+                        primaryColor={"indigo"}
+                        value={value}
+                        onChange={handleValueChange}
+                    />
+                </div>
+
+
+            </div>
+
             <div className="flex flex-row space-x-5">
 
-                <div className="relative overflow-x-auto py-10 flex-1 flex flex-col">
+                <div className="relative overflow-x-auto py-1 flex-1 flex flex-col">
                     <div className="text-[20px] font-thin tracking-tight my-4">Income</div>
 
                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -207,7 +307,7 @@ const BillData = ({ data, outgoing }: any) => {
                             ))}
                             <tr className="border-b bg-gray-700 font-thin text-ssm">
                                 <th scope="row" className="px-6 py-6 text-gray-100 whitespace-nowrap font-light text-ssm flex flex-row">
-                                    Total
+                                    Total Cash Transaction
                                 </th>
                                 <td className="px-6 py-4 text-white">
 
@@ -220,10 +320,41 @@ const BillData = ({ data, outgoing }: any) => {
                                     Rs. {getTotal()}
                                 </td>
                             </tr>
+                            <tr className="border-b bg-gray-700 font-thin text-ssm">
+                                <th scope="row" className="px-6 py-6 text-gray-100 whitespace-nowrap font-light text-ssm flex flex-row">
+                                    Total Online Transaction
+                                </th>
+                                <td className="px-6 py-4 text-white">
+
+                                </td>
+                                <td className="px-6 py-4 text-white">
+
+                                </td>
+
+                                <td className="px-6 py-6 text-white">
+                                    Rs. {getTotalOnline()}
+                                </td>
+                            </tr>
+                            <tr className="border-b bg-gray-900 font-thin text-ssm">
+                                <th scope="row" className="px-6 py-6 text-gray-100 whitespace-nowrap font-light text-ssm flex flex-row">
+                                    Total
+                                </th>
+                                <td className="px-6 py-4 text-white">
+
+                                </td>
+                                <td className="px-6 py-4 text-white">
+
+                                </td>
+
+                                <td className="px-6 py-6 text-white">
+                                    Rs. {getTotalOnline() + getTotal()}
+                                </td>
+                            </tr>
+
                         </tbody>
                     </table>
                 </div>
-                <div className="relative overflow-x-auto py-10 flex-1 flex flex-col">
+                <div className="relative overflow-x-auto py-1 flex-1 flex flex-col">
                     <div className="text-[20px] font-thin tracking-tight my-4">Expense</div>
 
                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -231,6 +362,9 @@ const BillData = ({ data, outgoing }: any) => {
                             <tr className='bg-slate-800'>
                                 <th scope="col" className="px-6 py-6 tracking-widest font-thin text-white">
                                     Description
+                                </th>
+                                <th scope="col" className="px-6 py-3 tracking-widest font-thin">
+
                                 </th>
                                 <th scope="col" className="px-6 py-3 tracking-widest font-thin">
 
@@ -244,10 +378,10 @@ const BillData = ({ data, outgoing }: any) => {
                             {res2.map((item: any, index: number) => (
                                 <tr key={index} className="border-b bg-gray-500 font-thin text-ssm">
                                     <th scope="row" className="px-6 py-4 text-gray-100 whitespace-nowrap font-light text-ssm ">
-                                        {item.bankData && (
+                                        {item.transferDate && (
                                             <div className="flex flex-col">
-                                                <div className="font-light text-sm">Bank Transfer to {item.bankData[0].bankName}</div>
-                                                <div className=" ">A/C: {item.bankData[0].accountNumber} / ( {item.bankData[0].accountName} )</div>
+                                                <div className="font-light text-sm">Bank Transfer to </div>
+                                                <div className=" ">A/C: {item.bankAccount} / ( {item.bankAccount} )</div>
                                             </div>
                                         )}
                                         {item.itemArray && (
@@ -256,6 +390,17 @@ const BillData = ({ data, outgoing }: any) => {
                                             </div>
                                         )}
 
+                                    </th>
+                                    <th>
+                                        {item.paymentType == 'cash' && (
+                                            <p className='bg-green-600 p-1 rounded-full text-white w-16 text-center font-thin'>Cash</p>
+                                        )}
+                                        {item.paymentType == 'online' && (
+                                            <p className='bg-orange-600 p-1 rounded-full text-white w-16 text-center font-thin'>Online</p>
+                                        )}
+                                        {item.transferDate && (
+                                            <p className='bg-gray-800 p-1 rounded-full text-white w-24 text-center font-thin'>Bank Transfer</p>
+                                        )}
                                     </th>
                                     <td className="px-6 py-4 text-white">
                                         <div className=' ml-4 flex flex-row'>
@@ -287,8 +432,8 @@ const BillData = ({ data, outgoing }: any) => {
                                     </td>
 
                                     <td className="px-6 py-4 text-white">
-                                        {item.bankData && (
-                                            <div className="font-light text-sm">Rs. {item.bankData[0].amount}</div>
+                                        {item.transferDate && (
+                                            <div className="font-light text-sm">Rs. {item.amount}</div>
                                         )}
                                         {item.itemArray && (
                                             <div className="font-light text-sm">Rs. {getArrayAmountSum(item.itemArray)}</div>
@@ -298,14 +443,47 @@ const BillData = ({ data, outgoing }: any) => {
                             ))}
                             <tr className="border-b bg-gray-700 font-thin text-ssm">
                                 <th scope="row" className="px-6 py-6 text-gray-100 whitespace-nowrap font-light text-ssm flex flex-row">
-                                    Total
+                                    Total Cash Transaction:
                                 </th>
+                                <td className="px-6 py-4 text-white">
+
+                                </td>
                                 <td className="px-6 py-4 text-white">
 
                                 </td>
 
                                 <td className="px-6 py-6 text-white">
                                     Rs. {getFullPurchaseTotal()}
+                                </td>
+                            </tr>
+                            <tr className="border-b bg-gray-700 font-thin text-ssm">
+                                <th scope="row" className="px-6 py-6 text-gray-100 whitespace-nowrap font-light text-ssm flex flex-row">
+                                    Total Online Transaction:
+                                </th>
+                                <td className="px-6 py-4 text-white">
+
+                                </td>
+                                <td className="px-6 py-4 text-white">
+
+                                </td>
+
+                                <td className="px-6 py-6 text-white">
+                                    Rs. {getFullOnlinePurchaseTotal()}
+                                </td>
+                            </tr>
+                            <tr className="border-b bg-gray-900 font-thin text-ssm">
+                                <th scope="row" className="px-6 py-6 text-gray-100 whitespace-nowrap font-light text-ssm flex flex-row">
+                                    Total:
+                                </th>
+                                <td className="px-6 py-4 text-white">
+
+                                </td>
+                                <td className="px-6 py-4 text-white">
+
+                                </td>
+
+                                <td className="px-6 py-6 text-white">
+                                    Rs. {getFullOnlinePurchaseTotal() + getFullPurchaseTotal()}
                                 </td>
                             </tr>
                         </tbody>

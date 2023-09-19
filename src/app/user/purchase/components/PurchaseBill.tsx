@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 const PurchaseBill = ({ vendorList, location, unit }: any) => {
   const formRef = useRef(null);
   const [defaultDate, setDefaultDate] = useState('');
+  const [minDate, setMinDate] = useState('');
   const [rows, setRows] = useState([{ key: Date.now().toString(), itemName: "", location: "", quantity: "", unit: '', price: '' }]);
   const router = useRouter()
 
@@ -31,6 +32,8 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
     const billNo = formData.get("billNo")
     const billDate = formData.get("billDate")
     const paymentType = formData.get("paymentType")
+    setRows([{ key: Date.now().toString(), itemName: "", location: "", quantity: "", unit: '', price: '' }])
+
     if (formRef.current) {
       // @ts-ignore
       formRef.current.reset(); // Reset the form
@@ -54,7 +57,6 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
 
       });
       if (response.ok) {
-        setRows([{ key: Date.now().toString(), itemName: "", location: "", quantity: "", unit: '', price: '' }])
         router.refresh()
 
       } else {
@@ -77,6 +79,20 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
       setRows([...temp])
     }
   }
+  useEffect(() => {
+    const today = new Date();
+    const year = today.getFullYear();
+    let month = today.getMonth() + 1;
+    let day = today.getDate();
+  
+    const formattedMonth = month < 10 ? `0${month}` : month;
+    const formattedDay = day < 10 ? `0${day}` : day;
+  
+    const formattedDate = `${year}-${formattedMonth}-${formattedDay}`;
+    console.log(formattedDate);
+    setMinDate(formattedDate);
+  }, []);
+  
 
   return (
     <div className="flex-1 flex flex-col">
@@ -102,7 +118,7 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
           </div>
           <div className="flex-1 px-2">
             <label className="block mb-1 text-[12px] text-gray-500 dark:text-white font-normal ml-1">Bill Date.</label>
-            <input required type='billDate' value={defaultDate} name='billDate' className="capitalize border border-gray-400 w-full py-4 rounded px-3 text-gray-700 placeholder:text-[12px] text-[12px] bg-white" id="username" placeholder="Enter Bill Number" />
+            <input required type='date' value={defaultDate} min={minDate} name='billDate' className="capitalize border border-gray-400 w-full py-4 rounded px-3 text-gray-700 placeholder:text-[12px] text-[12px] bg-white" id="username" placeholder="Enter Bill Number" />
           </div>
         </div>
         <div className="flex flex-row py-4">
