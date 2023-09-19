@@ -20,9 +20,10 @@ const BillData = ({ data, outgoing }: any) => {
     });
     const handleValueChange = async (newValue: any) => {
         setValue(newValue);
-        const val1=getAllRoomList(newValue)
+        const val1 = await getAllRoomList(newValue)
+
         setRes(val1)
-        const val2=getAllPurchaseList(newValue)
+        const val2 = await getAllPurchaseList(newValue)
         setRes2(val2)
     }
     async function getAllRoomList(dateValue: any) {
@@ -64,7 +65,7 @@ const BillData = ({ data, outgoing }: any) => {
         return 0
     }
     function getClosingBalance() {
-        return getOpeningBalance() + getTotal() + getFullPurchaseTotal()
+        return getOpeningBalance() + getTotal() - getFullPurchaseTotal()
     }
 
     function getTotal() {
@@ -127,6 +128,12 @@ const BillData = ({ data, outgoing }: any) => {
                         total = total + Math.abs(res2[i].itemArray[j].quantity * res2[i].itemArray[j].price)
                     }
                 }
+            }
+            if (res2[i].rooms) {
+                total = total + Math.abs(res2[i].total)
+            }
+            if (res2[i].type == 'restaurant') {
+                total = total + Math.abs(res2[i].total)
             }
 
         }
@@ -244,9 +251,7 @@ const BillData = ({ data, outgoing }: any) => {
                                         {item.paymentType == 'cash' && (
                                             <p className='bg-green-600 p-1 rounded-full text-white w-16 text-center font-thin'>Cash</p>
                                         )}
-                                        {item.paymentType == 'online' && (
-                                            <p className='bg-orange-600 p-1 rounded-full text-white w-16 text-center font-thin'>Online</p>
-                                        )}
+
                                     </th>
                                     <td className="px-6 py-4 text-white">
                                         <div className=' ml-4 flex flex-row'>
@@ -389,6 +394,17 @@ const BillData = ({ data, outgoing }: any) => {
                                                 <div className="font-light text-sm">Purchase from {item.vendorName}</div>
                                             </div>
                                         )}
+                                        {item.type == 'room' && (
+                                            <div>
+                                                <p>Payment From Room</p>
+                                                <p>{item.name}</p>
+                                            </div>
+                                        )}
+                                        {item.type == 'restaurant' && (
+                                            <>
+                                                Payment from Restaurant
+                                            </>
+                                        )}
 
                                     </th>
                                     <th>
@@ -437,6 +453,18 @@ const BillData = ({ data, outgoing }: any) => {
                                         )}
                                         {item.itemArray && (
                                             <div className="font-light text-sm">Rs. {getArrayAmountSum(item.itemArray)}</div>
+                                        )}
+
+                                        {item.type == 'restaurant' && (
+                                            <>
+                                                Rs. {item.total}
+                                            </>
+                                        )}
+
+                                        {item.type == 'room' && (
+                                            <>
+                                                Rs. {item.total}
+                                            </>
                                         )}
                                     </td>
                                 </tr>
