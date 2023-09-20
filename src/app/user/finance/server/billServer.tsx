@@ -1,6 +1,7 @@
 import serverUrl from '@/config/config';
 import React from 'react'
 import BillData from '../client/billData';
+import server from '@/app/admin/bar/page';
 
 
 async function getAllRoomList() {
@@ -14,15 +15,16 @@ async function getAllRoomList() {
     const data = await res.json();
     const res2 = await fetch(serverUrl + "/user/finance/getOutgoingdata/" + formattedDate + "/date/" + formattedDate, { cache: 'no-store' });
     const data2 = await res2.json();
-console.log(data2)
-    return { data, data2 }
+    const res3 = await fetch(serverUrl + "/user/finance/openingAndClosing/" + formattedDate , { cache: 'no-store' });
+    const data3 = await res3.json();
+    return { data, data2,data3 }
 }
 
 
 async function BillServer() {
-    const { data, data2 } = await getAllRoomList()
+    const { data, data2, data3 } = await getAllRoomList()
     return (
-        <BillData data={data} outgoing={data2} />
+        <BillData data={data} outgoing={data2} daily={data3} />
     )
 }
 

@@ -3,7 +3,7 @@ import serverUrl from '@/config/config'
 import React, { useState } from 'react'
 import Datepicker from 'react-tailwindcss-datepicker'
 
-const BillData = ({ data, outgoing }: any) => {
+const BillData = ({ data, outgoing, daily }: any) => {
     const [res, setRes] = useState(data)
     const [res2, setRes2] = useState(outgoing)
     const [value, setValue] = useState({
@@ -18,13 +18,26 @@ const BillData = ({ data, outgoing }: any) => {
     const c_month_name = currentDate.toLocaleDateString("en-US", {
         month: "short",
     });
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+
+    const [searchDate, setSearchDate] = useState(formattedDate)
     const handleValueChange = async (newValue: any) => {
         setValue(newValue);
+        setSearchDate(newValue.startDate)
         const val1 = await getAllRoomList(newValue)
-
         setRes(val1)
         const val2 = await getAllPurchaseList(newValue)
         setRes2(val2)
+    }
+    function getDataWithDate(date: string) {
+        if (daily[date]) {
+            return daily[date]
+        } else {
+            return { closing: 0, opening: 0 }
+        }
     }
     async function getAllRoomList(dateValue: any) {
         if (!dateValue.startDate && !dateValue.endDate) {
@@ -59,13 +72,6 @@ const BillData = ({ data, outgoing }: any) => {
             const resdata = await res.json();
             return resdata
         }
-    }
-
-    function getOpeningBalance() {
-        return 0
-    }
-    function getClosingBalance() {
-        return getOpeningBalance() + getTotal() - getFullPurchaseTotal()
     }
 
     function getTotal() {
@@ -139,6 +145,7 @@ const BillData = ({ data, outgoing }: any) => {
         }
         return total
     }
+
     return (
         <div className='w-full'>
             <div className='flex flex-row'>
@@ -168,7 +175,7 @@ const BillData = ({ data, outgoing }: any) => {
                                     <td className="px-6 py-4">
                                     </td>
                                     <td className="px-6 py-4 text-gray-100">
-                                        Rs. {getOpeningBalance()}
+                                        Rs. {getDataWithDate(searchDate).opening || 0}
                                     </td>
                                 </tr>
                                 <tr className=" bg-gray-800 border-t border-t-gray-600">
@@ -180,7 +187,7 @@ const BillData = ({ data, outgoing }: any) => {
                                     <td className="px-6 py-4">
                                     </td>
                                     <td className="px-6 py-4 text-gray-100">
-                                        Rs. {getClosingBalance()}
+                                        Rs. {getDataWithDate(searchDate).closing || 0}
                                     </td>
                                 </tr>
                             </tbody>
