@@ -120,7 +120,10 @@ const Info = ({ data, availableRooms, upcoming }: any) => {
                                     return (
                                         <>
                                             <tr className="bg-gray-600 border-t">
-                                                <td scope="row" rowSpan={data.length + 1} className="px-6 py-4 font-normal text-[12px] whitespace-nowrap text-white capitalize ">{date}</td>
+                                                <td scope="row" rowSpan={data.length + 1} className="px-6 py-4 font-normal text-[12px] w-44 text-white capitalize ">
+                                                    <p className='text-[16px] text-center w-32'> {date}</p>
+                                                    <p className='p-3 rounded-lg bg-gray-500 text-white items-center w-24 text-center mx-auto'> {data.length + 1} rooms</p>
+                                                </td>
                                             </tr>
                                             {data.map((room: any, index: number) => (
                                                 <tr key={index} className="bg-gray-800">
@@ -147,31 +150,19 @@ const Info = ({ data, availableRooms, upcoming }: any) => {
                     <div className="font-bold pl-2 text-[24px] text-gray-600 mt-10 mb-4">
                         Available ( {availableRooms.length} )
                     </div>
-                    <div className="relative overflow-x-auto shadow-md  rounded">
-                        <table className="w-full text-sm text-left text-gray-400">
-                            <thead className="text-xs uppercase bg-gray-700 text-gray-400">
-                                <tr>
-                                    <th scope="col" className="px-6 py-4 font-normal text-[13px]">
-                                        Room
-                                    </th>
-                                    <th scope="col" className="px-6 py-4 font-normal text-[13px]">
-                                        Rate
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {availableRooms.map((item: any, index: number) => (
-                                    <tr key={index} className="bg-gray-800">
-                                        <th scope="row" className="px-6 py-4 font-normal text-[12px] whitespace-nowrap text-white">
-                                            {item.roomNumber}
-                                        </th>
-                                        <th scope="row" className="px-6 py-4 font-normal text-[12px] whitespace-nowrap text-white">
-                                            {item.roomRate}
-                                        </th>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                    <div className='flex flex-wrap'>
+                        {availableRooms.map((item: any, index: number) => (
+                            <div key={index} className=" p-1 w-1/4">
+                                <div className="bg-gray-800 rounded">
+                                    <p className=" py-4 font-normal text-[16px] whitespace-nowrap text-white text-center">
+                                        {item.roomNumber}
+                                    </p>
+                                    <p className="px-2 py-4 font-normal text-[12px] text-white bg-gray-700 rounded-b text-left">
+                                        Rs. {item.roomRate}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
