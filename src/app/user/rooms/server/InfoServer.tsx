@@ -19,14 +19,16 @@ async function getInfo() {
     const data = await res.json();
     const res2 = await fetch(serverUrl + "/user/room/getRoomList", { cache: 'no-store' });
     const data2 = await res2.json();
-    return {data,data2}
+    const res3 = await fetch(serverUrl + "/user/room/getAllBookingArrangedWithDate", { cache: 'no-store' });
+    const data3 = await res3.json();
+    return {data,data2,data3}
 }
 
 
 async function InfoServer() {
-    const {data,data2} = await getInfo()
+    const {data,data2,data3} = await getInfo()
     return (
-        <Info data={data} availableRooms={data2.empty} />
+        <Info data={data} availableRooms={data2.empty} upcoming={data3} />
     )
 }
 

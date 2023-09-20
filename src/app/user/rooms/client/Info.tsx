@@ -20,10 +20,11 @@ function getRoomLength(data: any) {
     return length
 }
 
-const Info = ({ data, availableRooms }: any) => {
+const Info = ({ data, availableRooms, upcoming }: any) => {
     const [reservationOpen, setReservationOpen] = useState(false)
     const [checkOutModal, setCheckOutModal] = useState(false)
     const [selected, setSelected] = useState()
+    const dates = Object.keys(upcoming);
 
     return (
         <>
@@ -85,49 +86,94 @@ const Info = ({ data, availableRooms }: any) => {
 
 
             </div>
-            <div className="font-bold pl-2 text-[24px] text-gray-600 mt-10 mb-4">
-                Available Rooms ( {availableRooms.length} )
-            </div>
-            <div className="relative overflow-x-auto shadow-md  rounded">
-                <table className="w-full text-sm text-left text-gray-400">
+            <div className='flex flex-row'>
+                <div className='flex-1 pr-4'>
+                    <div className="font-bold pl-2 text-[24px] text-gray-600 mt-10 mb-4">
+                        Upcoming Reservation
+                    </div>
+                    <div className="relative overflow-x-auto shadow-md  rounded">
+                        <table className="w-full text-sm text-left text-gray-400">
+                            <thead className="text-xs uppercase bg-gray-900 text-gray-400">
+                                <tr>
+                                    <th scope="col" className="px-6 py-4 font-normal text-[13px]">
+                                        date
+                                    </th>
+                                    <th scope="col" className="px-6 py-4 font-normal text-[13px]">
+                                        Name
+                                    </th>
+                                    <th scope="col" className="px-6 py-4 font-normal text-[13px]">
+                                        Phone
+                                    </th>
+                                    <th scope="col" className="px-6 py-4 font-normal text-[13px]">
+                                        Room
+                                    </th>
+                                    <th scope="col" className="px-6 py-4 font-normal text-[13px]">
+                                    </th>
+                                    <th scope="col" className="px-6 py-4 font-normal text-[13px]">
+                                        Rate
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {dates.map((date: any,) => {
+                                    const data = upcoming[date]
+                                    return (
+                                        <>
+                                            <tr className="bg-gray-600 border-t">
+                                                <td scope="row" rowSpan={data.length + 1} className="px-6 py-4 font-normal text-[12px] whitespace-nowrap text-white capitalize ">{date}</td>
+                                            </tr>
+                                            {data.map((room: any, index: number) => (
+                                                <tr key={index} className="bg-gray-800">
+                                                    <td scope="row" className="px-6 py-4 font-normal text-[12px] whitespace-nowrap text-white capitalize">{room.name}</td>
+                                                    <td scope="row" className="px-6 py-4 font-normal text-[12px] whitespace-nowrap text-white capitalize">{room.phone}</td>
+                                                    <td scope="row" className="px-6 py-4 font-normal text-[12px] whitespace-nowrap text-white">{room.rooms.room}</td>
+                                                    <td scope="row" className="px-6 py-4 font-normal text-[12px] whitespace-nowrap text-white">
+                                                        {room.rooms.status == 'reserved' && (
+                                                            <p className=' px-2 py-1 rounded-lg bg-green-600 text-white text-center'>Reserved</p>
+                                                        )}
+                                                    </td>
+                                                    <td scope="row" className="px-6 py-4 font-normal text-[12px] whitespace-nowrap text-white">{room.rooms.roomRate}</td>
+                                                </tr>
+                                            ))}
 
-                    <thead className="text-xs uppercase bg-gray-700 text-gray-400">
-                        <tr>
-                            <th scope="col" className="px-6 py-4 font-normal text-[13px]">
-                                Room number
-                            </th>
-                            <th scope="col" className="px-6 py-4 font-normal text-[13px]">
-                                Room Rate
-                            </th>
-                            <th scope="col" className="px-6 py-4 font-normal text-[13px]">
-                                Capacity
-                            </th>
-                            <th scope="col" className="px-6 py-4 font-normal text-[13px]">
-                                Room Type
-                            </th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {availableRooms.map((item: any,index:number) => (
-                            <tr key={index} className="bg-gray-800">
-                                <th scope="row" className="px-6 py-4 font-normal text-[12px] whitespace-nowrap text-white">
-                                    {item.roomNumber}
-                                </th>
-                                <th scope="row" className="px-6 py-4 font-normal text-[12px] whitespace-nowrap text-white">
-                                    {item.roomRate}
-                                </th>
-                                <th scope="row" className="px-6 py-4 font-normal text-[12px] whitespace-nowrap text-white">
-                                    {item.capacity}
-                                </th>
-                                <th scope="row" className="px-6 py-4 font-normal text-[12px] whitespace-nowrap text-white capitalize">
-                                    {item.type}
-                                </th>
-
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                                        </>
+                                    )
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div className='w-1/4 flex flex-col'>
+                    <div className="font-bold pl-2 text-[24px] text-gray-600 mt-10 mb-4">
+                        Available ( {availableRooms.length} )
+                    </div>
+                    <div className="relative overflow-x-auto shadow-md  rounded">
+                        <table className="w-full text-sm text-left text-gray-400">
+                            <thead className="text-xs uppercase bg-gray-700 text-gray-400">
+                                <tr>
+                                    <th scope="col" className="px-6 py-4 font-normal text-[13px]">
+                                        Room
+                                    </th>
+                                    <th scope="col" className="px-6 py-4 font-normal text-[13px]">
+                                        Rate
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {availableRooms.map((item: any, index: number) => (
+                                    <tr key={index} className="bg-gray-800">
+                                        <th scope="row" className="px-6 py-4 font-normal text-[12px] whitespace-nowrap text-white">
+                                            {item.roomNumber}
+                                        </th>
+                                        <th scope="row" className="px-6 py-4 font-normal text-[12px] whitespace-nowrap text-white">
+                                            {item.roomRate}
+                                        </th>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
         </>
