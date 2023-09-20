@@ -17,7 +17,7 @@ async function getInfo() {
     const date=c_year+'-'+c_month+'-'+c_date
     const res = await fetch(serverUrl + "/user/room/getBookingList/"+date, { cache: 'no-store' });
     const data = await res.json();
-    const res2 = await fetch(serverUrl + "/user/room/getRoomList", { cache: 'no-store' });
+    const res2 = await fetch(serverUrl + "/user/room/getAvailableRooms", { cache: 'no-store' });
     const data2 = await res2.json();
     const res3 = await fetch(serverUrl + "/user/room/getAllBookingArrangedWithDate", { cache: 'no-store' });
     const data3 = await res3.json();
