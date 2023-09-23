@@ -21,15 +21,15 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
 
 
 
-  async function submitVendor(e: any, onOpenChange: any, router: any) {
+  async function submitVendor(e: any, onClose: any, router: any) {
     e.preventDefault()
-    onOpenChange2()
-
+    onClose()
     const formData = new FormData(e.target);
     const name = formData.get('name');
     const address = formData.get('address');
     const phone = formData.get('phone');
     const account = formData.get('account');
+
     const response = await addNewVendor({ name, address, phone, account })
     if (response) {
       router.refresh()
@@ -49,7 +49,9 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
 
   async function onSubmit(e: any) {
     e.preventDefault()
-    onOpenChange()
+    if (isOpen) {
+      onOpenChange()
+    }
     const formData = new FormData(e.target)
     const vendorId = formData.get("name")
     const billNo = formData.get("billNo")
@@ -156,7 +158,7 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
             <Modal backdrop='blur' isOpen={isOpen2} onOpenChange={onOpenChange2} isDismissable={false}>
               <ModalContent >
                 {(onClose) => (
-                  <form onSubmit={(e) => submitVendor(e, onOpenChange, router)}>
+                  <form id='newVendorForm' onSubmit={(e) => { submitVendor(e, onOpenChange2, router) }}>
                     <ModalHeader className="flex flex-col gap-1 text-[24px] text-gray-700 pt-8 pb-3">Add New Vendor</ModalHeader>
                     <ModalBody >
 
@@ -190,9 +192,10 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
 
                     </ModalBody>
                     <ModalFooter>
-                      <Button type='submit' radius='none' color="primary" >
-                        Add
-                      </Button>
+
+                      <button form='newVendorForm' type='submit' className='bg-blue-600 text-white p-3 text-[12px] rounded-sm mt-4 w-44 ml-auto flex flex-row'>
+                        <p className='my-auto flex-1'>Add</p>
+                      </button>
                     </ModalFooter>
                   </form>
                 )}
@@ -313,7 +316,6 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
 
                     <button form='tableForm' type='submit' className='bg-orange-600 text-white p-3 text-[12px] rounded-sm mt-4 w-44 ml-auto flex flex-row'>
                       <p className='my-auto flex-1'>Send Bill</p>
-
                     </button>
                   </ModalFooter>
                 </>
