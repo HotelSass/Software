@@ -5,6 +5,7 @@ import { MdClose } from 'react-icons/md';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import serverUrl from '@/config/config';
 import { useRouter } from 'next/navigation';
+import { addNewVendor } from '@/app/admin/setting/function/functions';
 
 const PurchaseBill = ({ vendorList, location, unit }: any) => {
   const formRef = useRef(null);
@@ -12,11 +13,28 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
   const [minDate, setMinDate] = useState('');
   const [total, setTotal] = useState(0)
   const [purchaseType, setPurchaseType] = useState('cash')
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure()
+  const { isOpen: isOpen2, onOpen: onOpen2, onOpenChange: onOpenChange2 } = useDisclosure()
+
   const [rows, setRows] = useState([{ key: Date.now().toString(), itemName: "", location: "", quantity: "", unit: '', price: '' }]);
   const router = useRouter()
 
 
+
+  async function submitVendor(e: any, onOpenChange: any, router: any) {
+    e.preventDefault()
+    onOpenChange2()
+
+    const formData = new FormData(e.target);
+    const name = formData.get('name');
+    const address = formData.get('address');
+    const phone = formData.get('phone');
+    const account = formData.get('account');
+    const response = await addNewVendor({ name, address, phone, account })
+    if (response) {
+      router.refresh()
+    }
+  }
   const getCurrentDate = () => {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
@@ -129,11 +147,57 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
             <select required name='name' className="capitalize border border-gray-400 w-full py-4 rounded px-3 text-gray-700 placeholder:text-[12px] text-[12px] bg-white" id="username" placeholder="Vendor Name" >
               <option className='text-[12px] text-gray-400' selected>Select Vendor Name</option>
               {vendorList.map((item: any, index: number) => (
-                <option key={index} className='capitalize' value={item._id}>{item.name}</option>
+                <option key={index} className='capitalize' value={item._id}>
+                  <p className='capitalize'>{(item.name).toUpperCase()}</p>
+                </option>
               ))}
-
             </select>
+            <button onClick={onOpen2} className='text-[12px] text-blue-600 underline ml-2'>Add New Vendor</button>
+            <Modal backdrop='blur' isOpen={isOpen2} onOpenChange={onOpenChange2} isDismissable={false}>
+              <ModalContent >
+                {(onClose) => (
+                  <form onSubmit={(e) => submitVendor(e, onOpenChange, router)}>
+                    <ModalHeader className="flex flex-col gap-1 text-[24px] text-gray-700 pt-8 pb-3">Add New Vendor</ModalHeader>
+                    <ModalBody >
 
+                      <div className="flex flex-col space-y-2">
+                        <div>
+                          <label className="font-normal text-ssm ml-1 text-gray-500" htmlFor="roomRate">
+                            Vendor Name
+                          </label>
+                          <input required name='name' className="capitalize border border-gray-400 w-full py-4 rounded px-3 text-gray-700 placeholder:text-[12px]" id="username" type="text" placeholder="Vendor Name" />
+                        </div>
+                        <div>
+                          <label className="font-normal text-ssm ml-1 text-gray-500" htmlFor="roomRate">
+                            Vendor Address
+                          </label>
+                          <input required name='address' className="capitalize border border-gray-400 w-full py-4 rounded px-3 text-gray-700 placeholder:text-[12px]" id="username" type="text" placeholder="Vendor Address" />
+                        </div>
+                        <div>
+                          <label className="font-normal text-ssm ml-1 text-gray-500" htmlFor="roomRate">
+                            Phone
+                          </label>
+                          <input required name='phone' className=" border border-gray-400 w-full py-4 rounded px-3 text-gray-700 placeholder:text-[12px]" id="username" type="text" placeholder="Phone Number" />
+                        </div>
+                        <div>
+                          <label className="font-normal text-ssm ml-1 text-gray-500" htmlFor="roomRate">
+                            Bank Details
+                          </label>
+                          <input name='account' className=" border border-gray-400 w-full py-4 rounded px-3 text-gray-700 placeholder:text-[12px]" id="username" type="text" placeholder="Account Number" />
+                        </div>
+
+                      </div>
+
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button type='submit' radius='none' color="primary" >
+                        Add
+                      </Button>
+                    </ModalFooter>
+                  </form>
+                )}
+              </ModalContent>
+            </Modal>
           </div>
           <div className="flex-1 px-2">
             <label className="block mb-1 text-[12px] text-gray-500 dark:text-white font-normal ml-1">Bill No.</label>
