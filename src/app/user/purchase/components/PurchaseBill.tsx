@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { BiPlus } from 'react-icons/bi';
+import { BsCheckCircleFill } from 'react-icons/bs';
 import { MdClose } from 'react-icons/md';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import serverUrl from '@/config/config';
@@ -9,6 +10,8 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
   const formRef = useRef(null);
   const [defaultDate, setDefaultDate] = useState('');
   const [minDate, setMinDate] = useState('');
+  const [purchaseType, setPurchaseType] = useState('cash')
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [rows, setRows] = useState([{ key: Date.now().toString(), itemName: "", location: "", quantity: "", unit: '', price: '' }]);
   const router = useRouter()
 
@@ -27,11 +30,13 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
 
   async function onSubmit(e: any) {
     e.preventDefault()
+    onOpenChange()
     const formData = new FormData(e.target)
     const vendorId = formData.get("name")
     const billNo = formData.get("billNo")
     const billDate = formData.get("billDate")
-    const paymentType = formData.get("paymentType")
+    const paymentType = purchaseType.toLowerCase()
+
     setRows([{ key: Date.now().toString(), itemName: "", location: "", quantity: "", unit: '', price: '' }])
 
     if (formRef.current) {
@@ -57,6 +62,7 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
 
       });
       if (response.ok) {
+        setPurchaseType('cash')
         router.refresh()
 
       } else {
@@ -84,22 +90,22 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
     const year = today.getFullYear();
     let month = today.getMonth() + 1;
     let day = today.getDate();
-  
+
     const formattedMonth = month < 10 ? `0${month}` : month;
     const formattedDay = day < 10 ? `0${day}` : day;
-  
+
     const formattedDate = `${year}-${formattedMonth}-${formattedDay}`;
     console.log(formattedDate);
     setMinDate(formattedDate);
   }, []);
-  
+
 
   return (
     <div className="flex-1 flex flex-col">
 
       <p className='text-[20px] font-semibold mb-2'>Purchase Bill</p>
       <p className='text-[12px] text-gray-500 '>Enter the Purchase Bill Obtained From The Market</p>
-      <form ref={formRef} id='table' onSubmit={(e) => { onSubmit(e) }} className='flex flex-col mt-8 bg-gray-200 py-8 rounded-md px-4' action="">
+      <form ref={formRef} id='tableForm' onSubmit={(e) => { onSubmit(e) }} className='flex flex-col mt-8 bg-gray-200 py-8 rounded-md px-4' action="">
         <div className="flex flex-row ">
           <div className="flex-1 px-2">
             <label className="block mb-1 text-[12px] text-gray-500 dark:text-white font-normal ml-1">Vendor Name</label>
@@ -121,20 +127,7 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
             <input required type='date' value={defaultDate} min={minDate} name='billDate' className="capitalize border border-gray-400 w-full py-4 rounded px-3 text-gray-700 placeholder:text-[12px] text-[12px] bg-white" id="username" placeholder="Enter Bill Number" />
           </div>
         </div>
-        <div className="flex flex-row py-4">
-          <div className="flex-1 px-2">
-            <label className="block mb-1 text-[12px] text-gray-500 dark:text-white font-normal ml-1">Purchase Type</label>
-            <select required name='paymentType' className="capitalize border border-gray-400 w-full py-4 rounded px-3 text-gray-700 placeholder:text-[12px] text-[12px] bg-white" id="username" placeholder="Purchase Type" >
-              <option className='text-[12px] text-gray-400' value={"cash"} selected>Cash</option>
-              <option className='text-[12px] text-gray-400' value={"credit"}>Credit</option>
-              <option className='text-[12px] text-gray-400' value={"online"}>Online</option>
-            </select>
-          </div>
-          <div className="flex-1 px-2">
-          </div>
-          <div className="flex-1 px-2">
-          </div>
-        </div>
+        
 
         <div className="">
           <p className='text-[14px] font-normal px-4 py-6 text-gray-600'>Bill Items</p>
@@ -205,8 +198,47 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
 
             </table>
           </div>
+          <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+            <ModalContent>
+              {(onClose) => (
+                <>
+                  <ModalHeader className="flex flex-col gap-1">Select Payment Type</ModalHeader>
+                  <ModalBody>
+                    <div className="flex space-x-2 pb-2">
+                      <button type='button' onClick={() => setPurchaseType('cash')} className='bg-green-600 text-white p-3 text-[12px] rounded-sm mt-4 w-44 ml-auto flex flex-row'>
+                        <p className='my-auto flex-1'>Cash</p>
+                        {purchaseType == 'cash' &&
+                          <BsCheckCircleFill color='#fff' size={18} className='my-auto' />
+                        }
+                      </button>
+                      <button type='button' onClick={() => setPurchaseType('online')} className='bg-green-600 text-white p-3 text-[12px] rounded-sm mt-4 w-44 ml-auto flex flex-row'>
+                        <p className='my-auto flex-1'>Online</p>
+                        {purchaseType == 'online' &&
+                          <BsCheckCircleFill color='#fff' size={18} className='my-auto' />
+                        }
+                      </button>
+                      <button type='button' onClick={() => setPurchaseType('credit')} className='bg-green-600 text-white p-3 text-[12px] rounded-sm mt-4 w-44 ml-auto flex flex-row'>
+                        <p className='my-auto flex-1'>Credit</p>
+                        {purchaseType == 'credit' &&
+                          <BsCheckCircleFill color='#fff' size={18} className='my-auto' />
+                        }
+                      </button>
+                    </div>
+
+                  </ModalBody>
+                  <ModalFooter>
+
+                    <button form='tableForm' type='submit' className='bg-orange-600 text-white p-3 text-[12px] rounded-sm mt-4 w-44 ml-auto flex flex-row'>
+                      <p className='my-auto flex-1'>Send Bill</p>
+                    
+                    </button>
+                  </ModalFooter>
+                </>
+              )}
+            </ModalContent>
+          </Modal>
           <div className="w-full">
-            <button type='submit' className='bg-green-600 text-white p-3 text-[12px] rounded-sm mt-4 w-44 ml-auto'>
+            <button onClick={onOpen} type='button' className='bg-green-600 text-white p-3 text-[12px] rounded-sm mt-4 w-44 ml-auto'>
               Post Bill
             </button>
           </div>
