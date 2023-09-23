@@ -231,7 +231,7 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
                         }
                       </button>
                       <button type='button' onClick={() => setPurchaseType('online')} className='bg-green-600 text-white p-3 text-[12px] rounded-sm mt-4 w-44 ml-auto flex flex-row'>
-                        <p className='my-auto flex-1'>Online</p>
+                        <p className='my-auto flex-1'>Bank</p>
                         {purchaseType == 'online' &&
                           <BsCheckCircleFill color='#fff' size={18} className='my-auto' />
                         }
