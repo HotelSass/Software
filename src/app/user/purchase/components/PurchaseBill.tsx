@@ -119,6 +119,14 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
     console.log(val)
     setTotal(val)
   }
+  function getTotalForRow(row1: any, index: number) {
+    const item = row1[index]
+
+    const quantity = item.quantity == "" ? 0 : parseInt(item.quantity)
+    const price = item.price == "" ? 0 : parseInt(item.price)
+    const value = Math.abs(quantity) * Math.abs(price)
+    return value
+  }
 
   useEffect(() => {
     const today = new Date();
@@ -136,6 +144,8 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
   useEffect(() => {
     getTotalFromPurchase(rows)
   }, [rows])
+
+
 
   return (
     <div className="flex-1 flex flex-col">
@@ -220,19 +230,23 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
             <table className='w-full'>
               <thead>
                 <tr className='m-3 p-4 bg-gray-100 rounded-lg'>
-                  <th className='p-3 text-left text-gray-500 font-semibold text-[12px] uppercase'>Name</th>
+                  <th className='p-3 text-gray-500 font-semibold text-[12px] text-center uppercase'>Name</th>
                   <th className='p-3 text-left text-gray-500 font-semibold text-[12px] uppercase'>Storage Location</th>
                   <th className='p-3 text-left text-gray-500 font-semibold text-[12px] uppercase'>Quantity</th>
                   <th className='p-3 text-left text-gray-500 font-semibold text-[12px] uppercase'>Unit</th>
                   <th className='p-3 text-left text-gray-500 font-semibold text-[12px] uppercase'>Price</th>
+                  <th className='p-3 text-left text-gray-500 font-semibold text-[12px] uppercase'></th>
                 </tr>
               </thead>
               <tbody>
                 {rows.map((item1: any, index: number) => {
                   return (
                     <tr key={index} className='m-3 p-4 '>
-                      <td className='p-3'>
-                        <input name='itemName[]' value={rows[index].itemName} onChange={(e) => { updateValue(e, 'itemName', index) }} required className="appearance-none bg-transparent border-b w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none placeholder:text-[12px] text-[12px]" type="text" placeholder="Item Name" aria-label="Full name" />
+                      <td className='p-3 flex flex-row'>
+                        <button type='button' onClick={() => { deleteRows(item1.key) }}  >
+                          <MdClose />
+                        </button>
+                        <input name='itemName[]' value={rows[index].itemName} onChange={(e) => { updateValue(e, 'itemName', index) }} required className="appearance-none bg-transparent border-b w-full text-gray-700 mr-3 ml-5 py-2 px-2 leading-tight focus:outline-none placeholder:text-[12px] text-[12px]" type="text" placeholder="Item Name" aria-label="Full name" />
                       </td>
                       <td className='p-3'>
                         <select required name='storageLocation[]' value={rows[index].location} onChange={(e) => { updateValue(e, 'location', index) }} className="capitalize border-b border-gray-200 w-full py-2 px-3 text-gray-700 placeholder:text-[12px] text-[12px] bg-white" id="username" placeholder="Vendor Name" >
@@ -256,17 +270,18 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
                       </td>
                       <td className='p-3 flex flex-row'>
                         <input name='price[]' value={rows[index].price} onChange={(e) => { updateValue(e, 'price', index) }} required className="appearance-none bg-transparent border-b w-28 text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none placeholder:text-[12px] text-[12px] flex-1 " type="text" placeholder="Purchase Price" aria-label="Purchase Price" />
-                        <button type='button' onClick={() => { deleteRows(item1.key) }}  >
-                          <MdClose />
-                        </button>
+
+                      </td>
+                      <td className='text-gray-500 font-semibold text-[12px] capitalize text-right pr-3'>
+                        Rs. {getTotalForRow(rows, index)}
                       </td>
 
                     </tr>
                   )
                 })}
                 <tr className='m-3 p-4 bg-gray-200 rounded-lg'>
-                  <th className='p-3 text-left text-gray-800 font-medium text-[12px] capitalize' colSpan={4}>Total</th>
-                  <th className='p-3 text-left text-gray-500 font-semibold text-[12px] capitalize'>Rs. {total}</th>
+                  <th className='p-3 text-left text-gray-800 font-medium text-[12px] capitalize' colSpan={5}>Total</th>
+                  <th className='p-3 text-gray-500 font-semibold text-[12px] capitalize text-right'>Rs. {total}</th>
                 </tr>
                 <tr>
                   <td className='flex pl-2 pt-6'>
