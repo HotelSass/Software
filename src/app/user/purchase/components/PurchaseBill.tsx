@@ -15,6 +15,7 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
   const [purchaseType, setPurchaseType] = useState('cash')
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const { isOpen: isOpen2, onOpen: onOpen2, onOpenChange: onOpenChange2 } = useDisclosure()
+  const [vendorPhone, setVendorPhone] = useState("")
 
   const [rows, setRows] = useState([{ key: Date.now().toString(), itemName: "", location: "", quantity: "", unit: '', price: '' }]);
   const router = useRouter()
@@ -128,6 +129,18 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
     return value
   }
 
+  function getPhoneNumber(id: string) {
+    if (id == "") {
+      setVendorPhone("")
+    }
+    vendorList.map((item: any) => {
+      if (item._id == id) {
+        setVendorPhone(item.phone)
+      }
+    })
+    return ""
+  }
+
   useEffect(() => {
     const today = new Date();
     const year = today.getFullYear();
@@ -156,15 +169,20 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
         <div className="flex flex-row ">
           <div className="flex-1 px-2">
             <label className="block mb-1 text-[12px] text-gray-500 dark:text-white font-normal ml-1">Vendor Name</label>
-            <select required name='name' className="capitalize border border-gray-400 w-full py-4 rounded px-3 text-gray-700 placeholder:text-[12px] text-[12px] bg-white" id="username" placeholder="Vendor Name" >
-              <option className='text-[12px] text-gray-400' selected>Select Vendor Name</option>
+            <select required name='name' onChange={(e) => { getPhoneNumber(e.target.value) }} className="capitalize border border-gray-400 w-full py-4 rounded px-3 text-gray-700 placeholder:text-[12px] text-[12px] bg-white" id="username" placeholder="Vendor Name" >
+              <option className='text-[12px] text-gray-400' value={""} selected>Select Vendor Name</option>
               {vendorList.map((item: any, index: number) => (
                 <option key={index} className='capitalize' value={item._id}>
                   <p className='capitalize'>{(item.name).toUpperCase()}</p>
                 </option>
               ))}
             </select>
-            <button onClick={onOpen2} className='text-[12px] text-blue-600 underline ml-2'>Add New Vendor</button>
+            <div className="flex flex-col text-left">
+              {vendorPhone != "" &&
+                <button onClick={onOpen2} className='text-[14px] text-gray-600 ml-2 my-2 text-left'>Phone No. {vendorPhone}</button>
+              }
+              <button onClick={onOpen2} className='text-[12px] text-blue-600 underline ml-2 text-left '>Add New Vendor</button>
+            </div>
             <Modal backdrop='blur' isOpen={isOpen2} onOpenChange={onOpenChange2} isDismissable={false}>
               <ModalContent >
                 {(onClose) => (
