@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { addNewVendor } from '@/app/admin/setting/function/functions';
 
 const PurchaseBill = ({ vendorList, location, unit }: any) => {
+  console.log(unit[0])
   const formRef = useRef(null);
   const [defaultDate, setDefaultDate] = useState('');
   const [minDate, setMinDate] = useState('');
@@ -17,7 +18,7 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
   const { isOpen: isOpen2, onOpen: onOpen2, onOpenChange: onOpenChange2 } = useDisclosure()
   const [vendorPhone, setVendorPhone] = useState("")
 
-  const [rows, setRows] = useState([{ key: Date.now().toString(), itemName: "", location: "", quantity: "", unit: '', price: '' }]);
+  const [rows, setRows] = useState([{ key: Date.now().toString(), itemName: "", location: location[0].location, quantity: "", unit: unit[0].measurement, price: '' }]);
   const router = useRouter()
 
 
@@ -59,7 +60,7 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
     const billDate = formData.get("billDate")
     const paymentType = purchaseType.toLowerCase()
 
-    setRows([{ key: Date.now().toString(), itemName: "", location: "", quantity: "", unit: '', price: '' }])
+    setRows([{ key: Date.now().toString(), itemName: "", location: location[0].location, quantity: "", unit: unit[0].measurement, price: '' }])
 
     if (formRef.current) {
       // @ts-ignore
@@ -72,6 +73,7 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
         break
       }
     }
+
     try {
       const response = await fetch(serverUrl + "/user/finance/addPurchaseRecord", {
         method: 'POST',
@@ -93,6 +95,7 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
     } catch (err) {
       console.log(err)
     }
+
   }
 
   function deleteRows(id: any) {
@@ -258,6 +261,7 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
               </thead>
               <tbody>
                 {rows.map((item1: any, index: number) => {
+
                   return (
                     <tr key={index} className='m-3 p-4 '>
                       <td className='p-3 flex flex-row'>
