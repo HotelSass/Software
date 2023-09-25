@@ -8,7 +8,6 @@ import { useRouter } from 'next/navigation';
 import { addNewVendor } from '@/app/admin/setting/function/functions';
 
 const PurchaseBill = ({ vendorList, location, unit }: any) => {
-  console.log(unit[0])
   const formRef = useRef(null);
   const [defaultDate, setDefaultDate] = useState('');
   const [minDate, setMinDate] = useState('');
@@ -18,7 +17,7 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
   const { isOpen: isOpen2, onOpen: onOpen2, onOpenChange: onOpenChange2 } = useDisclosure()
   const [vendorPhone, setVendorPhone] = useState("")
 
-  const [rows, setRows] = useState([{ key: Date.now().toString(), itemName: "", location: location[0].location, quantity: "", unit: unit[0].measurement, price: '' }]);
+  const [rows, setRows] = useState([{ key: Date.now().toString(), itemName: "", location: location[0].location, quantity: "", expendable: false, unit: unit[0].measurement, price: '' }]);
   const router = useRouter()
 
 
@@ -60,7 +59,7 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
     const billDate = formData.get("billDate")
     const paymentType = purchaseType.toLowerCase()
 
-    setRows([{ key: Date.now().toString(), itemName: "", location: location[0].location, quantity: "", unit: unit[0].measurement, price: '' }])
+    setRows([{ key: Date.now().toString(), itemName: "", location: location[0].location, quantity: "", expendable: false, unit: unit[0].measurement, price: '' }])
 
     if (formRef.current) {
       // @ts-ignore
@@ -104,12 +103,18 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
     setRows([...updatedRows])
   }
   function updateValue(e: any, key: string, index: number) {
-    const temp = [...rows];
-    if (temp[index].hasOwnProperty(key.toString())) {
-      temp[index][key as keyof typeof temp[0]] = e.target.value;
+    const temp: any[] = [...rows]; // Assuming rows is of type Row[]
+    if (temp[index].hasOwnProperty(key)) {
+      temp[index][key] = e.target.value;
       setRows([...temp])
     }
     getTotalFromPurchase(rows)
+  }
+  function updateChecked(e: boolean, key: string, index: number) {
+    const temp = [...rows];
+    temp[index]['expendable'] = e;
+    setRows([...temp])
+
   }
 
   function getTotalFromPurchase(row1: any) {
@@ -120,7 +125,6 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
       const value = Math.abs(quantity) * Math.abs(price)
       val = val + value
     })
-    console.log(val)
     setTotal(val)
   }
   function getTotalForRow(row1: any, index: number) {
@@ -251,9 +255,12 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
             <table className='w-full'>
               <thead>
                 <tr className='m-3 p-4 bg-gray-100 rounded-lg'>
-                  <th className='p-3 text-gray-500 font-semibold text-[12px] text-center uppercase'>Name</th>
+                  <th className=''></th>
+                  <th className=''></th>
+                  <th className='p-3 text-gray-500 font-semibold text-[12px] text-left uppercase'>Name</th>
                   <th className='p-3 text-left text-gray-500 font-semibold text-[12px] uppercase'>Storage Location</th>
                   <th className='p-3 text-left text-gray-500 font-semibold text-[12px] uppercase'>Quantity</th>
+                  <th className='p-3 text-left text-gray-500 font-semibold text-[12px] uppercase'>Expendable</th>
                   <th className='p-3 text-left text-gray-500 font-semibold text-[12px] uppercase'>Unit</th>
                   <th className='p-3 text-left text-gray-500 font-semibold text-[12px] uppercase'>Price</th>
                   <th className='p-3 text-left text-gray-500 font-semibold text-[12px] uppercase'></th>
@@ -264,13 +271,19 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
 
                   return (
                     <tr key={index} className='m-3 p-4 '>
-                      <td className='p-3 flex flex-row'>
-                        <button type='button' onClick={() => { deleteRows(item1.key) }}  >
-                          <MdClose />
-                        </button>
-                        <input name='itemName[]' value={rows[index].itemName} onChange={(e) => { updateValue(e, 'itemName', index) }} required className="appearance-none bg-transparent border-b w-full text-gray-700 mr-3 ml-5 py-2 px-2 leading-tight focus:outline-none placeholder:text-[12px] text-[12px]" type="text" placeholder="Item Name" aria-label="Full name" />
+                      <td className='w-2 px-2'>
+                        <span onClick={() => { deleteRows(item1.key) }}  >
+                          <MdClose size={20} />
+                        </span>
                       </td>
-                      <td className='p-3'>
+                      <td>
+
+                      </td>
+
+                      <td className=' flex flex-row'>
+                        <input name='itemName[]' value={rows[index].itemName} onChange={(e) => { updateValue(e, 'itemName', index) }} required className="appearance-none bg-transparent border-b w-full text-gray-700 py-2 px-2 leading-tight focus:outline-none placeholder:text-[12px] text-[12px]" type="text" placeholder="Item Name" aria-label="Full name" />
+                      </td>
+                      <td className=''>
                         <select required name='storageLocation[]' value={rows[index].location} onChange={(e) => { updateValue(e, 'location', index) }} className="capitalize border-b border-gray-200 w-full py-2 px-3 text-gray-700 placeholder:text-[12px] text-[12px] bg-white" id="username" placeholder="Vendor Name" >
                           {location.map((item: any, index: number) => (
                             <option key={index} className='capitalize' value={item.location}>{item.location}</option>
@@ -279,7 +292,12 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
                         </select>
                       </td>
                       <td className='p-3'>
-                        <input name='quantity[]' value={rows[index].quantity} onChange={(e) => { updateValue(e, 'quantity', index) }} required className="appearance-none bg-transparent border-b w-24 text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none placeholder:text-[12px] text-[12px]" type="text" placeholder="Quantity" aria-label="Quantity" />
+                        <input name='quantity[]' value={rows[index].quantity} onChange={(e) => { updateValue(e, 'quantity', index) }} required className="appearance-none bg-transparent border-b w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none placeholder:text-[12px] text-[12px]" type="text" placeholder="Quantity" aria-label="Quantity" />
+                      </td>
+                      <td className='p-3 items-center'>
+                        <div className='w-full'>
+                          <input checked={rows[index].expendable} onChange={(e) => { updateChecked(e.target.checked, 'quantity', index) }} id="checked-checkbox" type="checkbox" value="" className="ml-auto w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                        </div>
                       </td>
 
                       <td className='p-3'>
@@ -294,7 +312,7 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
                         <input name='price[]' value={rows[index].price} onChange={(e) => { updateValue(e, 'price', index) }} required className="appearance-none bg-transparent border-b w-28 text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none placeholder:text-[12px] text-[12px] flex-1 " type="text" placeholder="Purchase Price" aria-label="Purchase Price" />
 
                       </td>
-                      <td className='text-gray-500 font-semibold text-[12px] capitalize text-right pr-3'>
+                      <td className='text-gray-500 font-semibold text-[12px] capitalize text-right pr-3 w-28'>
                         Rs. {getTotalForRow(rows, index)}
                       </td>
 
@@ -302,14 +320,14 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
                   )
                 })}
                 <tr className='m-3 p-4 bg-gray-200 rounded-lg'>
-                  <th className='p-3 text-left text-gray-800 font-medium text-[12px] capitalize' colSpan={5}>Total</th>
-                  <th className='p-3 text-gray-500 font-semibold text-[12px] capitalize text-right'>Rs. {total}</th>
+                  <th className='p-3 text-left text-gray-800 font-medium text-[12px] capitalize' colSpan={8}>Total</th>
+                  <th className='p-3 text-gray-500 font-semibold text-[12px] capitalize text-right w-28'>Rs. {total}</th>
                 </tr>
                 <tr>
                   <td className='flex pl-2 pt-6'>
                     <button type='button' className='flex' onClick={() => {
                       let temp = rows
-                      temp.push({ key: Date.now().toString(), itemName: "", location: "", quantity: "", unit: '', price: '' })
+                      temp.push({ key: Date.now().toString(), itemName: "", location: "", quantity: "", expendable: false, unit: '', price: '' })
                       setRows([...temp]);
                     }}>
                       <BiPlus className='my-auto' color='#7f7f7f' size={16} />
