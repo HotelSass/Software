@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { BiPlus } from 'react-icons/bi';
 import { BsCheckCircleFill } from 'react-icons/bs';
 import { MdClose } from 'react-icons/md';
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@nextui-org/react";
 import serverUrl from '@/config/config';
 import { useRouter } from 'next/navigation';
 import { addNewVendor } from '@/app/admin/setting/function/functions';

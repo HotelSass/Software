@@ -50,9 +50,7 @@ const InventoryTable = ({ data }: any) => {
       <table className="w-full">
         <thead>
           <tr className="bg-gray-300 ">
-            <th className="py-3 px-3 font-light text-ssm text-left">
-
-            </th>
+            
             {Object.entries(InventoryLabel).map(([key, item]) => (
               <th key={key} className="py-3 px-3 font-light text-ssm text-left">
                 {item}
@@ -64,20 +62,7 @@ const InventoryTable = ({ data }: any) => {
         <tbody>
           {data.map((item: any, index: number) => (
             <tr key={index} className="bg-gray-100 border-b h-12">
-              <td className="py-3 px-3 font-light text-ssm text-left">
-                <button
-                  onClick={() => {setOpenAdd(true);setEditData(item)}}
-                  className=" rounded-lg"
-                >
-                  <BiPlus size={20} color="#3f3f3f" />
-                </button>
-                <button
-                  onClick={() => {setOpenDeduct(true);setEditData(item)}}
-                  className=" rounded-lg ml-3"
-                >
-                  <BiMinus size={20} color="#3f3f3f" />
-                </button>
-              </td>
+              
               <td className="p-2 text-ssm pl-3">{item.itemName}</td>
               <td className="p-2 text-ssm pl-3">{item.location}</td>
               <td className="p-2 pl-3 w-40 text-[10px] text-ellipsis">
