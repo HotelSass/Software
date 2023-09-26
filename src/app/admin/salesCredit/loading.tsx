@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from "../component/layout";
+import Layout from "../components/layout";
 
 
 const Rooms = () => {

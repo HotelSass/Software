@@ -17,7 +17,7 @@ export const UserSidebarInfo = {
       color: '#2442F8',
       location: '/user/housekeeping'
    }
-   
+
 };
 export const UserRestaurantInfo = {
 
@@ -42,7 +42,7 @@ export const UserRestaurantInfo = {
       color: '#2442F8',
       location: '/user/bar'
    }
-   
+
 };
 export const UserClientInfo = {
 
@@ -54,26 +54,11 @@ export const UserClientInfo = {
       color: '#2442F8',
       location: '/user/cms'
    }
-   , 5: {
-      icon: <BiCreditCardFront />,
-      title: 'Credit',
-      size: 22,
-      color: '#2442F8',
-      location: '/user/credit'
-   },
 
 };
 export const UserFinanceInfo = {
 
-
-   6: {
-      icon: <BiMoneyWithdraw />,
-      title: 'Day Book',
-      size: 22,
-      color: '#2442F8',
-      location: '/user/finance'
-   }
-   , 7: {
+   7: {
       icon: <BiReceipt />,
       title: 'Purchase',
       size: 22,
