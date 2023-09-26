@@ -71,7 +71,7 @@ export const AdminFinanceInfo = {
       title: 'Purchase Account',
       size: 22,
       color: '#2442F8',
-      location: '/admin/salesCredit'
+      location: '/admin/purchaseAccount'
    }
    , 9: {
       icon: <BsGraphUp />,
@@ -85,7 +85,7 @@ export const AdminFinanceInfo = {
       title: 'Purchase Credit',
       size: 22,
       color: '#2442F8',
-      location: '/admin/salesCredit'
+      location: '/admin/purchaseCredit'
    },
 
 

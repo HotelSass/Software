@@ -13,6 +13,14 @@ const options = {
     timeZoneName: 'short'
 };
 
+function getTotal(item: any) {
+    let total = 0
+    item.map((list: any) => {
+        total = total + parseFloat(list.quantity) * parseFloat(list.price)
+    })
+    return total
+}
+
 const BillData = ({ data }: any) => {
     const [openDetail, setOpenDetail] = useState(false)
     const [selectedData, setSelectedData] = useState([])
@@ -76,7 +84,7 @@ const BillData = ({ data }: any) => {
 
             </Modal>
 
-            
+
             <div className="flex flex-col">
 
                 <div className="relative overflow-x-auto py-4">
@@ -89,10 +97,10 @@ const BillData = ({ data }: any) => {
                                     Detail
                                 </th>
                                 <th scope="col" className="px-6 py-3 tracking-widest font-thin text-white">
-                                    Room/ Table
+                                    Vendor Name
                                 </th>
                                 <th scope="col" className="px-6 py-3 tracking-widest font-thin text-white">
-                                    Contact
+                                    Bill No.
                                 </th>
                                 <th scope="col" className="px-6 py-3 tracking-widest font-thin text-white">
                                     Category
@@ -101,7 +109,7 @@ const BillData = ({ data }: any) => {
                                     Amount
                                 </th>
                                 <th scope="col" className="px-6 py-6 tracking-widest font-thin text-white">
-                                    Date
+                                    Bill Date
                                 </th>
                                 <th>
 
@@ -110,34 +118,28 @@ const BillData = ({ data }: any) => {
                         </thead>
                         <tbody>
                             {res.map((item: any, index: number) => {
-                                const date = new Date(item.date);
+                                const date = new Date(item.billDate);
                                 const formattedDate = date.toLocaleString('en-US', { timeZoneName: 'short' });
                                 return (
                                     <>
-                                        {item.type == 'advance' &&
+                                        {item.type == 'purchase' &&
                                             <tr className='bg-slate-600 border-b' key={index}>
                                                 <td className='p-3 text-white font-light text-[12px] items-center'>
                                                     <div className="flex ">
-                                                        <p className='font-bold text-[14px]'> Advance from:  </p>
-                                                        <p className=' ml-2 text-[12px] my-auto'>{item.name} </p>
+                                                        <p className='font-bold text-[14px]'> Items Purchase  </p>
                                                     </div>
                                                 </td>
                                                 <td className='p-3 text-white font-light text-[12px] items-center'>
-                                                    <div className="flex flex-wrap max-w-[80px] ">
-                                                        {item.rooms.map((rooms: any, index: number) => (
-                                                            <div key={index} className=' text-[12px] ml-2'>{rooms.room} </div>
-                                                        ))}
-
-                                                    </div>
+                                                    <p className=' text-[12px] capitalize'>{item.vendorName} </p>
                                                 </td>
                                                 <td className='p-3 text-white font-light text-[12px] items-center'>
-                                                    <p className=' text-[12px]'>{item.phone} </p>
+                                                    <p className=' text-[12px]'>{item.billNo} </p>
                                                 </td>
                                                 <td className='p-3 text-white font-light text-[12px]'>
                                                     <div className='bg-gray-100 text-black rounded-[8px] p-2 max-w-xl w-20 text-center capitalize'>{item.type}</div>
                                                 </td>
                                                 <td className='p-3 text-white font-light text-[12px] items-center'>
-                                                    <p>Rs. {item.advance} </p>
+                                                    <p>Rs. {getTotal(item.itemArray)} </p>
                                                 </td>
                                                 <td className='p-3 text-white font-light text-[12px] items-center'>
                                                     <p> {formattedDate} </p>
@@ -148,70 +150,7 @@ const BillData = ({ data }: any) => {
                                                 </td>
                                             </tr>
                                         }
-                                        {item.type == 'room' &&
-                                            <tr className='bg-slate-600 border-b' key={index}>
-                                                <td className='p-3 text-white font-light text-[12px] items-center'>
-                                                    <div className="flex ">
-                                                        <p className='font-bold text-[14px]'> Room Payment  </p>
-                                                    </div>
-                                                </td>
-                                                <td className='p-3 text-white font-light text-[12px] items-center'>
-                                                    <div className="flex flex-wrap max-w-[80px] ">
-                                                        {item.rooms.map((rooms: any, index: number) => (
-                                                            <div key={index} className=' text-[12px] ml-2'>{rooms.room} </div>
-                                                        ))}
 
-                                                    </div>
-                                                </td>
-                                                <td className='p-3 text-white font-light text-[12px] items-center'>
-                                                    <p className=' text-[12px]'>{item.phone} </p>
-                                                </td>
-                                                <td className='p-3 text-white font-light text-[12px]'>
-                                                    <div className='bg-gray-100 text-black rounded-[8px] p-2 max-w-xl w-20 text-center capitalize'>{item.type}</div>
-                                                </td>
-                                                <td className='p-3 text-white font-light text-[12px] items-center'>
-                                                    <p>Rs. {item.total} </p>
-                                                </td>
-                                                <td className='p-3 text-white font-light text-[12px] items-center'>
-                                                    <p> {formattedDate} </p>
-                                                </td>
-                                                <td className='flex flex-row'>
-                                                    <div className="flex-1"></div>
-                                                    <button type='button' onClick={() => { setOpenDetail(true); }} className='font-light text-[14px] text-white bg-green-600 py-2 px-8 text-center rounded-lg mx-auto my-3 mr-4 hover:bg-green-700'>See More</button>
-                                                </td>
-                                            </tr>
-                                        }
-                                        {item.type == 'restaurant' &&
-                                            <tr className='bg-slate-600 border-b' key={index}>
-                                                <td className='p-3 text-white font-light text-[12px] items-center'>
-                                                    <div className="flex ">
-                                                        <p className='font-bold text-[14px]'> Restaurant Payment </p>
-                                                    </div>
-                                                </td>
-                                                <td className='p-3 text-white font-light text-[12px] items-center'>
-                                                    <p className=' ml-2 text-[12px] my-auto'>{item.tableNumber} </p>
-
-                                                </td>
-                                                <td className='p-3 text-white font-light text-[12px] items-center'>
-                                                    <p className='font-bold text-[14px]'>
-                                                        <p className=' ml-2 text-[12px] my-auto'></p>
-                                                    </p>
-                                                </td>
-                                                <td className='p-3 text-white font-light text-[12px]'>
-                                                    <div className='bg-gray-100 text-black rounded-[8px] p-2 max-w-xl w-20 text-center capitalize'>{item.type}</div>
-                                                </td>
-                                                <td className='p-3 text-white font-light text-[12px] items-center'>
-                                                    <p>Rs. {item.total} </p>
-                                                </td>
-                                                <td className='p-3 text-white font-light text-[12px] items-center'>
-                                                    <p> {formattedDate} </p>
-                                                </td>
-                                                <td className='flex flex-row'>
-                                                    <div className="flex-1"></div>
-                                                    <button type='button' onClick={() => { setOpenDetail(true); }} className='font-light text-[14px] text-white bg-green-600 py-2 px-8 text-center rounded-lg mx-auto my-3 mr-4 hover:bg-green-700'>See More</button>
-                                                </td>
-                                            </tr>
-                                        }
 
                                     </>
                                 )
