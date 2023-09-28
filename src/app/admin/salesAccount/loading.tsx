@@ -15,7 +15,7 @@ const Rooms = () => {
     return (
         <Layout>
             <div className="w-full p-8 flex flex-col">
-                <div className="text-[20px] font-thin tracking-tight">Sales Account Information</div>
+                <div className="text-[20px] font-thin tracking-tight">Sales Account</div>
 
                 <div role="status" className="max-w-sm animate-pulse mt-5">
                     <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></div>

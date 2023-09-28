@@ -1,7 +1,5 @@
 'use client'
 import React, { useState } from 'react'
-import { Button } from "@nextui-org/react";
-import { BsFillCheckSquareFill, BsFillEjectFill } from 'react-icons/bs'
 import Modal from '@/components/modal';
 
 
@@ -22,6 +20,7 @@ const BillData = ({ data }: any) => {
         setRes(matchingData)
     }
 
+    console.log(data)
 
     return (
         <div className='w-full'>

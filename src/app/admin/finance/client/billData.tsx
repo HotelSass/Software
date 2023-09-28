@@ -253,10 +253,19 @@ const BillData = ({ data, outgoing, daily }: any) => {
                                                 <p>{item.name}</p>
                                             </div>
                                         )}
+                                        {item.type == 'salesCredit' && (
+                                            <div>
+                                                <p>Credit Sales</p>
+                                                <p>{item.name}</p>
+                                            </div>
+                                        )}
                                     </th>
                                     <th>
                                         {item.paymentType == 'cash' && (
                                             <p className='bg-green-600 p-1 rounded-full text-white w-16 text-center font-thin'>Cash</p>
+                                        )}
+                                        {item.type == 'salesCredit' && (
+                                            <p className='bg-gray-600 p-1 rounded-full text-white w-16 text-center font-thin'>Credit</p>
                                         )}
 
                                     </th>
@@ -273,6 +282,16 @@ const BillData = ({ data, outgoing, daily }: any) => {
                                                 </>
                                             }
                                             {item.type == 'advance' &&
+                                                <>
+                                                    <p className='px-3'>Room: </p>
+                                                    {item.rooms.map((room: any, index: number) =>
+                                                        <p key={index} className='mx-1'>
+                                                            {room.room}
+                                                        </p>
+                                                    )}
+                                                </>
+                                            }
+                                            {item.type == 'salesCredit' &&
                                                 <>
                                                     <p className='px-3'>Room: </p>
                                                     {item.rooms.map((room: any, index: number) =>
@@ -309,6 +328,11 @@ const BillData = ({ data, outgoing, daily }: any) => {
                                         )}
 
                                         {item.type == 'room' && (
+                                            <>
+                                                Rs. {item.total}
+                                            </>
+                                        )}
+                                        {item.type == 'salesCredit' && (
                                             <>
                                                 Rs. {item.total}
                                             </>
@@ -396,11 +420,7 @@ const BillData = ({ data, outgoing, daily }: any) => {
                                                 <div className=" ">A/C: {item.bankAccount} / ( {item.bankAccount} )</div>
                                             </div>
                                         )}
-                                        {item.itemArray && (
-                                            <div className="flex flex-col">
-                                                <div className="font-light text-sm">Purchase from {item.vendorName}</div>
-                                            </div>
-                                        )}
+                                        
                                         {item.type == 'room' && (
                                             <div>
                                                 <p>Payment From Room</p>
@@ -411,6 +431,18 @@ const BillData = ({ data, outgoing, daily }: any) => {
                                             <>
                                                 Payment from Restaurant
                                             </>
+                                        )}
+                                         {item.type == 'salesCredit' && (
+                                            <div>
+                                                <p>Credit Sales</p>
+                                                <p>{item.name}</p>
+                                            </div>
+                                        )}
+                                         {item.type == 'purchaseCredit' && (
+                                            <div>
+                                                <p>Purchase Credit</p>
+                                                <p>{item.name}</p>
+                                            </div>
                                         )}
 
                                     </th>
@@ -423,6 +455,12 @@ const BillData = ({ data, outgoing, daily }: any) => {
                                         )}
                                         {item.transferDate && (
                                             <p className='bg-gray-800 p-1 rounded-full text-white w-24 text-center font-thin'>Bank Transfer</p>
+                                        )}
+                                        {item.type == 'salesCredit' && (
+                                            <p className='bg-gray-600 p-1 rounded-full text-white w-16 text-center font-thin'>Credit</p>
+                                        )}
+                                        {item.type == 'purchaseCredit' && (
+                                            <p className='bg-gray-600 p-1 rounded-full text-white w-16 text-center font-thin'>Credit</p>
                                         )}
                                     </th>
                                     <td className="px-6 py-4 text-white">
@@ -451,6 +489,17 @@ const BillData = ({ data, outgoing, daily }: any) => {
 
                                                 </>
                                             }
+                                            {item.type == 'salesCredit' &&
+                                                <>
+                                                    <p className='px-3'>Room: </p>
+                                                    {item.rooms.map((room: any, index: number) =>
+                                                        <p key={index} className='mx-1'>
+                                                            {room.room}
+                                                        </p>
+                                                    )}
+                                                </>
+                                            }
+                                            
                                         </div>
                                     </td>
 
@@ -469,6 +518,11 @@ const BillData = ({ data, outgoing, daily }: any) => {
                                         )}
 
                                         {item.type == 'room' && (
+                                            <>
+                                                Rs. {item.total}
+                                            </>
+                                        )}
+                                         {item.type == 'salesCredit' && (
                                             <>
                                                 Rs. {item.total}
                                             </>

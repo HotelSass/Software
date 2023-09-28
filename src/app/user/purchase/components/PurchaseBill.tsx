@@ -80,7 +80,7 @@ const PurchaseBill = ({ vendorList, location, unit }: any) => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          vendorId, vendorName, billNo, billDate, itemArray: rows, paymentType
+          vendorId, vendorName, billNo, billDate, itemArray: rows, paymentType,total
         })
 
       });

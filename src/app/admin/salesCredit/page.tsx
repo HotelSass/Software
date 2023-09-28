@@ -17,7 +17,7 @@ const History = () => {
     return (
         <Layout>
             <div className="w-full p-8 flex flex-col">
-                <div className="text-[20px] font-thin tracking-tight">Credit Information</div>
+                <div className="text-[20px] font-thin tracking-tight">Sales Credit</div>
                 
                 <div className="flex-1 mt-5">
                     {/* @ts-expect-error Async Server Component */}
