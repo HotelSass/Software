@@ -420,7 +420,7 @@ const BillData = ({ data, outgoing, daily }: any) => {
                                                 <div className=" ">A/C: {item.bankAccount} / ( {item.bankAccount} )</div>
                                             </div>
                                         )}
-                                        
+
                                         {item.type == 'room' && (
                                             <div>
                                                 <p>Payment From Room</p>
@@ -432,16 +432,28 @@ const BillData = ({ data, outgoing, daily }: any) => {
                                                 Payment from Restaurant
                                             </>
                                         )}
-                                         {item.type == 'salesCredit' && (
+                                        {item.type == 'salesCredit' && (
                                             <div>
                                                 <p>Credit Sales</p>
                                                 <p>{item.name}</p>
                                             </div>
                                         )}
-                                         {item.type == 'purchaseCredit' && (
+                                        {item.type == 'purchaseCredit' && (
                                             <div>
                                                 <p>Purchase Credit</p>
-                                                <p>{item.name}</p>
+                                                <p className='capitalize'>{item.vendorName}</p>
+                                            </div>
+                                        )}
+                                        {item.type == 'purchaseOnline' && (
+                                            <div>
+                                                <p>Purchase Online</p>
+                                                <p className='capitalize'>{item.vendorName}</p>
+                                            </div>
+                                        )}
+                                        {item.type == 'purchaseCash' && (
+                                            <div>
+                                                <p>Purchase Cash</p>
+                                                <p className='capitalize'>{item.vendorName}</p>
                                             </div>
                                         )}
 
@@ -499,7 +511,7 @@ const BillData = ({ data, outgoing, daily }: any) => {
                                                     )}
                                                 </>
                                             }
-                                            
+
                                         </div>
                                     </td>
 
@@ -522,7 +534,7 @@ const BillData = ({ data, outgoing, daily }: any) => {
                                                 Rs. {item.total}
                                             </>
                                         )}
-                                         {item.type == 'salesCredit' && (
+                                        {item.type == 'salesCredit' && (
                                             <>
                                                 Rs. {item.total}
                                             </>
