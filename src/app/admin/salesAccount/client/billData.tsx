@@ -24,25 +24,31 @@ function getOrderCost(fullOrder: [Object]) {
 }
 
 function getRoomCost(rooms: [Object]) {
-    let total = 0
+    let total = 0;
+
     rooms.map((item: any) => {
         const checkInDate = new Date(item.checkIn);
         const checkOutDate = new Date(item.checkOut);
 
-        // Calculate the difference in days
-        const timeDifference = checkOutDate - checkInDate;
-        const dayDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+        // Make sure that both dates are valid before proceeding
+        if (!isNaN(checkInDate.getTime()) && !isNaN(checkOutDate.getTime())) {
+            // Calculate the difference in days
+            const timeDifference = checkOutDate.getTime() - checkInDate.getTime();
+            const dayDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
 
-        // Ensure the day difference is greater than 0
-        if (dayDifference > 0) {
-            const roomRate = parseFloat(item.roomRate);
-            total = total + dayDifference * roomRate;
-        } else {
-            const roomRate = parseFloat(item.roomRate);
-            total = total + 1 * roomRate;
+            // Ensure the day difference is greater than 0
+            if (dayDifference > 0) {
+                const roomRate = parseFloat(item.roomRate);
+                total = total + dayDifference * roomRate;
+            } else {
+                const roomRate = parseFloat(item.roomRate);
+                total = total + 1 * roomRate;
+            }
         }
-    })
-    return total
+    });
+
+    return total;
+
 }
 function getFormattedDate(date: any) {
     const date1 = new Date(date);

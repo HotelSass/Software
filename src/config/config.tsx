@@ -1,4 +1,4 @@
-const serverUrl = "http://localhost:3001"
+const serverUrl = "https://hotelyesapi.vercel.app"
 export default serverUrl
 
 //    https://hotelyesapi.vercel.app
