@@ -96,7 +96,7 @@ const Info = ({ data, availableRooms, upcoming }: any) => {
                             <thead className="text-xs uppercase bg-gray-900 text-gray-400">
                                 <tr>
                                     <th scope="col" className="px-6 py-4 font-normal text-[13px]">
-                                        date
+                                        Date
                                     </th>
                                     <th scope="col" className="px-6 py-4 font-normal text-[13px]">
                                         Name
@@ -122,7 +122,7 @@ const Info = ({ data, availableRooms, upcoming }: any) => {
                                             <tr className="bg-gray-600 border-t">
                                                 <td scope="row" rowSpan={data.length + 1} className="px-6 py-4 font-normal text-[12px] w-44 text-white capitalize ">
                                                     <p className='text-[16px] text-center w-32'> {date}</p>
-                                                    <p className='p-3 rounded-lg bg-gray-500 text-white items-center w-24 text-center mx-auto'> {data.length + 1} rooms</p>
+                                                    <p className='p-3 rounded-lg bg-gray-500 text-white items-center w-24 text-center mx-auto'> {data.length } rooms</p>
                                                 </td>
                                             </tr>
                                             {data.map((room: any, index: number) => (
