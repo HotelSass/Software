@@ -86,8 +86,8 @@ const BillData = ({ data }: any) => {
                                 </thead>
                                 <tbody>
                                     {(selectedData as any).itemArray && <>
-                                        {((selectedData as any).itemArray).map((item: any) => (
-                                            <tr className='bg-slate-700 border-b border-gray-600'>
+                                        {((selectedData as any).itemArray).map((item: any,key:number) => (
+                                            <tr key={key} className='bg-slate-700 border-b border-gray-600'>
                                                 <th scope="col" className="px-6 py-3 tracking-widest font-thin text-white text-[12px]">
                                                     {item.itemName}
                                                 </th>
