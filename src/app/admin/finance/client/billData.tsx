@@ -554,6 +554,12 @@ const BillData = ({ data, outgoing, daily }: any) => {
                                                 <p className='capitalize'>{item.vendorName}</p>
                                             </button>
                                         )}
+                                        {item.type == 'purchaseCredit' && (
+                                            <button type='button' onClick={() => { setSelectedData({ ...item }); setOpenDetail(true); }} className="flex underline space-x-1">
+                                                <p>Purchase Credit</p>
+                                                <p className='capitalize'>{item.vendorName}</p>
+                                            </button>
+                                        )}
                                     </th>
                                     <th>
                                         {item.paymentType == 'cash' &&
@@ -647,7 +653,13 @@ const BillData = ({ data, outgoing, daily }: any) => {
                                                 Rs. {item.total}
                                             </>
                                         )}
-                                        {item.type == 'purchaseCredit' || item.type == 'purchaseOnline' && (
+
+                                        {item.type == 'purchaseCredit' && (
+                                            <>
+                                                Rs. {item.total}
+                                            </>
+                                        )}
+                                        {item.type == 'purchaseOnline' && (
                                             <>
                                                 Rs. {item.total}
                                             </>
