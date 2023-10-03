@@ -398,7 +398,7 @@ const BillData = ({ data, outgoing, daily }: any) => {
                                                     </thead>
                                                     <tbody>
                                                         {(selectedData as any).itemArray && <>
-                                                            {((selectedData as any).itemArray).map((item: any,key:number) => (
+                                                            {((selectedData as any).itemArray).map((item: any, key: number) => (
                                                                 <tr key={key} className='bg-slate-700 border-b border-gray-600'>
                                                                     <th scope="col" className="px-6 py-3 tracking-widest font-thin text-white text-[12px]">
                                                                         {item.itemName}
@@ -544,8 +544,19 @@ const BillData = ({ data, outgoing, daily }: any) => {
                                         )}
                                     </th>
                                     <th>
-                                        {item.paymentType == 'cash' && (
-                                            <p className='bg-green-600 p-1 rounded-full text-white w-16 text-center font-thin'>Cash</p>
+                                        {item.type == 'room' && (
+                                            <>
+                                                {item.paymentType == 'cash' &&
+                                                    <p className='bg-green-600 p-1 rounded-full text-white w-16 text-center font-thin capitalize'>
+                                                        {item.paymentType}
+                                                    </p>
+                                                }
+                                                {item.paymentType == 'online' &&
+                                                    <p className='bg-orange-600 p-1 rounded-full text-white w-16 text-center font-thin capitalize'>
+                                                        {item.paymentType}
+                                                    </p>
+                                                }
+                                            </>
                                         )}
                                         {item.type == 'salesCredit' && (
                                             <p className='bg-gray-600 p-1 rounded-full text-white w-16 text-center font-thin'>Credit</p>
