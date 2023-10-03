@@ -34,7 +34,7 @@ function getRoomCost(rooms: [Object]) {
         if (!isNaN(checkInDate.getTime()) && !isNaN(checkOutDate.getTime())) {
             // Calculate the difference in days
             const timeDifference = checkOutDate.getTime() - checkInDate.getTime();
-            const dayDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+            const dayDifference = Math.abs(Math.ceil(timeDifference / (1000 * 3600 * 24)));
 
             // Ensure the day difference is greater than 0
             if (dayDifference > 0) {
@@ -121,7 +121,7 @@ const BillData = ({ data }: any) => {
                                                     Rs. {getOrderCost((selectedData as any).orders)}
                                                 </th>
                                             </tr>
-                                            <tr className='bg-slate-700'>
+                                            <tr className='bg-slate-700 border-b border-gray-600'>
                                                 <th scope="col" className="px-6 py-3 tracking-widest font-thin text-white text-[12px]">
                                                     Advance
                                                 </th>
@@ -130,6 +130,75 @@ const BillData = ({ data }: any) => {
                                                     Rs. {(selectedData as any).advance}
                                                 </th>
                                             </tr>
+                                            <tr className='bg-slate-700'>
+                                                <th scope="col" className="px-6 py-3 tracking-widest font-thin text-white text-[12px]">
+                                                    Discount
+                                                </th>
+
+                                                <th scope="col" className="px-6 py-3 tracking-widest font-thin text-white text-right text-[12px] ">
+                                                    Rs. {(selectedData as any).discount}
+                                                </th>
+                                            </tr>
+                                            <tr className='bg-slate-800'>
+                                                <th scope="col" className="px-6 py-3 tracking-widest font-thin text-white text-[12px]">
+                                                    Total
+                                                </th>
+
+                                                <th scope="col" className="px-6 py-3 tracking-widest font-thin text-white text-right text-[12px] ">
+                                                    Rs. {(selectedData as any).total}
+                                                </th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </>
+                            }
+
+                            {(selectedData as any).type == 'restaurant' &&
+                                <>
+
+                                    <div className='flex flex-col mb-5 px-4'>
+
+                                        <div className="flex">
+                                            <div className="flex justify-center">
+                                                <p className='text-[14px] mr-3 font-light my-auto'>Date: </p>
+                                                <p className='text-[12px] my-auto font-extralight capitalize'>{getFormattedDate((selectedData as any).date)}</p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                        <thead className="text-ssm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b py-4">
+                                            <tr className='bg-slate-800'>
+                                                <th scope="col" className="px-6 py-3 tracking-widest font-thin text-white">
+                                                    Bill
+                                                </th>
+
+                                                <th scope="col" className="px-6 py-3 tracking-widest font-thin text-white text-right">
+                                                    Total
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr className='bg-slate-600 border-b border-b-gray-500'>
+                                                <th scope="col" className="px-6 py-3 tracking-widest font-thin text-white text-[12px]">
+                                                    Restaurant Bill
+                                                </th>
+
+                                                <th scope="col" className="px-6 py-3 tracking-widest font-thin text-white text-right text-[12px] ">
+                                                    Rs. {getOrderCost((selectedData as any).order)}
+                                                </th>
+                                            </tr>
+                                            <tr className='bg-slate-600'>
+                                                <th scope="col" className="px-6 py-3 tracking-widest font-thin text-white text-[12px]">
+                                                    Discount
+                                                </th>
+
+                                                <th scope="col" className="px-6 py-3 tracking-widest font-thin text-white text-right text-[12px] ">
+                                                    Rs. {(selectedData as any).discount}
+                                                </th>
+                                            </tr>
+
                                             <tr className='bg-slate-800'>
                                                 <th scope="col" className="px-6 py-3 tracking-widest font-thin text-white text-[12px]">
                                                     Total
@@ -177,9 +246,7 @@ const BillData = ({ data }: any) => {
                                 <th scope="col" className="px-6 py-6 tracking-widest font-thin text-white">
                                     Date
                                 </th>
-                                <th>
 
-                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -191,21 +258,21 @@ const BillData = ({ data }: any) => {
                                     <tr className='bg-slate-600 border-b' key={index}>
                                         <td className='p-3 text-white font-light text-[12px] items-center'>
                                             {item.type == 'advance' &&
-                                                <div className="flex ">
+                                                <div className="flex">
                                                     <p className='font-bold text-[14px]'> Advance from:  </p>
                                                     <p className=' ml-2 text-[12px] my-auto'>{item.name} </p>
                                                 </div>
                                             }
                                             {item.type == 'room' &&
-                                                <div className="flex ">
+                                                <button type='button' onClick={() => { setSelectedData({ ...item }); setOpenDetail(true); }} className="flex underline">
                                                     <p className='font-bold text-[14px]'> Room Payment  </p>
-                                                </div>
+                                                </button>
                                             }
                                             {item.type == 'restaurant' &&
 
-                                                <div className="flex ">
+                                                <button type='button' onClick={() => { setSelectedData({ ...item }); setOpenDetail(true); }} className="flex underline">
                                                     <p className='font-bold text-[14px]'> Restaurant Payment </p>
-                                                </div>
+                                                </button>
                                             }
                                         </td>
                                         <td className='p-3 text-white font-light text-[12px] items-center'>
@@ -262,10 +329,7 @@ const BillData = ({ data }: any) => {
                                         <td className='p-3 text-white font-light text-[12px] items-center'>
                                             <p> {formattedDate} </p>
                                         </td>
-                                        <td className='flex flex-row'>
-                                            <div className="flex-1"></div>
-                                            <button type='button' onClick={() => { setSelectedData({ ...item }); setOpenDetail(true); }} className='font-light text-[14px] text-white bg-green-600 py-2 px-8 text-center rounded-lg mx-auto my-3 mr-4 hover:bg-green-700'>See More</button>
-                                        </td>
+
                                     </tr>
 
                                 )
@@ -274,6 +338,7 @@ const BillData = ({ data }: any) => {
                         </tbody>
 
                     </table>
+
                 </div>
 
             </div>
