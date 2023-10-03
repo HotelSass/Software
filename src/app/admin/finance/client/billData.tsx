@@ -78,31 +78,7 @@ const BillData = ({ data, outgoing, daily }: any) => {
         }
     }
 
-    function getTotal() {
-        let temp = 0
-        for (let i = 0; i < res.length; i++) {
-            if (res[i].type != 'advance') {
-                if (res[i].paymentType == 'cash') {
-                    temp = temp + parseInt(res[i]['total'])
-                }
-            } else {
-                temp = temp + parseInt(res[i]['advance'])
-
-            }
-        }
-        return temp
-    }
-    function getTotalOnline() {
-        let temp = 0
-        for (let i = 0; i < res.length; i++) {
-            if (res[i].type != 'advance') {
-                if (res[i].paymentType == 'online') {
-                    temp = temp + parseInt(res[i]['total'])
-                }
-            }
-        }
-        return temp
-    }
+   
     function getArrayAmountSum(item: any) {
         let total = 0
         for (let i = 0; i < item.length; i++) {
@@ -128,27 +104,7 @@ const BillData = ({ data, outgoing, daily }: any) => {
         }
         return total
     }
-    function getFullOnlinePurchaseTotal() {
-        let total = 0
-        for (let i = 0; i < res2.length; i++) {
-
-            if (res2[i].itemArray) {
-                if (res2[i].paymentType != "cash") {
-                    for (let j = 0; j < res2[i].itemArray.length; j++) {
-                        total = total + Math.abs(res2[i].itemArray[j].quantity * res2[i].itemArray[j].price)
-                    }
-                }
-            }
-            if (res2[i].rooms) {
-                total = total + Math.abs(res2[i].total)
-            }
-            if (res2[i].type == 'restaurant') {
-                total = total + Math.abs(res2[i].total)
-            }
-
-        }
-        return total
-    }
+    
     function getFormattedDate(date: any) {
         const date1 = new Date(date);
         const formattedDate = date1.toLocaleString('en-US', { timeZoneName: 'short' });
@@ -668,36 +624,7 @@ const BillData = ({ data, outgoing, daily }: any) => {
                                     </td>
                                 </tr>
                             ))}
-                            <tr className="border-b bg-gray-700 font-thin text-ssm">
-                                <th scope="row" className="px-6 py-6 text-gray-100 whitespace-nowrap font-light text-ssm flex flex-row">
-                                    Total Cash Transaction
-                                </th>
-                                <td className="px-6 py-4 text-white">
 
-                                </td>
-                                <td className="px-6 py-4 text-white">
-
-                                </td>
-
-                                <td className="px-6 py-6 text-white">
-                                    Rs. {getTotal()}
-                                </td>
-                            </tr>
-                            <tr className="border-b bg-gray-700 font-thin text-ssm">
-                                <th scope="row" className="px-6 py-6 text-gray-100 whitespace-nowrap font-light text-ssm flex flex-row">
-                                    Total Online Transaction
-                                </th>
-                                <td className="px-6 py-4 text-white">
-
-                                </td>
-                                <td className="px-6 py-4 text-white">
-
-                                </td>
-
-                                <td className="px-6 py-6 text-white">
-                                    Rs. {getTotalOnline()}
-                                </td>
-                            </tr>
                             <tr className="border-b bg-gray-900 font-thin text-ssm">
                                 <th scope="row" className="px-6 py-6 text-gray-100 whitespace-nowrap font-light text-ssm flex flex-row">
                                     Total
@@ -710,7 +637,8 @@ const BillData = ({ data, outgoing, daily }: any) => {
                                 </td>
 
                                 <td className="px-6 py-6 text-white">
-                                    Rs. {getTotalOnline() + getTotal()}
+                                    Rs. {getDataWithDate(searchDate).income || 0}
+
                                 </td>
                             </tr>
 
@@ -869,36 +797,7 @@ const BillData = ({ data, outgoing, daily }: any) => {
                                     </td>
                                 </tr>
                             ))}
-                            <tr className="border-b bg-gray-700 font-thin text-ssm">
-                                <th scope="row" className="px-6 py-6 text-gray-100 whitespace-nowrap font-light text-ssm flex flex-row">
-                                    Total Cash Transaction:
-                                </th>
-                                <td className="px-6 py-4 text-white">
 
-                                </td>
-                                <td className="px-6 py-4 text-white">
-
-                                </td>
-
-                                <td className="px-6 py-6 text-white">
-                                    Rs. {getFullPurchaseTotal()}
-                                </td>
-                            </tr>
-                            <tr className="border-b bg-gray-700 font-thin text-ssm">
-                                <th scope="row" className="px-6 py-6 text-gray-100 whitespace-nowrap font-light text-ssm flex flex-row">
-                                    Total Online Transaction:
-                                </th>
-                                <td className="px-6 py-4 text-white">
-
-                                </td>
-                                <td className="px-6 py-4 text-white">
-
-                                </td>
-
-                                <td className="px-6 py-6 text-white">
-                                    Rs. {getFullOnlinePurchaseTotal()}
-                                </td>
-                            </tr>
                             <tr className="border-b bg-gray-900 font-thin text-ssm">
                                 <th scope="row" className="px-6 py-6 text-gray-100 whitespace-nowrap font-light text-ssm flex flex-row">
                                     Total:
@@ -911,7 +810,7 @@ const BillData = ({ data, outgoing, daily }: any) => {
                                 </td>
 
                                 <td className="px-6 py-6 text-white">
-                                    Rs. {getFullOnlinePurchaseTotal() + getFullPurchaseTotal()}
+                                    Rs. {getDataWithDate(searchDate).expense || 0}
                                 </td>
                             </tr>
                         </tbody>
