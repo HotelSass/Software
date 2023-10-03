@@ -542,26 +542,42 @@ const BillData = ({ data, outgoing, daily }: any) => {
                                                 <p>{item.name}</p>
                                             </button>
                                         )}
+                                        {item.type == 'purchaseOnline' && (
+                                            <button type='button' onClick={() => { setSelectedData({ ...item }); setOpenDetail(true); }} className="flex underline">
+                                                <p>Purchase Online</p>
+                                                <p className='capitalize'>{item.vendorName}</p>
+                                            </button>
+                                        )}
+                                        {item.type == 'purchaseCash' && (
+                                            <button type='button' onClick={() => { setSelectedData({ ...item }); setOpenDetail(true); }} className="flex underline">
+                                                <p>Purchase Cash</p>
+                                                <p className='capitalize'>{item.vendorName}</p>
+                                            </button>
+                                        )}
                                     </th>
                                     <th>
-                                        {item.type == 'room' && (
-                                            <>
-                                                {item.paymentType == 'cash' &&
-                                                    <p className='bg-green-600 p-1 rounded-full text-white w-16 text-center font-thin capitalize'>
-                                                        {item.paymentType}
-                                                    </p>
-                                                }
-                                                {item.paymentType == 'online' &&
-                                                    <p className='bg-orange-600 p-1 rounded-full text-white w-16 text-center font-thin capitalize'>
-                                                        {item.paymentType}
-                                                    </p>
-                                                }
-                                            </>
+                                        {item.paymentType == 'cash' &&
+                                            <p className='bg-green-600 p-1 rounded-full text-white w-16 text-center font-thin capitalize'>
+                                                {item.paymentType}
+                                            </p>
+                                        }
+                                        {item.paymentType == 'online' &&
+                                            <p className='bg-orange-600 p-1 rounded-full text-white w-16 text-center font-thin capitalize'>
+                                                {item.paymentType}
+                                            </p>
+                                        }
+                                        {item.paymentType == 'credit' && (
+                                            <p className='bg-gray-600 p-1 rounded-full text-white w-16 text-center font-thin'>Credit</p>
                                         )}
                                         {item.type == 'salesCredit' && (
                                             <p className='bg-gray-600 p-1 rounded-full text-white w-16 text-center font-thin'>Credit</p>
-                                        )}
 
+                                        )}
+                                        {item.type == 'advance' && (
+                                            <p className='bg-green-600 p-1 rounded-full text-white w-16 text-center font-thin capitalize'>
+                                                Advance
+                                            </p>
+                                        )}
                                     </th>
                                     <td className="px-6 py-4 text-white">
                                         <div className=' ml-4 flex flex-row'>
@@ -627,6 +643,11 @@ const BillData = ({ data, outgoing, daily }: any) => {
                                             </>
                                         )}
                                         {item.type == 'salesCredit' && (
+                                            <>
+                                                Rs. {item.total}
+                                            </>
+                                        )}
+                                        {item.type == 'purchaseCredit' || item.type == 'purchaseOnline' && (
                                             <>
                                                 Rs. {item.total}
                                             </>
