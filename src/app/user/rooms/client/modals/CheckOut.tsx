@@ -21,6 +21,8 @@ const CheckOut = ({ open, setOpen, data }: any) => {
             const advance = formData.get('advance');
 
             try {
+                setOpen(false)
+                router.refresh()
                 const response = await fetch(serverUrl + "/user/room/checkInRoom", {
                     method: 'POST',
                     headers: {
@@ -42,14 +44,13 @@ const CheckOut = ({ open, setOpen, data }: any) => {
                         checkOut: data.checkOut,
                         status: 'inhouse',
                         reservationId: data._id,
-                        reservationDate:data.date
+                        reservationDate: data.date
                     })
 
                 });
 
                 if (response.ok) {
-                    setOpen(false)
-                    router.refresh()
+
                     event.target.reset();
 
                 } else {
@@ -223,7 +224,7 @@ const CheckOut = ({ open, setOpen, data }: any) => {
 
                                 {data.hasOwnProperty('roomNumber') &&
                                     <>
-                                        {(data.roomNumber).map((item: any,index:number) => (
+                                        {(data.roomNumber).map((item: any, index: number) => (
                                             <div key={index} className="text-white text-center mx-2 ">{item}</div>
                                         ))}
                                     </>

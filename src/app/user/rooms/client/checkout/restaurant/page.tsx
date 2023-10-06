@@ -58,6 +58,8 @@ const TableCheckOut = ({ data, reload }: any) => {
   }
 
   async function submitData() {
+    setOpen(false)
+    reload()
     try {
       const response = await fetch(serverUrl + "/user/checkout/checkoutTable", {
         method: 'POST',
@@ -72,18 +74,15 @@ const TableCheckOut = ({ data, reload }: any) => {
         })
 
       });
-      if (response.ok) {
-        setOpen(false)
-        reload()
-      } else {
-      }
+
 
     } catch (err) {
       console.log(err)
     }
   }
   async function submitDataOnline() {
-
+    setOpen(false)
+    reload()
     try {
       const response = await fetch(serverUrl + "/user/checkout/checkoutTable", {
         method: 'POST',
@@ -99,12 +98,7 @@ const TableCheckOut = ({ data, reload }: any) => {
         })
 
       });
-      if (response.ok) {
-        setOpen(false)
-        reload()
-      } else {
-      }
-
+     
     } catch (err) {
       console.log(err)
     }

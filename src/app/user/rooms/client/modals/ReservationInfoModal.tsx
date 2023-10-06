@@ -114,6 +114,9 @@ const ReservationInfoModal = ({ open, setOpen, data }: any) => {
         }
 
         try {
+            setOpenSelectRoom(false)
+            setError(false)
+            setOpen(false)
             const response = await fetch(serverUrl + "/user/room/addNewRoom", {
                 method: 'POST',
                 headers: {
@@ -130,9 +133,7 @@ const ReservationInfoModal = ({ open, setOpen, data }: any) => {
                     startDate: null,
                     endDate: null
                 })
-                setOpenSelectRoom(false)
-                setError(false)
-                setOpen(false)
+
                 setSelectedRooms([])
                 router.refresh()
 

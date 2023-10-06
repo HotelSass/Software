@@ -85,6 +85,8 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
                 })
             })
             try {
+                setOpen(false)
+
                 const response = await fetch(serverUrl + "/user/room/addNewRoom", {
                     method: 'POST',
                     headers: {
@@ -101,7 +103,6 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
                         startDate: null,
                         endDate: null
                     })
-                    setOpen(false)
                     setSelectedRooms([])
                     router.refresh()
 
@@ -124,6 +125,8 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
                 })
             })
             try {
+                setOpen(false)
+
                 const response = await fetch(serverUrl + "/user/room/addNewRoom", {
                     method: 'POST',
                     headers: {
@@ -140,7 +143,6 @@ const ShowInfo = ({ open, setOpen, data }: any) => {
                         startDate: null,
                         endDate: null
                     })
-                    setOpen(false)
                     setSelectedRooms([])
                     router.refresh()
 

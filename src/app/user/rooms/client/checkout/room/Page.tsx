@@ -98,14 +98,14 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
   const totalPayment = getFullTotal()
 
   function getFullTotal() {
-      if (data.advance) {
-        let fullTotal = getTotalRoomPrice() - parseFloat(data.advance) - discount + getTotal(data).total
-        return fullTotal
-      } else {
-        let fullTotal = getTotalRoomPrice() - discount + getTotal(data).total
-        return fullTotal
-      }
-    
+    if (data.advance) {
+      let fullTotal = getTotalRoomPrice() - parseFloat(data.advance) - discount + getTotal(data).total
+      return fullTotal
+    } else {
+      let fullTotal = getTotalRoomPrice() - discount + getTotal(data).total
+      return fullTotal
+    }
+
   }
   function getTotalRoomPrice() {
     let value = 0
@@ -275,6 +275,8 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
     }
     temp['orders'] = orderArray
     temp1['orders'] = notOrderArray
+    setOpen(false)
+    reload()
     try {
       const response = await fetch(serverUrl + "/user/checkout/checkoutPartialRoom", {
         method: 'POST',
@@ -291,11 +293,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
         })
 
       });
-      if (response.ok) {
-        setOpen(false)
-        reload()
-      } else {
-      }
+
 
     } catch (err) {
       console.log(err)
@@ -305,6 +303,8 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
     return getTotalResidenceDay((selectedPartialCheckout.checkIn).toString()) * parseFloat((selectedPartialCheckout.roomRate).toString()) + getFoodTotalForRoom(parseInt((selectedPartialCheckout.room).toString())).total
   }
   async function onSubmitOnline() {
+    setOpen(false)
+    reload()
     try {
       const response = await fetch(serverUrl + "/user/checkout/checkoutRoom", {
         method: 'POST',
@@ -320,11 +320,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
         })
 
       });
-      if (response.ok) {
-        setOpen(false)
-        reload()
-      } else {
-      }
+
 
     } catch (err) {
       console.log(err)
@@ -993,7 +989,7 @@ const RoomCheckOut = ({ open, setOpen, data, reload }: any) => {
                     </td>
                     <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
                       Rs.
-                      <input min={0} type="number" className='bg-gray-400 rounded-lg ml-2 py-2 px-2 w-28' defaultValue={discount} onChange={(e) => { if(e.target.value==""){setDiscount(0)};if (getFullTotal() - parseInt(e.target.value) >= 0 && parseInt(e.target.value) >= 0) setDiscount(parseInt(e.target.value)) }} placeholder='Discount ' />
+                      <input min={0} type="number" className='bg-gray-400 rounded-lg ml-2 py-2 px-2 w-28' defaultValue={discount} onChange={(e) => { if (e.target.value == "") { setDiscount(0) }; if (getFullTotal() - parseInt(e.target.value) >= 0 && parseInt(e.target.value) >= 0) setDiscount(parseInt(e.target.value)) }} placeholder='Discount ' />
                     </td>
                     <td className="px-6 py-4 text-gray-900 whitespace-nowrap font-light text-[14px]">
                     </td>

@@ -11,6 +11,10 @@ const RoomModal = ({ bookingList, selectedItems, reload }: any) => {
 
 
     async function orderToRoom() {
+        router.refresh()
+        setOpen(false)
+        setOpenSecond(false)
+        reload()
 
         try {
             const response = await fetch(serverUrl + "/user/menu/addOrderToRoom", {
@@ -26,14 +30,10 @@ const RoomModal = ({ bookingList, selectedItems, reload }: any) => {
                 })
 
             });
-            if (response.ok) {
-                router.refresh()
-                setOpen(false)
-                setOpenSecond(false)
-                setSelectedRoom({ id: null, roomNumber: null })
-                reload()
-            } else {
-            }
+
+
+            setSelectedRoom({ id: null, roomNumber: null })
+
         } catch (err) {
             console.log(err)
         }

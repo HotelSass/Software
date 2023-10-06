@@ -9,6 +9,10 @@ const TableModal = ({ tableList, selectedItems, reload }: any) => {
     const [openSecond, setOpenSecond] = useState(false)
     const [selectedTable, setSelectedTable] = useState({ tableNumber: null })
     async function orderToTable() {
+        router.refresh()
+        setOpen(false)
+        setOpenSecond(false)
+        reload()
 
         try {
             const response = await fetch(serverUrl + "/user/menu/addOrderToTable", {
@@ -23,14 +27,9 @@ const TableModal = ({ tableList, selectedItems, reload }: any) => {
                 })
 
             });
-            if (response.ok) {
-                router.refresh()
-                setOpen(false)
-                setOpenSecond(false)
-                setSelectedTable({ tableNumber: null })
-                reload()
-            } else {
-            }
+
+            setSelectedTable({ tableNumber: null })
+
 
         } catch (err) {
             console.log(err)

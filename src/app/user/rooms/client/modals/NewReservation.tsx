@@ -118,6 +118,7 @@ const NewReservation = ({ openReservation, setOpenReservation, data }: any) => {
 
 
             try {
+                setOpenReservation(false)
 
                 const response = await fetch(serverUrl + "/user/room/reserveRoom", {
                     method: 'POST',

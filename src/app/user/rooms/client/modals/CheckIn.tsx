@@ -24,6 +24,8 @@ const CheckInModal = ({ open, setOpen, data, closeModal }: any) => {
             })
 
             try {
+                setOpen(false)
+                closeModal()
                 const response = await fetch(serverUrl + "/user/room/checkInRoom", {
                     method: 'POST',
                     headers: {
@@ -46,8 +48,7 @@ const CheckInModal = ({ open, setOpen, data, closeModal }: any) => {
                 });
 
                 if (response.ok) {
-                    setOpen(false)
-                    closeModal()
+                   
                     router.refresh()
                     event.target.reset();
 

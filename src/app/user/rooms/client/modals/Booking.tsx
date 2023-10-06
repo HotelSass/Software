@@ -116,9 +116,8 @@ const Booking = ({ open, setOpen, data}: any) => {
                     roomRate: price[index]
                 })
             })
-            console.log(
-                governmentId
-            )
+           
+            setOpen(false)
 
             try {
                 const response = await fetch(serverUrl + "/user/room/reserveRoom", {
@@ -143,7 +142,6 @@ const Booking = ({ open, setOpen, data}: any) => {
                 });
 
                 if (response.ok) {
-                    setOpen(false)
                     setValue({
                         startDate: null,
                         endDate: null
